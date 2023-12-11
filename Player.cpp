@@ -49,7 +49,7 @@ void Player::move(WPARAM key)
 void Player::collisionBorder()
 {
     if(X1 < -20)
-        Player::setX(-20);
+        Player::setX(-15);
     if(X2 >= 700)
         Player::setX(650);
     if(Y1 < -20)
