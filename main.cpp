@@ -94,7 +94,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             PostQuitMessage(0);
             break;
         case WM_KEYDOWN:
-            states->updateMove(wParam);
+            states->updateInput(wParam);
             break;
         case WM_KEYUP:
             states->stopMove();

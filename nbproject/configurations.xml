@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <logicalFolder name="f1" displayName="Objects" projectFiles="true">
+        <itemPath>BulletPlayer.h</itemPath>
         <itemPath>Object.h</itemPath>
         <itemPath>Player.h</itemPath>
       </logicalFolder>
@@ -21,6 +22,7 @@
                    projectFiles="true">
       <logicalFolder name="f2" displayName="Objects" projectFiles="true">
         <itemPath>Background.cpp</itemPath>
+        <itemPath>BulletPlayer.cpp</itemPath>
         <itemPath>Object.cpp</itemPath>
         <itemPath>Player.cpp</itemPath>
       </logicalFolder>
@@ -62,6 +64,10 @@
       <item path="Background.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Background.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BulletPlayer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BulletPlayer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Loader.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -183,11 +189,21 @@
                             perm="755"
                             owner="root"
                             group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe"
+                            from="${OUTPUT_PATH}.exe"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
         </packFileList>
       </packaging>
       <item path="Background.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Background.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BulletPlayer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BulletPlayer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Loader.cpp" ex="false" tool="1" flavor2="0">
       </item>

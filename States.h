@@ -6,6 +6,7 @@
 #include <string>
 #include "Player.h"
 #include "Background.h"
+#include "BulletPlayer.h"
 
 using namespace std;
 
@@ -15,11 +16,15 @@ public:
     States();
     void draw(HWND hwnd);
     void update(double deltaTime);
-    void updateMove(WPARAM key);
+    void updateInput(WPARAM key);
     void stopMove();
 private:
+    HBITMAP spriteBullet;
+    int numBulletP;
+    int cooldownShot;
     Player player;
     Background background;
+    BulletPlayer bulletPlayer[50];
 };
 
 #endif /* STATES_H */
