@@ -18,22 +18,32 @@ Player::~Player()
 
 void Player::move(WPARAM key)
 {
-    switch (key)
+    if(direc != -1)
     {
-        case 'D':
-            direc = 0;
-            break;
-        case 'A':
-            direc = 1;
-            break;
-        case 'W':
-            direc = 2;
-            break;
-        case 'S':
-            direc = 3;
-            break;
-            
-    }
+        if((direc == 0 && key == 'W') || (direc == 2 && key == 'D'))
+            direc = 4;
+        if((direc == 1 && key == 'W') || (direc == 2 && key == 'A'))
+            direc = 5;
+        if((direc == 0 && key == 'S') || (direc == 3 && key == 'D'))
+            direc = 6;
+        if((direc == 1 && key == 'S') || (direc == 3 && key == 'A'))
+            direc = 7;
+    }else
+        switch (key)
+        {
+            case 'D':
+                direc = 0;
+                break;
+            case 'A':
+                direc = 1;
+                break;
+            case 'W':
+                direc = 2;
+                break;
+            case 'S':
+                direc = 3;
+                break;
+        }
 }
 
 void Player::stop()
@@ -57,6 +67,22 @@ void Player::update(double deltaTime)
             break;
         case 3: //Abajo
             setY(Y1 + (speed * deltaTime));
+            break;
+        case 4: //Derecha arriba
+            setY(Y1 - (speed * deltaTime));
+            setX(X1 + (speed * deltaTime));
+            break;
+        case 5: //Izquierda arriba
+            setY(Y1 - (speed * deltaTime));
+            setX(X1 - (speed * deltaTime));
+            break;
+        case 6: //Derecha abajo
+            setY(Y1 + (speed * deltaTime));
+            setX(X1 + (speed * deltaTime));
+            break;
+        case 7: //Izquierda abajo
+            setY(Y1 + (speed * deltaTime));
+            setX(X1 - (speed * deltaTime));
             break;
     }
 }
