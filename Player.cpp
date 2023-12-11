@@ -46,6 +46,18 @@ void Player::move(WPARAM key)
         }
 }
 
+void Player::collisionBorder()
+{
+    if(X1 < -20)
+        Player::setX(-20);
+    if(X2 >= 700)
+        Player::setX(650);
+    if(Y1 < -20)
+        Player::setY(-20);
+    if(Y2 >= 900)
+        Player::setY(850);
+}
+
 void Player::stop()
 {
     direc = -1;
@@ -85,4 +97,5 @@ void Player::update(double deltaTime)
             setX(X1 - (speed * deltaTime));
             break;
     }
+    collisionBorder();
 }

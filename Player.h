@@ -18,6 +18,7 @@ public:
 private:
     int speed;
     int direc;
+    void collisionBorder();
 };
 
 #endif // PLAYER_H
