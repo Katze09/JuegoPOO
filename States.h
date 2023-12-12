@@ -4,6 +4,7 @@
 #include <iostream>
 #include <windows.h>
 #include <string>
+#include <vector>
 #include "Player.h"
 #include "Background.h"
 #include "BulletPlayer.h"
@@ -20,11 +21,10 @@ public:
     void stopMove();
 private:
     HBITMAP spriteBullet;
-    int numBulletP;
     int cooldownShot;
     Player player;
     Background background;
-    BulletPlayer bulletPlayer[50];
+    std::vector<BulletPlayer> bulletPlayer;
 };
 
 #endif /* STATES_H */
