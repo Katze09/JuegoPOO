@@ -23,6 +23,8 @@ private:
     HBITMAP spriteBullet;
     double cooldownShot;
     bool shot;
+    double deltaTime;
+    void bulletsPlayerEvents();
     Player player;
     Background background;
     std::vector<BulletPlayer> bulletPlayer;
