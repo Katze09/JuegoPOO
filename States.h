@@ -18,10 +18,11 @@ public:
     void draw(HWND hwnd);
     void update(double deltaTime);
     void updateInput(WPARAM key);
-    void stopMove();
+    void inputUp(WPARAM key);
 private:
     HBITMAP spriteBullet;
-    int cooldownShot;
+    double cooldownShot;
+    bool shot;
     Player player;
     Background background;
     std::vector<BulletPlayer> bulletPlayer;

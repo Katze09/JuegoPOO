@@ -11,6 +11,7 @@ States::States()
     sprite = loader.LoadSprite(_T("Background"));
     background = Background(sprite);
     cooldownShot = 0;
+    shot = false;
 }
 
 void States::draw(HWND hwnd)
@@ -33,21 +34,25 @@ void States::update(double deltaTime)
     for (int i = 0;i < bulletPlayer.size();i++)
         bulletPlayer[i].update(deltaTime);
     if(cooldownShot > 0) //Contar para cooldown
-        cooldownShot--;
+        cooldownShot -= 15 * deltaTime;
 }
 
 void States::updateInput(WPARAM key)
 {
     player.move(key);
-    if(key == VK_SPACE && cooldownShot == 0) //Crear bala si se presiona el espacio y cooldown se termino
+    if(key == VK_SPACE)
+        shot = true;
+    if(shot && cooldownShot <= 0) //Crear bala si se presiona el espacio y cooldown se termino
     {
-        bulletPlayer.push_back(BulletPlayer(spriteBullet, player.getX1() + 25, player.getY1())); //Crear bala en el vector
-        cooldownShot = 4; //Ajusta el tiempo entre disparo
+        bulletPlayer.push_back(BulletPlayer(spriteBullet, player.getX1() + 3, player.getY1() + 10)); //Crear bala en el vector
+        bulletPlayer.push_back(BulletPlayer(spriteBullet, player.getX1() + 37, player.getY1() + 10)); //Crear bala en el vector
+        cooldownShot = 2; //Ajusta el tiempo entre disparo
     }
 }
 
-void States::stopMove()
+void States::inputUp(WPARAM key)
 {
+    if(key == VK_SPACE)
+        shot = false;
     player.stop();
-    
 }
