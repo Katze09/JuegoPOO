@@ -14,10 +14,14 @@ public:
     virtual ~Player();
     void update(double deltaTime);
     void move(WPARAM key);
-    void stop();
+    void stop(WPARAM key);
 private:
     int speed;
-    int direc;
+    bool up;
+    bool down;
+    bool right;
+    bool left;
+    //int direc;
     void collisionBorder();
 };
 

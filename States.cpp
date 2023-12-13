@@ -11,12 +11,13 @@ States::States()
     sprite = loader.LoadSprite(_T("Background"));
     background = Background(sprite);
     cooldownShot = 0;
-    shot = false;
+    PlayerShot = false;
+    PlayerMove = false; 
 }
 
 void States::bulletsPlayerEvents()
 {
-    if(shot && cooldownShot <= 0) //Crear bala si se presiona el espacio y cooldown se termino
+    if(PlayerShot && cooldownShot <= 0) //Crear bala si se presiona el espacio y cooldown se termino
     {
         bulletPlayer.push_back(BulletPlayer(spriteBullet, player.getX1() + 3, player.getY1() + 10)); //Crear bala en el vector
         bulletPlayer.push_back(BulletPlayer(spriteBullet, player.getX1() + 37, player.getY1() + 10)); //Crear bala en el vector
@@ -53,12 +54,13 @@ void States::updateInput(WPARAM key)
 {
     player.move(key);
     if(key == VK_SPACE)
-        shot = true;
+        PlayerShot = true;
 }
 
 void States::inputUp(WPARAM key)
 {
     if(key == VK_SPACE)
-        shot = false;
-    player.stop();
+        PlayerShot = false;
+    else
+        player.stop(key);
 }

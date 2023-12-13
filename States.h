@@ -22,7 +22,8 @@ public:
 private:
     HBITMAP spriteBullet;
     double cooldownShot;
-    bool shot;
+    bool PlayerShot;
+    bool PlayerMove;
     double deltaTime;
     void bulletsPlayerEvents();
     Player player;
