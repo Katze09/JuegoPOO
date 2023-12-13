@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Background.h"
 #include "BulletPlayer.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -23,12 +24,12 @@ private:
     HBITMAP spriteBullet;
     double cooldownShot;
     bool PlayerShot;
-    bool PlayerMove;
     double deltaTime;
     void bulletsPlayerEvents();
     Player player;
     Background background;
     std::vector<BulletPlayer> bulletPlayer;
+    Enemy enemy;
 };
 
 #endif /* STATES_H */

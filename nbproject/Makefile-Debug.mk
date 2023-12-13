@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/Background.o \
 	${OBJECTDIR}/BulletPlayer.o \
+	${OBJECTDIR}/Enemy.o \
 	${OBJECTDIR}/Loader.o \
 	${OBJECTDIR}/Object.o \
 	${OBJECTDIR}/Player.o \
@@ -77,6 +78,11 @@ ${OBJECTDIR}/BulletPlayer.o: BulletPlayer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BulletPlayer.o BulletPlayer.cpp
+
+${OBJECTDIR}/Enemy.o: Enemy.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Enemy.o Enemy.cpp
 
 ${OBJECTDIR}/Loader.o: Loader.cpp
 	${MKDIR} -p ${OBJECTDIR}

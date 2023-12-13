@@ -16,12 +16,10 @@ public:
     void move(WPARAM key);
     void stop(WPARAM key);
 private:
-    int speed;
     bool up;
     bool down;
     bool right;
     bool left;
-    //int direc;
     void collisionBorder();
 };
 

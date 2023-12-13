@@ -12,7 +12,8 @@ States::States()
     background = Background(sprite);
     cooldownShot = 0;
     PlayerShot = false;
-    PlayerMove = false; 
+    sprite = loader.LoadSprite(_T("Enemy"));
+    enemy = Enemy(sprite, 250, 100);
 }
 
 void States::bulletsPlayerEvents()
@@ -40,6 +41,7 @@ void States::draw(HWND hwnd)
     player.draw(hwnd);
     for (int i = 0;i < bulletPlayer.size();i++) 
         bulletPlayer[i].draw(hwnd);
+    enemy.draw(hwnd);
 }
 
 void States::update(double deltaTime)
@@ -48,6 +50,7 @@ void States::update(double deltaTime)
     background.update(deltaTime);
     player.update(deltaTime);
     bulletsPlayerEvents();
+    enemy.update(deltaTime, bulletPlayer);
 }
 
 void States::updateInput(WPARAM key)
