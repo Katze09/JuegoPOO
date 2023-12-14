@@ -13,7 +13,12 @@ States::States()
     cooldownShot = 0;
     PlayerShot = false;
     sprite = loader.LoadSprite(_T("Enemy"));
-    enemy = Enemy(sprite, 250, 100);
+    int ememyStart = 700;
+    for(int i = 0;i < 5;i++)
+    {
+        enemies.push_back(Enemy(sprite,ememyStart,100));
+        ememyStart += 60;
+    }
 }
 
 void States::bulletsPlayerEvents()
@@ -41,7 +46,8 @@ void States::draw(HWND hwnd)
     player.draw(hwnd);
     for (int i = 0;i < bulletPlayer.size();i++) 
         bulletPlayer[i].draw(hwnd);
-    enemy.draw(hwnd);
+    for(int i = 0;i < enemies.size();i++)
+        enemies[i].draw(hwnd);
 }
 
 void States::update(double deltaTime)
@@ -50,7 +56,19 @@ void States::update(double deltaTime)
     background.update(deltaTime);
     player.update(deltaTime);
     bulletsPlayerEvents();
-    enemy.update(deltaTime, bulletPlayer);
+    //Comparar bala con enemigo 
+    for(int i = 0;i < enemies.size();i++)
+    {
+        int ind = enemies[i].isEnemyHit(bulletPlayer);
+        if(ind >= 0)
+            bulletPlayer.erase(bulletPlayer.begin() + ind);
+        enemies[i].update(deltaTime);
+    }
+    
+    //Borrar
+    for(int i = 0;i < enemies.size();i++)
+        if(enemies[i].isDead())
+            enemies.erase(enemies.begin() + i);
 }
 
 void States::updateInput(WPARAM key)

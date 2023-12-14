@@ -29,7 +29,7 @@ private:
     Player player;
     Background background;
     std::vector<BulletPlayer> bulletPlayer;
-    Enemy enemy;
+    std::vector<Enemy> enemies;
 };
 
 #endif /* STATES_H */

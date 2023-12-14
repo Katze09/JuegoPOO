@@ -12,11 +12,13 @@ public:
     virtual ~Enemy();
     void update(double deltaTime, vector<BulletPlayer> bulletPlayer);
     void update(double deltaTime);
-    bool isEnemyHit();
+    int isEnemyHit(vector<BulletPlayer> bulletPlayer);
+    bool isDead();
     bool animationDestroy();
 protected:
     int life;
-    vector<BulletPlayer> bulletPlayer;
+    //vector<BulletPlayer> bulletPlayer;
+    void collisionBorder();
 };
 
 #endif /* ENEMY_H */
