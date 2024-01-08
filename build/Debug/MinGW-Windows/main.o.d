@@ -1,5 +1,5 @@
 build/Debug/MinGW-Windows/main.o: main.cpp States.h Player.h Object.h \
- Background.h BulletPlayer.h Enemy.h
+ Background.h Bullets.h Enemies.h
 
 States.h:
 
@@ -9,6 +9,6 @@ Object.h:
 
 Background.h:
 
-BulletPlayer.h:
+Bullets.h:
 
-Enemy.h:
+Enemies.h:

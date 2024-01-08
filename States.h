@@ -7,8 +7,8 @@
 #include <vector>
 #include "Player.h"
 #include "Background.h"
-#include "BulletPlayer.h"
-#include "Enemy.h"
+#include "Bullets.h"
+#include "Enemies.h"
 
 using namespace std;
 
@@ -29,7 +29,7 @@ private:
     Player player;
     Background background;
     std::vector<BulletPlayer> bulletPlayer;
-    std::vector<Enemy> enemies;
+    std::vector<EnemyBase> enemies;
 };
 
 #endif /* STATES_H */

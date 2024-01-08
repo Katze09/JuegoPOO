@@ -52,7 +52,7 @@ int main()
 
     // Bucle principal
     MSG msg = {};
-    const int targetFPS = 60;
+    const int targetFPS = 120;
     const int frameDelay = 1000 / targetFPS;
 
     auto lastFrameTime = std::chrono::high_resolution_clock::now();

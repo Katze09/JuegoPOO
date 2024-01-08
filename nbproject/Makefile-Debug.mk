@@ -36,8 +36,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Background.o \
-	${OBJECTDIR}/BulletPlayer.o \
-	${OBJECTDIR}/Enemy.o \
+	${OBJECTDIR}/Bullets.o \
+	${OBJECTDIR}/Enemies.o \
 	${OBJECTDIR}/Loader.o \
 	${OBJECTDIR}/Object.o \
 	${OBJECTDIR}/Player.o \
@@ -74,15 +74,15 @@ ${OBJECTDIR}/Background.o: Background.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Background.o Background.cpp
 
-${OBJECTDIR}/BulletPlayer.o: BulletPlayer.cpp
+${OBJECTDIR}/Bullets.o: Bullets.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BulletPlayer.o BulletPlayer.cpp
+	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Bullets.o Bullets.cpp
 
-${OBJECTDIR}/Enemy.o: Enemy.cpp
+${OBJECTDIR}/Enemies.o: Enemies.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Enemy.o Enemy.cpp
+	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Enemies.o Enemies.cpp
 
 ${OBJECTDIR}/Loader.o: Loader.cpp
 	${MKDIR} -p ${OBJECTDIR}
