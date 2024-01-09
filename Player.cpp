@@ -5,8 +5,8 @@ Player::Player() : Object(nullptr, 0, 0)
 {
 }
 
-Player::Player(HBITMAP sprite, float X1, float Y1)
-: Object(sprite, X1, Y1)
+Player::Player(SDL_Texture* texture, float X1, float Y1)
+: Object(texture, X1, Y1)
 {
     speed = 500;
     up = false;
@@ -20,20 +20,20 @@ Player::~Player()
     // Destructor de Player
 }
 
-void Player::move(WPARAM key)
+void Player::move(SDL_Keycode key)
 {
     switch (key)
     {
-        case 'D':
+        case SDLK_d:
             right = true;
             break;
-        case 'A':
+        case SDLK_a:
             left = true;
         break;
-        case 'W':
+        case SDLK_w:
             up = true;
             break;
-        case 'S':
+        case SDLK_s:
             down = true;
         break;
     }
@@ -51,20 +51,20 @@ void Player::collisionBorder()
         Player::setY(850);
 }
 
-void Player::stop(WPARAM key)
+void Player::stop(SDL_Keycode key)
 {
     switch (key)
     {
-        case 'D':
+        case SDLK_d:
             right = false;
             break;
-        case 'A':
+        case SDLK_a:
             left = false;
         break;
-        case 'W':
+        case SDLK_w:
             up = false;
             break;
-        case 'S':
+        case SDLK_s:
             down = false;
         break;
     }

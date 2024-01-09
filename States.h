@@ -12,24 +12,26 @@
 
 using namespace std;
 
-class States 
-{
+class States {
 public:
-    States();
-    void draw(HWND hwnd);
+    States(SDL_Renderer* renderer);
+    void draw(SDL_Renderer* renderer);
     void update(double deltaTime);
-    void updateInput(WPARAM key);
-    void inputUp(WPARAM key);
+    void updateInput(SDL_Keycode key);
+    void inputUp(SDL_Keycode key);
 private:
-    HBITMAP spriteBullet;
+    SDL_Texture* spriteBullet;
+    SDL_Texture* spriteBulletEnemy;
     double cooldownShot;
     bool PlayerShot;
     double deltaTime;
     void bulletsPlayerEvents();
+    void bulletsEnemysEvents();
     Player player;
     Background background;
-    std::vector<BulletPlayer> bulletPlayer;
-    std::vector<EnemyBase> enemies;
+    std::vector<BulletPlayer*> bulletsPlayer;
+    std::vector<BulletEnemy*> bulletsEnemy;
+    std::vector<EnemyBase*> enemies;
 };
 
 #endif /* STATES_H */

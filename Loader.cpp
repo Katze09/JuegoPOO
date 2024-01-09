@@ -1,7 +1,10 @@
 #include "Loader.h"
 
-HBITMAP Loader::LoadSprite(const std::string& name)
+SDL_Texture* Loader::LoadTexture(const std::string& filePath, SDL_Renderer* renderer)
 {
-    const std::string& path = "Textures/" + name + ".bmp";
-    return (HBITMAP)LoadImage(NULL, path.c_str(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+    const std::string& path = "Textures/" + filePath + ".bmp";
+    SDL_Surface* surface = SDL_LoadBMP(path.c_str());
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    return texture;
 }

@@ -4,16 +4,17 @@
 #include <iostream>
 #include <windows.h>
 #include <tchar.h>
+#include <sdl.h>
 
 using namespace std;
 
 class Object 
 {
 public:
-    Object(HBITMAP sprite, float X1, float Y1);
+    Object(SDL_Texture* texture, float X1, float Y1);
     virtual ~Object();
 
-    HBITMAP getSprite();
+    SDL_Texture* getTexture();
     float getX1();
     float getX2();
     float getY1();
@@ -26,16 +27,16 @@ public:
     int getHEIGHT();
     int getSpeed();
 
-    void setSprite(HBITMAP newSprite);
+    void setSprite(SDL_Texture* texture);
     void setX(float X);
     void setY(float Y);
     void setSpeed(int speed);
     
-    void draw(HWND hwnd);
+    void draw(SDL_Renderer* renderer);
     virtual void update(double deltaTime) = 0;
 
 protected:
-    HBITMAP sprite;
+    SDL_Texture* texture;
     float X1;
     float X2;
     float Y1;

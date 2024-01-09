@@ -64,8 +64,17 @@
         <ccTool>
           <developmentMode>0</developmentMode>
           <standard>8</standard>
+          <incDir>
+            <pElem>../../../../../SDL2/include</pElem>
+          </incDir>
           <commandLine>-mwindows -lwinmm</commandLine>
         </ccTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>../../../../../SDL2/lib</pElem>
+          </linkerAddLib>
+          <commandLine>-lmingw32 -lsdl2main -lsdl2 -lstdc++</commandLine>
+        </linkerTool>
       </compileType>
       <item path="Background.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -181,6 +190,12 @@
         <packType>Tar</packType>
         <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/juegopoo.tar</output>
         <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe"
+                            from="${OUTPUT_PATH}.exe"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
           <packFileListElem type="File"
                             to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe"
                             from="${OUTPUT_PATH}.exe"

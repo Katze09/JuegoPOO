@@ -10,11 +10,11 @@ class Player : public Object
 {
 public:
     Player();
-    Player(HBITMAP sprite, float X1, float Y1);
+    Player(SDL_Texture* texture, float X1, float Y1);
     virtual ~Player();
     void update(double deltaTime);
-    void move(WPARAM key);
-    void stop(WPARAM key);
+    void move(SDL_Keycode key);
+    void stop(SDL_Keycode key);
 private:
     bool up;
     bool down;

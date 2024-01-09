@@ -1,11 +1,8 @@
 #include "Object.h"
 
-Object::Object(HBITMAP sprite, float X1, float Y1) :sprite(sprite), X1(X1), Y1(Y1)
+Object::Object(SDL_Texture* texture, float X1, float Y1) : texture(texture), X1(X1), Y1(Y1)
 {
-    BITMAP bmp;
-    GetObject(sprite, sizeof(BITMAP), &bmp);
-    WIDTH = bmp.bmWidth;
-    HEIGHT = bmp.bmHeight;
+    SDL_QueryTexture(texture, NULL, NULL, &WIDTH, &HEIGHT);
     X2 = X1 + WIDTH;
     Y2 = Y1 + HEIGHT;
     X1HitBox = X1 + (WIDTH * 0.1);
@@ -19,9 +16,9 @@ Object::~Object()
     // Destructor
 }
 
-HBITMAP Object::getSprite()
+SDL_Texture* Object::getTexture()
 {
-    return sprite;
+    return texture;
 }
 
 float Object::getX1()
@@ -79,9 +76,9 @@ int Object::getSpeed()
     return speed;
 }
 
-void Object::setSprite(HBITMAP newSprite)
+void Object::setSprite(SDL_Texture* texture)
 {
-    sprite = newSprite;
+    this->texture = texture;
 }
 
 void Object::setX(float X)
@@ -105,20 +102,8 @@ void Object::setSpeed(int speed)
     this->speed = speed;
 }
 
-void Object::draw(HWND hwnd)
+void Object::draw(SDL_Renderer* renderer)
 {
-    HDC hdc = GetDC(hwnd);
-    HDC hdcMem = CreateCompatibleDC(hdc);
-    SelectObject(hdcMem, sprite);
-    // Obtener el tamaño del HBITMAP
-    BITMAP bmp;
-    GetObject(sprite, sizeof(BITMAP), &bmp);
-    // Obtener las coordenadas donde se va a dibujar
-    int x = static_cast<int>(X1);
-    int y = static_cast<int>(Y1);
-    // Dibujar el HBITMAP en la ventana
-    BitBlt(hdc, x, y, WIDTH, HEIGHT, hdcMem, 0, 0, SRCCOPY);
-    // Liberar recursos
-    ReleaseDC(hwnd, hdc); //No eliminar, relentiza todo el pc al ejecutar si los haces
-    DeleteDC(hdcMem); //No eliminar, relentiza todo el pc al ejecutar si los haces
+    SDL_Rect destRect = {static_cast<int> (X1), static_cast<int> (Y1), WIDTH, HEIGHT};
+    SDL_RenderCopy(renderer, texture, NULL, &destRect);
 }

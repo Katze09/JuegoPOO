@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <windows.h>
+#include <sdl.h>
 
 using namespace std;
 
@@ -10,15 +11,17 @@ class Background
 {
 public:
     Background();
-    Background(HBITMAP sprite);
+    Background(SDL_Texture* texture);
     virtual ~Background();
     void update(double deltaTime);
-    void draw(HWND hwnd);
+    void draw(SDL_Renderer* renderer);
 private:
-    HBITMAP sprite;
+    SDL_Texture* texture;
     int X;
     int Y1;
     int Y2;
+    int WIDTH;
+    int HEIGHT;
     int speed;
 };
 

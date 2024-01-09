@@ -2,16 +2,16 @@
 #define LOADER_H
 
 #include <iostream>
-#include <windows.h>
 #include <string>
 #include <tchar.h>
+#include <sdl.h>
 
 using namespace std;
 
-class Loader
-{
+class Loader {
 public:
-    HBITMAP LoadSprite(const std::string& name);
+    //HBITMAP LoadSprite(const std::string& name);
+    SDL_Texture* LoadTexture(const std::string& filePat, SDL_Renderer* renderer);
 };
 #endif /* LOADER_H */
 

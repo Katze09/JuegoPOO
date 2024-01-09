@@ -59,7 +59,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-L../../../../../SDL2/lib
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -67,47 +67,47 @@ LDLIBSOPTIONS=
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/juegopoo.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/juegopoo ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/juegopoo ${OBJECTFILES} ${LDLIBSOPTIONS} -lmingw32 -lsdl2main -lsdl2 -lstdc++
 
 ${OBJECTDIR}/Background.o: Background.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Background.o Background.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Background.o Background.cpp
 
 ${OBJECTDIR}/Bullets.o: Bullets.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Bullets.o Bullets.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Bullets.o Bullets.cpp
 
 ${OBJECTDIR}/Enemies.o: Enemies.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Enemies.o Enemies.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Enemies.o Enemies.cpp
 
 ${OBJECTDIR}/Loader.o: Loader.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Loader.o Loader.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Loader.o Loader.cpp
 
 ${OBJECTDIR}/Object.o: Object.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Object.o Object.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Object.o Object.cpp
 
 ${OBJECTDIR}/Player.o: Player.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Player.o Player.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Player.o Player.cpp
 
 ${OBJECTDIR}/States.o: States.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/States.o States.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/States.o States.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:

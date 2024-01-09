@@ -7,22 +7,23 @@ class BulletPlayer : public Object
 {
 public:
     BulletPlayer();
-    BulletPlayer(HBITMAP sprite, float X1, float Y1);
+    BulletPlayer(SDL_Texture* texture, float X1, float Y1, bool direction);
     virtual ~BulletPlayer();
     void update(double deltaTime);
-private:
+protected:
     int speed;
+    bool direction;
 };
 
-class BulletEnemy : public Object
+class BulletEnemy : public BulletPlayer
 {
 public:
     BulletEnemy();
-    BulletEnemy(HBITMAP sprite, float X1, float Y1);
+    BulletEnemy(SDL_Texture* texture, float X1, float Y1, bool direction);
     virtual ~BulletEnemy();
-    void update(double deltaTime);
+    //void update(double deltaTime);
 private:
-    int speed;  
+    //int speed;  
 };
 
 #endif /* BULLETPLAYER_H */
