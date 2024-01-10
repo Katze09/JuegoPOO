@@ -1,12 +1,12 @@
 // Player.cpp
 #include "Player.h"
 
-Player::Player() : Object(nullptr, 0, 0)
+Player::Player() : Object()
 {
 }
 
-Player::Player(SDL_Texture* texture, float X1, float Y1)
-: Object(texture, X1, Y1)
+Player::Player(vector<SDL_Texture*> textures, float X1, float Y1)
+: Object(textures, X1, Y1)
 {
     speed = 500;
     up = false;
@@ -70,6 +70,23 @@ void Player::stop(SDL_Keycode key)
     }
 }
 
+void Player::animationBase(double deltaTime)
+{
+    speedAnimations -= 5 * deltaTime;
+    if(speedAnimations <= 0)
+    {
+        indexTexture++;
+        speedAnimations = 1;
+    }
+    if(indexTexture == 3)
+        indexTexture = 0;
+}
+
+void Player::animationDead(double deltaTime)
+{
+    //if()
+}
+
 void Player::update(double deltaTime)
 {
     this->deltaTime = deltaTime;
@@ -82,4 +99,5 @@ void Player::update(double deltaTime)
     if(down)
         setY(Y1 + (speed * deltaTime));
     collisionBorder();
+    animationBase(deltaTime);
 }

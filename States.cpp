@@ -7,22 +7,30 @@ States::States(SDL_Renderer* renderer)
     Loader loader;
     spriteBullet = loader.LoadTexture("Bullet", renderer);
     spriteBulletEnemy = loader.LoadTexture("BulletEnemy", renderer);
-    SDL_Texture* texture = loader.LoadTexture("Player", renderer);
-    player = Player(texture, 250, 250);
-    texture = loader.LoadTexture("Background", renderer);
-    background = Background(texture);
+    vector<SDL_Texture*> textures;
+    string nameFile[10];
+    nameFile[0] = "Player";
+    textures = loadTextures(nameFile, renderer, 1);
+    player = Player(textures, 250, 250);
+    textures.clear();
+    background = Background(loader.LoadTexture("Background", renderer));
     cooldownShot = 0;
     PlayerShot = false;
-    texture = loader.LoadTexture("EnemyBase", renderer);
+    nameFile[0] = "EnemyBase";
+    nameFile[1] = "Died";
+    textures = loadTextures(nameFile, renderer, 2);
     int enemyStart = 700;
     for (int i = 0; i < 5; i++)
     {
-        enemies.push_back(new EnemyBase(texture, enemyStart, 100, true));
+        enemies.push_back(new EnemyBase(textures, enemyStart, 100, true));
         enemyStart += 60;
     }
-    texture = loader.LoadTexture("EnemyLaser", renderer);
-    enemies.push_back(new EnemyLaser(texture, -50, 200, true));
-    enemies.push_back(new EnemyLaser(texture, 750, 200, false));
+    textures.clear();
+    nameFile[0] = "EnemyLaser";
+    nameFile[1] = "Died";
+    textures = loadTextures(nameFile, renderer, 2);
+    enemies.push_back(new EnemyLaser(textures, -50, 200, true));
+    enemies.push_back(new EnemyLaser(textures, 750, 200, false));
 }
 
 void States::bulletsPlayerEvents()
@@ -88,7 +96,7 @@ void States::update(double deltaTime)
 
     //Borrar
     for (int i = 0; i < enemies.size(); i++)
-        if (enemies[i]->isDead())
+        if (enemies[i]->endDeadAnimation())
             enemies.erase(enemies.begin() + i);
 }
 
@@ -105,4 +113,23 @@ void States::inputUp(SDL_Keycode key)
         PlayerShot = false;
     else
         player.stop(key);
+}
+
+vector<SDL_Texture*> States::loadTextures(string nameFile[], SDL_Renderer* renderer, int sizeNames)
+{
+    Loader loader;
+    SDL_Texture* texture;
+    vector<SDL_Texture*> textures;
+    int contTexture = 1;
+    for (int i = 0; i < sizeNames; i++)
+    {
+        texture = loader.LoadTexture(nameFile[i] + to_string(contTexture), renderer);
+        while (texture)
+        {
+            textures.push_back(texture);
+            contTexture++;
+            texture = loader.LoadTexture(nameFile[i] + to_string(contTexture), renderer);
+        }
+    }
+    return textures;
 }

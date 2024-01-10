@@ -2,11 +2,11 @@
 
 #include "Enemies.h"
 
-EnemyBase::EnemyBase() : Object(nullptr, 0, 0)
+EnemyBase::EnemyBase() : Object()
 {
 }
 
-EnemyBase::EnemyBase(SDL_Texture* texture, float X1, float Y1, bool direction) : Object(texture, X1, Y1)
+EnemyBase::EnemyBase(vector<SDL_Texture*> textures, float X1, float Y1, bool direction) : Object(textures, X1, Y1)
 {
     life = 1;
     speed = 300;
@@ -25,6 +25,7 @@ int EnemyBase::isEnemyHit(vector<BulletPlayer*> bulletPlayer)
                 bulletPlayer[i]->getY1HitBox() < Y2HitBox && bulletPlayer[i]->getY2HitBox() > Y1HitBox)
         {
             life--;
+            isDead();
             return i;
         }
     return -1;
@@ -32,7 +33,12 @@ int EnemyBase::isEnemyHit(vector<BulletPlayer*> bulletPlayer)
 
 bool EnemyBase::isDead()
 {
-    return life <= 0;
+    if (life <= 0 && !dead)
+    {
+        dead = true;
+        speedAnimations = 0;
+    }
+    return dead;
 }
 
 void EnemyBase::collisionBorder()
@@ -52,11 +58,6 @@ void EnemyBase::collisionBorder()
     }
 }
 
-bool EnemyBase::animationDestroy()
-{
-
-}
-
 void EnemyBase::update(double deltaTime)
 {
     //if(isEnemyHit())
@@ -70,6 +71,7 @@ void EnemyBase::update(double deltaTime)
         setX(X1 + (speed * deltaTime));
         collisionBorder();
     }
+    animationDead(deltaTime);
 }
 
 bool EnemyBase::shot(double deltaTime)
@@ -83,15 +85,44 @@ bool EnemyBase::shot(double deltaTime)
     return false;
 }
 
+void EnemyBase::animationBase(double deltaTime)
+{
+    /*speedAnimations -= speedAnimations * deltaTime;
+    if(speedAnimations <= 0)
+    {
+        indexTexture++;
+        speedAnimations = 1;
+    }
+    if(indexTexture == 3)
+        indexTexture = 0;*/
+}
+
+void EnemyBase::animationDead(double deltaTime)
+{
+    if (dead && !deadAnimationEnd)
+    {
+        speedAnimations -= 15 * deltaTime;
+        if (speedAnimations <= 0)
+        {
+            if(indexTexture < 1)
+                indexTexture = 0;
+            indexTexture++;
+            speedAnimations = 1;
+        }
+        if (indexTexture == 3)
+            deadAnimationEnd = true;
+    }
+}
+
 //
 // Class enemy2
 //
 
-EnemyLaser::EnemyLaser() : EnemyBase(nullptr, 0, 0, false)
+EnemyLaser::EnemyLaser() : EnemyBase()
 {
 }
 
-EnemyLaser::EnemyLaser(SDL_Texture* texture, float X1, float Y1, bool direction) : EnemyBase(texture, X1, Y1, direction)
+EnemyLaser::EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction) : EnemyBase(textures, X1, Y1, direction)
 {
 }
 
@@ -112,4 +143,5 @@ void EnemyLaser::update(double deltaTime)
             setX(X1 + (speed * deltaTime));
         collisionBorder();
     }
+    animationDead(deltaTime);
 }

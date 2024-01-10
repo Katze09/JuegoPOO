@@ -8,25 +8,26 @@ class EnemyBase : public Object
 {
 public:
     EnemyBase();
-    EnemyBase(SDL_Texture* texture, float X1, float Y1, bool direction);
+    EnemyBase(vector<SDL_Texture*> textures, float X1, float Y1, bool direction);
     virtual ~EnemyBase();
     void update(double deltaTime);
     int isEnemyHit(vector<BulletPlayer*> bulletPlayer);
     bool shot(double deltaTime);
     bool isDead();
-    bool animationDestroy();
 protected:
     int life;
     bool direction;
     double coolDownShot;
     void collisionBorder();
+    void animationBase(double deltaTime);
+    void animationDead(double deltaTime);
 };
 
 class EnemyLaser : public EnemyBase
 {
 public:
     EnemyLaser();
-    EnemyLaser(SDL_Texture* texture, float X1, float Y1, bool direction);
+    EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction);
     virtual ~EnemyLaser();
     void update(double deltaTime) override;
 protected:

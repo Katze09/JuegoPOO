@@ -2,7 +2,6 @@
 #define STATES_H
 
 #include <iostream>
-#include <windows.h>
 #include <string>
 #include <vector>
 #include "Player.h"
@@ -12,7 +11,8 @@
 
 using namespace std;
 
-class States {
+class States 
+{
 public:
     States(SDL_Renderer* renderer);
     void draw(SDL_Renderer* renderer);
@@ -27,6 +27,7 @@ private:
     double deltaTime;
     void bulletsPlayerEvents();
     void bulletsEnemysEvents();
+    vector<SDL_Texture*> loadTextures(string nameFile[], SDL_Renderer* renderer, int sizeNames);
     Player player;
     Background background;
     std::vector<BulletPlayer*> bulletsPlayer;

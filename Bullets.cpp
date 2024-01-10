@@ -1,10 +1,10 @@
 #include "Bullets.h"
 
-BulletPlayer::BulletPlayer() : Object(nullptr, 0, 0)
+BulletPlayer::BulletPlayer() : Object()
 {
 }
 
-BulletPlayer::BulletPlayer(SDL_Texture* texture, float X1, float Y1, bool direction) : Object(texture, X1, Y1)
+BulletPlayer::BulletPlayer(SDL_Texture* texture, float X1, float Y1, bool direction) : Object(vector<SDL_Texture*>{texture}, X1, Y1)
 {
     speed = 1000;
     this->direction = direction;
@@ -17,17 +17,34 @@ BulletPlayer::~BulletPlayer()
 
 void BulletPlayer::update(double deltaTime)
 {
-    if(direction)
+    if (direction)
         BulletPlayer::setY(Y1 - (speed * deltaTime));
     else
         BulletPlayer::setY(Y1 + (speed * deltaTime));
+}
+
+void BulletPlayer::animationBase(double deltaTime)
+{
+    /*speedAnimations -= speedAnimations * deltaTime;
+    if(speedAnimations <= 0)
+    {
+        indexTexture++;
+        speedAnimations = 1;
+    }
+    if(indexTexture == 3)
+        indexTexture = 0;*/
+}
+
+void BulletPlayer::animationDead(double deltaTime)
+{
+    
 }
 
 //
 //Clase Bullet Enemy
 //
 
-BulletEnemy::BulletEnemy() : BulletPlayer(nullptr, 0, 0, false)
+BulletEnemy::BulletEnemy() : BulletPlayer()
 {
 }
 

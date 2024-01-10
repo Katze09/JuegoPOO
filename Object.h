@@ -2,8 +2,9 @@
 #define OBJECT_H
 
 #include <iostream>
-#include <windows.h>
 #include <tchar.h>
+#include <cstdlib>
+#include <vector>
 #include <sdl.h>
 
 using namespace std;
@@ -11,10 +12,11 @@ using namespace std;
 class Object 
 {
 public:
-    Object(SDL_Texture* texture, float X1, float Y1);
+    Object();
+    Object(vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Object();
 
-    SDL_Texture* getTexture();
+    SDL_Texture* getTexture(int index);
     float getX1();
     float getX2();
     float getY1();
@@ -26,17 +28,26 @@ public:
     int getWIDTH();
     int getHEIGHT();
     int getSpeed();
+    double getSpeedAnimations();
+    bool isDead();
+    bool endDeadAnimation();
 
-    void setSprite(SDL_Texture* texture);
+    void setSprite(vector<SDL_Texture*> textures);
+    void setSprite(SDL_Texture* texture, int index);
     void setX(float X);
     void setY(float Y);
     void setSpeed(int speed);
+    void setSpeedAnimations(double speedAnimations);
+    void setDead();
     
+    
+    virtual void animationBase(double deltaTime) = 0;
+    virtual void animationDead(double deltaTime) = 0;
     void draw(SDL_Renderer* renderer);
     virtual void update(double deltaTime) = 0;
 
 protected:
-    SDL_Texture* texture;
+    std::vector<SDL_Texture*> textures;
     float X1;
     float X2;
     float Y1;
@@ -49,6 +60,10 @@ protected:
     int HEIGHT;
     double deltaTime;
     int speed;
+    double speedAnimations;
+    int indexTexture;
+    bool dead;
+    bool deadAnimationEnd;
 };
 
 #endif /* OBJECT_H */

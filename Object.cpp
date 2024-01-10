@@ -1,14 +1,23 @@
 #include "Object.h"
 
-Object::Object(SDL_Texture* texture, float X1, float Y1) : texture(texture), X1(X1), Y1(Y1)
+Object::Object()
 {
-    SDL_QueryTexture(texture, NULL, NULL, &WIDTH, &HEIGHT);
+}
+
+Object::Object(vector<SDL_Texture*> textures, float X1, float Y1) : X1(X1), Y1(Y1)
+{
+    this->textures = textures;
+    SDL_QueryTexture(textures[0], NULL, NULL, &WIDTH, &HEIGHT);
     X2 = X1 + WIDTH;
     Y2 = Y1 + HEIGHT;
     X1HitBox = X1 + (WIDTH * 0.1);
     X2HitBox = X2 - (WIDTH * 0.1);
     Y1HitBox = Y1 + (HEIGHT * 0.1);
     Y2HitBox = Y2 - (HEIGHT * 0.1);
+    indexTexture = 0;
+    speedAnimations = 1;
+    dead = false;
+    deadAnimationEnd = false;
 }
 
 Object::~Object()
@@ -16,9 +25,9 @@ Object::~Object()
     // Destructor
 }
 
-SDL_Texture* Object::getTexture()
+SDL_Texture* Object::getTexture(int index)
 {
-    return texture;
+    return textures[index];
 }
 
 float Object::getX1()
@@ -76,9 +85,34 @@ int Object::getSpeed()
     return speed;
 }
 
-void Object::setSprite(SDL_Texture* texture)
+double Object::getSpeedAnimations()
 {
-    this->texture = texture;
+    return speedAnimations;
+}
+
+bool Object::isDead()
+{
+    return dead;
+}
+
+bool Object::endDeadAnimation()
+{
+    return deadAnimationEnd;
+}
+
+void Object::setSpeedAnimations(double speedAnimations)
+{
+    this->speedAnimations = speedAnimations;
+}
+
+void Object::setSprite(vector<SDL_Texture*> textures)
+{
+    this->textures = textures;
+}
+
+void Object::setSprite(SDL_Texture* texture, int index)
+{
+    this->textures[index] = texture;
 }
 
 void Object::setX(float X)
@@ -102,8 +136,13 @@ void Object::setSpeed(int speed)
     this->speed = speed;
 }
 
+void Object::setDead()
+{
+    dead = false;
+}
+
 void Object::draw(SDL_Renderer* renderer)
 {
     SDL_Rect destRect = {static_cast<int> (X1), static_cast<int> (Y1), WIDTH, HEIGHT};
-    SDL_RenderCopy(renderer, texture, NULL, &destRect);
+    SDL_RenderCopy(renderer, textures[indexTexture], NULL, &destRect);
 }

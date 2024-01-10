@@ -32,10 +32,6 @@ int main(int argc, char** argv)
             switch (event.type)
             {
                 case SDL_QUIT:
-                    delete states;
-                    SDL_DestroyRenderer(renderer);
-                    SDL_DestroyWindow(window);
-                    SDL_Quit();
                     quit = true;
                     break;
                 case SDL_KEYDOWN:
@@ -66,6 +62,7 @@ int main(int argc, char** argv)
             SDL_Delay(static_cast<Uint32> (frameDelay - frameTime));
     }
 
+    delete states;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

@@ -2,7 +2,6 @@
 #define BACKGROUND_H
 
 #include <iostream>
-#include <windows.h>
 #include <sdl.h>
 
 using namespace std;

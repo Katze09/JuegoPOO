@@ -10,7 +10,7 @@ class Player : public Object
 {
 public:
     Player();
-    Player(SDL_Texture* texture, float X1, float Y1);
+    Player(vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Player();
     void update(double deltaTime);
     void move(SDL_Keycode key);
@@ -20,7 +20,10 @@ private:
     bool down;
     bool right;
     bool left;
+    bool dead;
     void collisionBorder();
+    void animationBase(double deltaTime);
+    void animationDead(double deltaTime);
 };
 
 #endif // PLAYER_H

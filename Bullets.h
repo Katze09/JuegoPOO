@@ -13,6 +13,8 @@ public:
 protected:
     int speed;
     bool direction;
+    void animationBase(double deltaTime);
+    void animationDead(double deltaTime);
 };
 
 class BulletEnemy : public BulletPlayer
