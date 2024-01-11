@@ -21,7 +21,7 @@ class BulletEnemy : public BulletPlayer
 {
 public:
     BulletEnemy();
-    BulletEnemy(SDL_Texture* texture, float X1, float Y1, bool direction);
+    BulletEnemy(SDL_Texture* texture, float X1, float Y1, bool direction, int speed);
     virtual ~BulletEnemy();
     //void update(double deltaTime);
 private:

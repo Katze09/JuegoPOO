@@ -48,9 +48,9 @@ BulletEnemy::BulletEnemy() : BulletPlayer()
 {
 }
 
-BulletEnemy::BulletEnemy(SDL_Texture* texture, float X1, float Y1, bool direction) : BulletPlayer(texture, X1, Y1, direction)
+BulletEnemy::BulletEnemy(SDL_Texture* texture, float X1, float Y1, bool direction, int speed) : BulletPlayer(texture, X1, Y1, direction)
 {
-    speed = 1000;
+    this->speed = speed;
 }
 
 BulletEnemy::~BulletEnemy()

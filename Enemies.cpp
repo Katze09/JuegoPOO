@@ -124,10 +124,22 @@ EnemyLaser::EnemyLaser() : EnemyBase()
 
 EnemyLaser::EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction) : EnemyBase(textures, X1, Y1, direction)
 {
+    firstShot = true;
 }
 
 EnemyLaser::~EnemyLaser()
 {
+}
+
+bool EnemyLaser::shot(double deltaTime)
+{
+    coolDownShot -= 3 * deltaTime;
+    if (coolDownShot <= 0)
+    {
+        coolDownShot = 0;
+        return true;
+    }
+    return false;
 }
 
 void EnemyLaser::update(double deltaTime)
@@ -144,4 +156,14 @@ void EnemyLaser::update(double deltaTime)
         collisionBorder();
     }
     animationDead(deltaTime);
+}
+
+bool EnemyLaser::isFirstShot()
+{
+    return firstShot;
+}
+
+void EnemyLaser::setFirstShot()
+{
+    firstShot = false;
 }

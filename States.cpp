@@ -6,7 +6,9 @@ States::States(SDL_Renderer* renderer)
 {
     Loader loader;
     spriteBullet = loader.LoadTexture("Bullet", renderer);
-    spriteBulletEnemy = loader.LoadTexture("BulletEnemy", renderer);
+    spriteBulletEnemy[0] = loader.LoadTexture("BulletEnemy", renderer);
+    spriteBulletEnemy[1] = loader.LoadTexture("Laser1", renderer);
+    spriteBulletEnemy[2] = loader.LoadTexture("Laser2", renderer);
     vector<SDL_Texture*> textures;
     string nameFile[10];
     nameFile[0] = "Player";
@@ -58,12 +60,30 @@ void States::bulletsEnemysEvents()
     {
         if (enemies[i]->shot(deltaTime))
         {
-            bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy, enemies[i]->getX1() + 3, enemies[i]->getY1() + 10, false)); //Crear bala en el vector
-            bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy, enemies[i]->getX1() + 37, enemies[i]->getY1() + 10, false)); //Crear bala en el vector
+            if (EnemyLaser * enemy = dynamic_cast<EnemyLaser*> (enemies[i]))
+            {
+                if (enemy->isFirstShot())
+                {
+                    bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy[1], enemies[i]->getX1(), enemies[i]->getY1() + 22, false, 500)); //Crear bala en el vector
+                    enemy->setFirstShot();
+                } else
+                    bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy[2], enemies[i]->getX1(), enemies[i]->getY1() + 22, false, 500)); //Crear bala en el vector
+            } else if (dynamic_cast<EnemyBase*> (enemies[i]))
+            {
+                bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy[0], enemies[i]->getX1() + 3, enemies[i]->getY1() + 10, false, 1000)); //Crear bala en el vector
+                bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy[0], enemies[i]->getX1() + 37, enemies[i]->getY1() + 10, false, 1000)); //Crear bala en el vector
+            }
         }
+
+        //Comparar bala con enemigo 
+        int ind = enemies[i]->isEnemyHit(bulletsPlayer);
+        if (ind >= 0)
+            bulletsPlayer.erase(bulletsPlayer.begin() + ind);
+        enemies[i]->update(deltaTime);
+        //Borrar
+        if (enemies[i]->endDeadAnimation())
+            enemies.erase(enemies.begin() + i);
     }
-    for (int i = 0; i < bulletsEnemy.size(); i++)
-        bulletsEnemy[i]->update(deltaTime);
 }
 
 void States::draw(SDL_Renderer* renderer)
@@ -72,10 +92,10 @@ void States::draw(SDL_Renderer* renderer)
     player.draw(renderer);
     for (int i = 0; i < bulletsPlayer.size(); i++)
         bulletsPlayer[i]->draw(renderer);
-    for (int i = 0; i < bulletsEnemy.size(); i++)
-        bulletsEnemy[i]->draw(renderer);
     for (int i = 0; i < enemies.size(); i++)
         enemies[i]->draw(renderer);
+    for (int i = bulletsEnemy.size() - 1; i >= 0; i--)
+        bulletsEnemy[i]->draw(renderer);
 }
 
 void States::update(double deltaTime)
@@ -85,19 +105,12 @@ void States::update(double deltaTime)
     player.update(deltaTime);
     bulletsPlayerEvents();
     bulletsEnemysEvents();
-    //Comparar bala con enemigo 
-    for (int i = 0; i < enemies.size(); i++)
+    for (int i = 0; i < bulletsEnemy.size(); i++)
     {
-        int ind = enemies[i]->isEnemyHit(bulletsPlayer);
-        if (ind >= 0)
-            bulletsPlayer.erase(bulletsPlayer.begin() + ind);
-        enemies[i]->update(deltaTime);
+        bulletsEnemy[i]->update(deltaTime);
+        if (bulletsEnemy[i]->getY1() > 820)
+            bulletsEnemy.erase(bulletsEnemy.begin() + i);
     }
-
-    //Borrar
-    for (int i = 0; i < enemies.size(); i++)
-        if (enemies[i]->endDeadAnimation())
-            enemies.erase(enemies.begin() + i);
 }
 
 void States::updateInput(SDL_Keycode key)

@@ -21,7 +21,7 @@ public:
     void inputUp(SDL_Keycode key);
 private:
     SDL_Texture* spriteBullet;
-    SDL_Texture* spriteBulletEnemy;
+    SDL_Texture* spriteBulletEnemy[10];
     double cooldownShot;
     bool PlayerShot;
     double deltaTime;

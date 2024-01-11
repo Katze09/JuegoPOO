@@ -12,7 +12,7 @@ public:
     virtual ~EnemyBase();
     void update(double deltaTime);
     int isEnemyHit(vector<BulletPlayer*> bulletPlayer);
-    bool shot(double deltaTime);
+    virtual bool shot(double deltaTime);
     bool isDead();
 protected:
     int life;
@@ -29,8 +29,12 @@ public:
     EnemyLaser();
     EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction);
     virtual ~EnemyLaser();
+    bool shot(double deltaTime) override;
     void update(double deltaTime) override;
-protected:
+    bool isFirstShot();
+    void setFirstShot();
+private:
+    bool firstShot;
 };
 
 #endif /* ENEMIES_H */
