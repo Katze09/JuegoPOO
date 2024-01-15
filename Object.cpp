@@ -4,6 +4,16 @@ Object::Object()
 {
 }
 
+Object::Object(vector<SDL_Texture*> textures)
+{
+    this->textures = textures;
+    SDL_QueryTexture(textures[0], NULL, NULL, &WIDTH, &HEIGHT);
+    indexTexture = 0;
+    speedAnimations = 1;
+    dead = false;
+    deadAnimationEnd = false;
+}
+
 Object::Object(vector<SDL_Texture*> textures, float X1, float Y1) : X1(X1), Y1(Y1)
 {
     this->textures = textures;

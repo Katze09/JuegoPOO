@@ -24,7 +24,7 @@ build/Debug/MinGW-Windows/main.o: main.cpp c:\sdl2\include\sdl.h \
  c:\sdl2\include\SDL_system.h c:\sdl2\include\SDL_timer.h \
  c:\sdl2\include\SDL_version.h c:\sdl2\include\SDL_locale.h \
  c:\sdl2\include\SDL_misc.h States.h Player.h Object.h Background.h \
- Bullets.h Enemies.h
+ Bullets.h Enemies.h Obstacle.h Loader.h
 
 c:\sdl2\include\sdl.h:
 
@@ -137,3 +137,7 @@ Background.h:
 Bullets.h:
 
 Enemies.h:
+
+Obstacle.h:
+
+Loader.h:

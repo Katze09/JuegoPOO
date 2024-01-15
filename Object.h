@@ -13,6 +13,7 @@ class Object
 {
 public:
     Object();
+    Object(vector<SDL_Texture*> textures);
     Object(vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Object();
 
@@ -29,7 +30,7 @@ public:
     int getHEIGHT();
     int getSpeed();
     double getSpeedAnimations();
-    bool isDead();
+    virtual bool isDead();
     bool endDeadAnimation();
 
     void setSprite(vector<SDL_Texture*> textures);
@@ -43,7 +44,7 @@ public:
     
     virtual void animationBase(double deltaTime) = 0;
     virtual void animationDead(double deltaTime) = 0;
-    void draw(SDL_Renderer* renderer);
+    virtual void draw(SDL_Renderer* renderer);
     virtual void update(double deltaTime) = 0;
 
 protected:

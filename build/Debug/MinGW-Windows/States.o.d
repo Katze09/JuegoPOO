@@ -24,7 +24,7 @@ build/Debug/MinGW-Windows/States.o: States.cpp States.h Player.h Object.h \
  c:\sdl2\include\SDL_shape.h c:\sdl2\include\SDL_system.h \
  c:\sdl2\include\SDL_timer.h c:\sdl2\include\SDL_version.h \
  c:\sdl2\include\SDL_locale.h c:\sdl2\include\SDL_misc.h Background.h \
- Bullets.h Enemies.h Loader.h
+ Bullets.h Enemies.h Obstacle.h Loader.h
 
 States.h:
 
@@ -137,5 +137,7 @@ Background.h:
 Bullets.h:
 
 Enemies.h:
+
+Obstacle.h:
 
 Loader.h:

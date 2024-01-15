@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Enemies.o \
 	${OBJECTDIR}/Loader.o \
 	${OBJECTDIR}/Object.o \
+	${OBJECTDIR}/Obstacle.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/States.o \
 	${OBJECTDIR}/main.o
@@ -93,6 +94,11 @@ ${OBJECTDIR}/Object.o: Object.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -I../../../../../SDL2/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Object.o Object.cpp
+
+${OBJECTDIR}/Obstacle.o: Obstacle.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Obstacle.o Obstacle.cpp
 
 ${OBJECTDIR}/Player.o: Player.cpp
 	${MKDIR} -p ${OBJECTDIR}

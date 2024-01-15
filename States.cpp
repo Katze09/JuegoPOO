@@ -2,14 +2,17 @@
 #include "States.h"
 #include "Loader.h"
 
+Loader loader;
+//Asteroid aste;
+
 States::States(SDL_Renderer* renderer)
 {
-    Loader loader;
+    //spriteAsteroid = loader.LoadTexture("Asteroid", renderer);
     spriteBullet = loader.LoadTexture("Bullet", renderer);
     spriteBulletEnemy[0] = loader.LoadTexture("BulletEnemy", renderer);
     spriteBulletEnemy[1] = loader.LoadTexture("Laser1", renderer);
     spriteBulletEnemy[2] = loader.LoadTexture("Laser2", renderer);
-    vector<SDL_Texture*> textures;
+    //vector<SDL_Texture*> textures;
     string nameFile[10];
     nameFile[0] = "Player";
     textures = loadTextures(nameFile, renderer, 1);
@@ -18,21 +21,42 @@ States::States(SDL_Renderer* renderer)
     background = Background(loader.LoadTexture("Background", renderer));
     cooldownShot = 0;
     PlayerShot = false;
+    nameFile[0] = "EnemyMid";
+    nameFile[1] = "EnemyMidHit";
+    nameFile[2] = "Died";
+    textures = loadTextures(nameFile, renderer, 3);
+    enemies.push_back(new EnemyMid(textures, 300, -200));
+    textures.clear();
+    int enemyStartR = -60;
+    int enemyStartL = 700;
+    int enemyStartY = 100;
     nameFile[0] = "EnemyBase";
     nameFile[1] = "Died";
     textures = loadTextures(nameFile, renderer, 2);
-    int enemyStart = 700;
-    for (int i = 0; i < 5; i++)
+    //enemies.push_back(new EnemyMid(textures, 300, -200));
+    for (int i = 0; i < 3; i++)
     {
-        enemies.push_back(new EnemyBase(textures, enemyStart, 100, true));
-        enemyStart += 60;
+        enemies.push_back(new EnemyBase(textures, enemyStartL, enemyStartY, true, 1));
+        enemies.push_back(new EnemyBase(textures, enemyStartR, enemyStartY, false, 1));
+        enemies.push_back(new EnemyBase(textures, enemyStartL, 400, true, 0));
+        enemies.push_back(new EnemyBase(textures, enemyStartR, 400, false, 0));
+        enemyStartL += 60;
+        enemyStartR -= 60;
+        enemyStartY += 20;
     }
     textures.clear();
     nameFile[0] = "EnemyLaser";
     nameFile[1] = "Died";
     textures = loadTextures(nameFile, renderer, 2);
-    enemies.push_back(new EnemyLaser(textures, -50, 200, true));
-    enemies.push_back(new EnemyLaser(textures, 750, 200, false));
+    enemies.push_back(new EnemyLaser(textures, -50, 200, true, 0));
+    enemies.push_back(new EnemyLaser(textures, 750, 200, false, 0));
+    textures.clear();
+    //textures.push_back(loader.LoadTexture("Asteroid", renderer));
+    nameFile[0] = "Died";
+    textures = (loadTextures(nameFile, renderer, 1));
+    textures.insert(textures.begin(), loader.LoadTexture("Asteroid", renderer));
+    //aste = Asteroid(spriteAsteroid, 200, 200);
+    //asteroids.push_back(new Asteroid(spriteAsteroid));
 }
 
 void States::bulletsPlayerEvents()
@@ -68,6 +92,27 @@ void States::bulletsEnemysEvents()
                     enemy->setFirstShot();
                 } else
                     bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy[2], enemies[i]->getX1(), enemies[i]->getY1() + 22, false, 500)); //Crear bala en el vector
+            } else if (dynamic_cast<EnemyMid*> (enemies[i]))
+            {
+                int posBulletX = 2;
+                int posBulletY = 70;
+                for (int j = 0; j < 5; j++)
+                {
+                    bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy[0], enemies[i]->getX1() + posBulletX, enemies[i]->getY1() + posBulletY, false, 1000)); //Crear bala en el vector
+                    posBulletX += 14;
+                    posBulletY += 10;
+                }
+                posBulletX += 14;
+                posBulletY -= 10;
+                for (int j = 0; j < 5; j++)
+                {
+                    bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy[0], enemies[i]->getX1() + posBulletX, enemies[i]->getY1() + posBulletY, false, 1000)); //Crear bala en el vector
+                    posBulletX += 14;
+                    posBulletY -= 10;
+                }
+                //bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy[0], enemies[i]->getX1() + 3, enemies[i]->getY1() + 10, false, 1000)); //Crear bala en el vector
+                //bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy[0], enemies[i]->getX1() + 37, enemies[i]->getY1() + 10, false, 1000)); //Crear bala en el vector
+
             } else if (dynamic_cast<EnemyBase*> (enemies[i]))
             {
                 bulletsEnemy.push_back(new BulletEnemy(spriteBulletEnemy[0], enemies[i]->getX1() + 3, enemies[i]->getY1() + 10, false, 1000)); //Crear bala en el vector
@@ -86,9 +131,35 @@ void States::bulletsEnemysEvents()
     }
 }
 
+void States::obstaclesEvents()
+{
+    for (int i = 0; i < asteroids.size(); i++)
+    {
+        int ind = asteroids[i]->isObstacleHit(bulletsPlayer);
+        if (ind >= 0)
+            bulletsPlayer.erase(bulletsPlayer.begin() + ind);
+        asteroids[i]->update(deltaTime);
+        if (asteroids[i]->isCollsionBorder())
+            asteroids.erase(asteroids.begin() + i);
+        //Borrar
+        if (asteroids[i]->endDeadAnimation())
+            asteroids.erase(asteroids.begin() + i);
+    }
+}
+
+void States::createAsteroid()
+{
+    int ran = loader.randomNumber(1, 60);
+    //textures.insert(textures.begin(), spriteAsteroid);
+    if (ran == 5)
+        asteroids.push_back(new Asteroid(textures));
+}
+
 void States::draw(SDL_Renderer* renderer)
 {
     background.draw(renderer);
+    for (int i = 0; i < asteroids.size(); i++)
+        asteroids[i]->draw(renderer);
     player.draw(renderer);
     for (int i = 0; i < bulletsPlayer.size(); i++)
         bulletsPlayer[i]->draw(renderer);
@@ -96,6 +167,7 @@ void States::draw(SDL_Renderer* renderer)
         enemies[i]->draw(renderer);
     for (int i = bulletsEnemy.size() - 1; i >= 0; i--)
         bulletsEnemy[i]->draw(renderer);
+    //aste.draw(renderer);
 }
 
 void States::update(double deltaTime)
@@ -111,6 +183,8 @@ void States::update(double deltaTime)
         if (bulletsEnemy[i]->getY1() > 820)
             bulletsEnemy.erase(bulletsEnemy.begin() + i);
     }
+    obstaclesEvents();
+    createAsteroid();
 }
 
 void States::updateInput(SDL_Keycode key)
@@ -143,6 +217,7 @@ vector<SDL_Texture*> States::loadTextures(string nameFile[], SDL_Renderer* rende
             contTexture++;
             texture = loader.LoadTexture(nameFile[i] + to_string(contTexture), renderer);
         }
+        contTexture = 1;
     }
     return textures;
 }
