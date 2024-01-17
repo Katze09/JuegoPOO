@@ -23,7 +23,8 @@ build/Debug/MinGW-Windows/Loader.o: Loader.cpp Loader.h \
  c:\sdl2\include\SDL_power.h c:\sdl2\include\SDL_render.h \
  c:\sdl2\include\SDL_shape.h c:\sdl2\include\SDL_system.h \
  c:\sdl2\include\SDL_timer.h c:\sdl2\include\SDL_version.h \
- c:\sdl2\include\SDL_locale.h c:\sdl2\include\SDL_misc.h
+ c:\sdl2\include\SDL_locale.h c:\sdl2\include\SDL_misc.h Level.h \
+ Obstacle.h Object.h Bullets.h Enemies.h tinyxml2.h
 
 Loader.h:
 
@@ -126,3 +127,15 @@ c:\sdl2\include\SDL_version.h:
 c:\sdl2\include\SDL_locale.h:
 
 c:\sdl2\include\SDL_misc.h:
+
+Level.h:
+
+Obstacle.h:
+
+Object.h:
+
+Bullets.h:
+
+Enemies.h:
+
+tinyxml2.h:

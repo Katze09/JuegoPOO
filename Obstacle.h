@@ -46,19 +46,7 @@ public:
     Asteroid(vector<SDL_Texture*> textures);
     Asteroid(vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Asteroid();
-    //void update(double deltaTime);\
-    //void animationBase(double deltaTime);
-    //void animationDead(double deltaTime);
-    //bool isObstacleHit(vector<BulletPlayer*> bulletPlayer);
-    //bool isCollsionBorder();
-    //void draw(SDL_Renderer* renderer) override;
 protected:
-    /*float targetY;
-    bool direction;
-    double slope;
-    double intercept;
-    int angleRotation;
-    int randomNumber(int i, int j);*/
 };
 
 #endif /* OBSTACLE_H */

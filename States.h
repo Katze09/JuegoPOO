@@ -7,8 +7,9 @@
 #include "Player.h"
 #include "Background.h"
 #include "Bullets.h"
-#include "Enemies.h"
 #include "Obstacle.h"
+#include "Texts.h"
+#include "Level.h"
 
 using namespace std;
 
@@ -21,24 +22,19 @@ public:
     void updateInput(SDL_Keycode key);
     void inputUp(SDL_Keycode key);
 private:
+    Level* gameLevels[10];
     SDL_Texture* spriteBullet;
-    SDL_Texture* spriteAsteroid;
-    SDL_Texture* spriteBulletEnemy[10];
+    Texts texts;
+    int score;
     double cooldownShot;
     bool PlayerShot;
-    double deltaTime;
-    void bulletsPlayerEvents();
-    void bulletsEnemysEvents();
-    void obstaclesEvents();
-    void createAsteroid();
-    vector<SDL_Texture*> loadTextures(string nameFile[], SDL_Renderer* renderer, int sizeNames);
+    void bulletsPlayerEvents(double deltaTime);
+    void checkPartFinish();
+    int level;
     Player player;
     Background background;
     vector<SDL_Texture*> textures;
-    vector<Obstacle*> asteroids;
     std::vector<BulletPlayer*> bulletsPlayer;
-    std::vector<BulletEnemy*> bulletsEnemy;
-    std::vector<EnemyBase*> enemies;
 };
 
 #endif /* STATES_H */

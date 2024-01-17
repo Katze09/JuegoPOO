@@ -30,3 +30,76 @@ int Loader::randomNumber(int i, int j)
     std::uniform_int_distribution<int> distribution(i, j);
     return distribution(generator);
 }
+
+vector<SDL_Texture*> Loader::loadTextures(string nameFile[], SDL_Renderer* renderer, int sizeNames)
+{
+    SDL_Texture* texture;
+    vector<SDL_Texture*> textures;
+    int contTexture = 1;
+    for (int i = 0; i < sizeNames; i++)
+    {
+        texture = LoadTexture(nameFile[i] + to_string(contTexture), renderer);
+        while (texture)
+        {
+            textures.push_back(texture);
+            contTexture++;
+            texture = LoadTexture(nameFile[i] + to_string(contTexture), renderer);
+        }
+        contTexture = 1;
+    }
+    return textures;
+}
+
+Level* Loader::LoadLevel(int level, SDL_Renderer* renderer)
+{
+    tinyxml2::XMLDocument doc;
+    Level* gameLevel = new Level(renderer);
+    // Cargar el archivo XML
+    string levelS = "Levels/Level" + to_string(level) + ".xml";
+    cout << levelS << endl;
+    if (doc.LoadFile(levelS.c_str()) != tinyxml2::XML_SUCCESS)
+        std::cerr << "Error al cargar el archivo XML." << std::endl;
+
+    tinyxml2::XMLElement* root = doc.RootElement();
+    if (!root)
+        std::cerr << "Error: No se pudo obtener el elemento raíz." << std::endl;
+
+    int contParts = 0;
+    // Iterar a través de los elementos hijos
+    for (tinyxml2::XMLElement* part = root->FirstChildElement(); part; part = part->NextSiblingElement())
+    {
+        std::cout << "Parte: " << part->Name() << std::endl;
+        for (tinyxml2::XMLElement* enemys = part->FirstChildElement(); enemys; enemys = enemys->NextSiblingElement())
+        {
+            std::cout << "  Enemigos: " << enemys->Name() << std::endl;
+            for (tinyxml2::XMLElement* enemy = enemys->FirstChildElement(); enemy; enemy = enemy->NextSiblingElement())
+            {
+                std::cout << "    Tipo de enemigo: " << enemy->Name() << std::endl;
+                if (std::string(enemy->Name()) == "EnemyBase")
+                {
+                    //int cant, double y, int movetype, bool direction
+                    int cant = stoi(enemy->FirstChildElement("quantity")->GetText());
+                    double y = atof(enemy->FirstChildElement("Y")->GetText());
+                    int movetype = stoi(enemy->FirstChildElement("MoveType")->GetText());
+                    int direction = stoi(enemy->FirstChildElement("direction")->GetText());
+                    gameLevel->setEnemyBase(cant, y, movetype, direction);
+                    std::cout << "      Cantidad: " << enemy->FirstChildElement("quantity")->GetText() << std::endl;
+                    std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
+                    std::cout << "      Tipo de movimiento: " << enemy->FirstChildElement("MoveType")->GetText() << std::endl;
+                    std::cout << "      Dirección: " << enemy->FirstChildElement("direction")->GetText() << std::endl;
+                } else if (std::string(enemy->Name()) == "Obstacles")
+                {
+                    gameLevel->setObstacles(stoi(enemy->FirstChildElement("SpawnProbability")->GetText()));
+                    std::cout << "      Probabilidad de spawn: " << enemy->FirstChildElement("SpawnProbability")->GetText() << std::endl;
+                }
+            }
+        }
+
+        gameLevel->numParts++;
+        gameLevel->enemies.push_back(std::vector<EnemyBase*>());
+        contParts++;
+    }
+    gameLevel->numParts = 0;
+    gameLevel->setMaxNumParts(contParts);
+    return gameLevel;
+}
