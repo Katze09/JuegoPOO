@@ -23,7 +23,7 @@ build/Debug/MinGW-Windows/Player.o: Player.cpp Player.h Object.h \
  c:\sdl2\include\SDL_power.h c:\sdl2\include\SDL_render.h \
  c:\sdl2\include\SDL_shape.h c:\sdl2\include\SDL_system.h \
  c:\sdl2\include\SDL_timer.h c:\sdl2\include\SDL_version.h \
- c:\sdl2\include\SDL_locale.h c:\sdl2\include\SDL_misc.h
+ c:\sdl2\include\SDL_locale.h c:\sdl2\include\SDL_misc.h Bullets.h
 
 Player.h:
 
@@ -128,3 +128,5 @@ c:\sdl2\include\SDL_version.h:
 c:\sdl2\include\SDL_locale.h:
 
 c:\sdl2\include\SDL_misc.h:
+
+Bullets.h:

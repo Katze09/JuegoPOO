@@ -23,8 +23,8 @@ build/Debug/MinGW-Windows/main.o: main.cpp c:\sdl2\include\sdl.h \
  c:\sdl2\include\SDL_render.h c:\sdl2\include\SDL_shape.h \
  c:\sdl2\include\SDL_system.h c:\sdl2\include\SDL_timer.h \
  c:\sdl2\include\SDL_version.h c:\sdl2\include\SDL_locale.h \
- c:\sdl2\include\SDL_misc.h States.h Player.h Object.h Background.h \
- Bullets.h Obstacle.h Loader.h Level.h Enemies.h tinyxml2.h Texts.h \
+ c:\sdl2\include\SDL_misc.h States.h Player.h Object.h Bullets.h \
+ Background.h Obstacle.h Loader.h Level.h Enemies.h tinyxml2.h Texts.h \
  c:\sdl2_ttf\include\sdl_ttf.h c:\sdl2\include\sdl.h \
  c:\sdl2\include\begin_code.h c:\sdl2\include\close_code.h
 
@@ -134,9 +134,9 @@ Player.h:
 
 Object.h:
 
-Background.h:
-
 Bullets.h:
+
+Background.h:
 
 Obstacle.h:
 

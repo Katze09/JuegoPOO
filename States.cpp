@@ -13,22 +13,26 @@ States::States(SDL_Renderer* renderer)
     //vector<SDL_Texture*> textures;
     string nameFile[10];
     nameFile[0] = "Player";
-    textures = loader.loadTextures(nameFile, renderer, 1);
-    player = Player(textures, 250, 250);
+    nameFile[1] = "Died";
+    textures = loader.loadTextures(nameFile, renderer, 2);
+    player = new Player(textures, 250, 250);
     textures.clear();
     background = Background(loader.LoadTexture("Background", renderer));
     cooldownShot = 0;
     PlayerShot = false;
     level = 0;
+    delayPart = 0;
     gameLevels[level] = loader.LoadLevel(1, renderer);
+    pastPart = false;
 }
 
 void States::bulletsPlayerEvents(double deltaTime)
 {
-    if (PlayerShot && cooldownShot <= 0) //Crear bala si se presiona el espacio y cooldown se termino
+    //cout << player->isDead() << endl;
+    if (PlayerShot && cooldownShot <= 0 && !player->isDead()) //Crear bala si se presiona el espacio y cooldown se termino
     {
-        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player.getX1() + 3, player.getY1() + 10, true)); //Crear bala en el vector
-        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player.getX1() + 37, player.getY1() + 10, true)); //Crear bala en el vector
+        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 3, player->getY1() + 10, true)); //Crear bala en el vector
+        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 37, player->getY1() + 10, true)); //Crear bala en el vector
         cooldownShot = 2; //Ajusta el tiempo entre disparo
     }
     //Eliminar Bullets del vector cuando estas salgan de pantalla
@@ -45,7 +49,7 @@ void States::bulletsPlayerEvents(double deltaTime)
 void States::draw(SDL_Renderer* renderer)
 {
     background.draw(renderer);
-    player.draw(renderer);
+    player->draw(renderer);
     for (int i = 0; i < bulletsPlayer.size(); i++)
         bulletsPlayer[i]->draw(renderer);
     gameLevels[level]->draw(renderer);
@@ -55,21 +59,32 @@ void States::draw(SDL_Renderer* renderer)
 void States::update(double deltaTime)
 {
     background.update(deltaTime);
-    player.update(deltaTime);
+    player->update(deltaTime);
+    player->isPlayerHit(gameLevels[level]->bulletsEnemy);
     bulletsPlayerEvents(deltaTime);
     gameLevels[level]->update(bulletsPlayer, deltaTime);
     checkPartFinish();
+    if(delayPart > 0)
+        delayPart -= deltaTime * 15;
 }
 
 void States::checkPartFinish()
 {
-    if(gameLevels[level]->enemies[gameLevels[level]->numParts].size() <= 0)
+    if(gameLevels[level]->enemies[gameLevels[level]->numParts].size() <= 0 && delayPart == 0)
+        delayPart = 15;
+    if(delayPart < 0 && !pastPart)
+        pastPart = true;
+    if(pastPart)
+    {
+        delayPart = 0;
         gameLevels[level]->numParts++;
+        pastPart = false;
+    }
 }
 
 void States::updateInput(SDL_Keycode key)
 {
-    player.move(key);
+    player->move(key);
     if (key == SDLK_SPACE)
         PlayerShot = true;
 }
@@ -79,5 +94,5 @@ void States::inputUp(SDL_Keycode key)
     if (key == SDLK_SPACE)
         PlayerShot = false;
     else
-        player.stop(key);
+        player->stop(key);
 }

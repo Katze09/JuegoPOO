@@ -14,6 +14,7 @@
         <itemPath>Player.h</itemPath>
         <itemPath>Texts.h</itemPath>
       </logicalFolder>
+      <itemPath>AudioPlayer.h</itemPath>
       <itemPath>Background.h</itemPath>
       <itemPath>Level.h</itemPath>
       <itemPath>Loader.h</itemPath>
@@ -46,18 +47,13 @@
       <logicalFolder name="f1" displayName="Windows" projectFiles="true">
         <itemPath>main.cpp</itemPath>
       </logicalFolder>
+      <itemPath>AudioPlayer.cpp</itemPath>
       <itemPath>tinyxml2.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
-      <logicalFolder name="f1"
-                     displayName="New C++ Simple Test"
-                     projectFiles="true"
-                     kind="TEST">
-        <itemPath>tests/newsimpletest.cpp</itemPath>
-      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -92,6 +88,10 @@
           <commandLine>-lmingw32 -lsdl2main -lsdl2 -lstdc++ -lSDL2_ttf</commandLine>
         </linkerTool>
       </compileType>
+      <item path="AudioPlayer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AudioPlayer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Background.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Background.h" ex="false" tool="3" flavor2="0">
@@ -132,24 +132,7 @@
       </item>
       <item path="Texts.h" ex="false" tool="3" flavor2="0">
       </item>
-      <folder path="TestFiles/f1">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
-        </linkerTool>
-      </folder>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tests/newsimpletest.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tinyxml2.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -299,8 +282,24 @@
                             perm="755"
                             owner="root"
                             group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe"
+                            from="${OUTPUT_PATH}.exe"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe"
+                            from="${OUTPUT_PATH}.exe"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
         </packFileList>
       </packaging>
+      <item path="AudioPlayer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AudioPlayer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Background.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Background.h" ex="false" tool="3" flavor2="0">
@@ -341,24 +340,7 @@
       </item>
       <item path="Texts.h" ex="false" tool="3" flavor2="0">
       </item>
-      <folder path="TestFiles/f1">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
-        </linkerTool>
-      </folder>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tests/newsimpletest.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tinyxml2.cpp" ex="false" tool="1" flavor2="0">
       </item>

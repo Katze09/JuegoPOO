@@ -17,6 +17,7 @@ public:
     void draw(SDL_Renderer* renderer);
     int numParts;
     vector<std::vector<EnemyBase*>> enemies;
+    vector<BulletEnemy*> bulletsEnemy;
     void setMaxNumParts(int numParts);
     void setEnemyBase(int cant, double y, int movetype, bool direction);
     void setEnemyLaser(int cant, double y, bool direction);
@@ -31,7 +32,6 @@ private:
     vector<SDL_Texture*> texturesEnemyMid;
     vector<SDL_Texture*> texturesAsteroid;
     vector<Obstacle*> asteroids;
-    std::vector<BulletEnemy*> bulletsEnemy;
     SDL_Texture* textureBullet[10];
     int maxnumParts;
     int numEnemies;

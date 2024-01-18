@@ -31,9 +31,11 @@ private:
     void bulletsPlayerEvents(double deltaTime);
     void checkPartFinish();
     int level;
-    Player player;
+    Player* player;
     Background background;
     vector<SDL_Texture*> textures;
+    double delayPart;
+    bool pastPart;
     std::vector<BulletPlayer*> bulletsPlayer;
 };
 
