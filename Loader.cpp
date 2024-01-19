@@ -50,10 +50,10 @@ vector<SDL_Texture*> Loader::loadTextures(string nameFile[], SDL_Renderer* rende
     return textures;
 }
 
-Level* Loader::LoadLevel(int level, SDL_Renderer* renderer)
+Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPlayer)
 {
     tinyxml2::XMLDocument doc;
-    Level* gameLevel = new Level(renderer);
+    Level* gameLevel = new Level(renderer, audioPlayer);
     // Cargar el archivo XML
     string levelS = "Levels/Level" + to_string(level) + ".xml";
     cout << levelS << endl;

@@ -6,7 +6,7 @@ Level::Level()
 {
 }
 
-Level::Level(SDL_Renderer* renderer)
+Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
 {
     string nameFile[2];
     textureBullet[0] = load.LoadTexture("BulletEnemy", renderer);
@@ -24,6 +24,8 @@ Level::Level(SDL_Renderer* renderer)
     numParts = 0;
     numEnemies = 0;
     enemies.push_back(std::vector<EnemyBase*>());
+    this->audioPlayer = audioPlayer;
+    score = 0;
 }
 
 Level::~Level()
@@ -103,11 +105,12 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
                     bulletsEnemy.push_back(new BulletEnemy(textureBullet[2], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, 500)); //Crear bala en el vector
             } else if (dynamic_cast<EnemyMid*> (enemies[numParts][i]))
             {
+                audioPlayer->Play(2,10);
                 int posBulletX = 2;
                 int posBulletY = 70;
                 for (int j = 0; j < 5; j++)
                 {
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, 1000)); //Crear bala en el vector
+                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, 700)); //Crear bala en el vector
                     posBulletX += 14;
                     posBulletY += 10;
                 }
@@ -115,15 +118,16 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
                 posBulletY -= 10;
                 for (int j = 0; j < 5; j++)
                 {
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, 1000)); //Crear bala en el vector
+                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, 700)); //Crear bala en el vector
                     posBulletX += 14;
                     posBulletY -= 10;
                 }
 
             } else if (dynamic_cast<EnemyBase*> (enemies[numParts][i]))
             {
-                bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 3, enemies[numParts][i]->getY1() + 10, false, 1000)); //Crear bala en el vector
-                bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 37, enemies[numParts][i]->getY1() + 10, false, 1000)); //Crear bala en el vector
+                audioPlayer->Play(2,10);
+                bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 3, enemies[numParts][i]->getY1() + 10, false, 700)); //Crear bala en el vector
+                bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 37, enemies[numParts][i]->getY1() + 10, false, 700)); //Crear bala en el vector
             }
         }
 
@@ -136,6 +140,7 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
         if (enemies[numParts][i]->endDeadAnimation())
         {
             enemies[numParts].erase(enemies[numParts].begin() + i);
+            score += 5;
         }
     }
 }
@@ -187,4 +192,9 @@ void Level::draw(SDL_Renderer* renderer)
         enemies[numParts][i]->draw(renderer);
     for (int i = bulletsEnemy.size() - 1; i >= 0; i--)
         bulletsEnemy[i]->draw(renderer);
+}
+
+int Level::getScore()
+{
+    return score;
 }

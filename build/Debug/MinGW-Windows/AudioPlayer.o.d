@@ -23,7 +23,11 @@ build/Debug/MinGW-Windows/AudioPlayer.o: AudioPlayer.cpp AudioPlayer.h \
  c:\sdl2\include\SDL_power.h c:\sdl2\include\SDL_render.h \
  c:\sdl2\include\SDL_shape.h c:\sdl2\include\SDL_system.h \
  c:\sdl2\include\SDL_timer.h c:\sdl2\include\SDL_version.h \
- c:\sdl2\include\SDL_locale.h c:\sdl2\include\SDL_misc.h
+ c:\sdl2\include\SDL_locale.h c:\sdl2\include\SDL_misc.h \
+ c:\sdl2_mixer\include\sdl_mixer.h c:\sdl2\include\sdl_stdinc.h \
+ c:\sdl2\include\sdl_rwops.h c:\sdl2\include\sdl_audio.h \
+ c:\sdl2\include\sdl_endian.h c:\sdl2\include\sdl_version.h \
+ c:\sdl2\include\begin_code.h c:\sdl2\include\close_code.h
 
 AudioPlayer.h:
 
@@ -126,3 +130,19 @@ c:\sdl2\include\SDL_version.h:
 c:\sdl2\include\SDL_locale.h:
 
 c:\sdl2\include\SDL_misc.h:
+
+c:\sdl2_mixer\include\sdl_mixer.h:
+
+c:\sdl2\include\sdl_stdinc.h:
+
+c:\sdl2\include\sdl_rwops.h:
+
+c:\sdl2\include\sdl_audio.h:
+
+c:\sdl2\include\sdl_endian.h:
+
+c:\sdl2\include\sdl_version.h:
+
+c:\sdl2\include\begin_code.h:
+
+c:\sdl2\include\close_code.h:

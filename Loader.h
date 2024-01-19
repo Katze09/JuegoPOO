@@ -11,6 +11,7 @@
 #include "Level.h"
 #include "tinyxml2.h"
 #include <cstring>
+#include "AudioPlayer.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ public:
     SDL_Texture* LoadTexture(const std::string& filePat, SDL_Renderer* renderer);
     int randomNumber(int i, int j);
     vector<SDL_Texture*> loadTextures(string nameFile[], SDL_Renderer* renderer, int sizeNames);
-    Level* LoadLevel(int level, SDL_Renderer* renderer);
+    Level* LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPlayer);
     
 };
 #endif /* LOADER_H */

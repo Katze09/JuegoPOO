@@ -7,8 +7,8 @@ Loader loader;
 
 States::States(SDL_Renderer* renderer)
 {
+    audioPlayer = new AudioPlayer();
     texts = Texts("8-bit ArcadeIn", 40);
-    score = 0;
     spriteBullet = loader.LoadTexture("Bullet", renderer);
     //vector<SDL_Texture*> textures;
     string nameFile[10];
@@ -22,7 +22,7 @@ States::States(SDL_Renderer* renderer)
     PlayerShot = false;
     level = 0;
     delayPart = 0;
-    gameLevels[level] = loader.LoadLevel(1, renderer);
+    gameLevels[level] = loader.LoadLevel(1, renderer, audioPlayer);
     pastPart = false;
 }
 
@@ -34,6 +34,7 @@ void States::bulletsPlayerEvents(double deltaTime)
         bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 3, player->getY1() + 10, true)); //Crear bala en el vector
         bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 37, player->getY1() + 10, true)); //Crear bala en el vector
         cooldownShot = 2; //Ajusta el tiempo entre disparo
+        audioPlayer->Play(0,100);
     }
     //Eliminar Bullets del vector cuando estas salgan de pantalla
     for (int i = 0; i < bulletsPlayer.size(); i++)
@@ -53,14 +54,15 @@ void States::draw(SDL_Renderer* renderer)
     for (int i = 0; i < bulletsPlayer.size(); i++)
         bulletsPlayer[i]->draw(renderer);
     gameLevels[level]->draw(renderer);
-    texts.drawText("Score " + to_string(score), 10, 10, renderer);
+    texts.drawText("Score " + to_string(gameLevels[level]->getScore()), 10, 10, renderer);
 }
 
 void States::update(double deltaTime)
 {
     background.update(deltaTime);
     player->update(deltaTime);
-    player->isPlayerHit(gameLevels[level]->bulletsEnemy);
+    if(player->isPlayerHit(gameLevels[level]->bulletsEnemy) > -1)
+        audioPlayer->Play(1,100);
     bulletsPlayerEvents(deltaTime);
     gameLevels[level]->update(bulletsPlayer, deltaTime);
     checkPartFinish();

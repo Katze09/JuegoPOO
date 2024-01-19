@@ -2,6 +2,7 @@
 #include "Obstacle.h"
 #include "Enemies.h"
 #include <sdl.h>
+#include "AudioPlayer.h"
 
 #ifndef LEVEL_H
 #define LEVEL_H
@@ -11,7 +12,7 @@ using namespace std;
 class Level {
 public:
     Level();
-    Level(SDL_Renderer* renderer);
+    Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer);
     virtual ~Level();
     void update(vector<BulletPlayer*> bulletsPlayer, double deltaTime);
     void draw(SDL_Renderer* renderer);
@@ -23,6 +24,7 @@ public:
     void setEnemyLaser(int cant, double y, bool direction);
     void setEnemyMid(int cant, double y);
     void setObstacles(int prob);
+    int getScore();
 private:
     void bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTime);
     void obstaclesEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTime);
@@ -33,6 +35,8 @@ private:
     vector<SDL_Texture*> texturesAsteroid;
     vector<Obstacle*> asteroids;
     SDL_Texture* textureBullet[10];
+    AudioPlayer* audioPlayer;
+    int score;
     int maxnumParts;
     int numEnemies;
     int probSpawn[10];

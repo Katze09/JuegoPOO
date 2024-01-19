@@ -16,15 +16,20 @@
 #include <sdl.h>
 #include <vector>
 #include <string.h>
+#include <iostream>
+#include <SDL_mixer.h>
+
+using namespace std;
 
 class AudioPlayer {
 public:
     AudioPlayer();
     virtual ~AudioPlayer();
+    void Play(int index, int volume);
+
 private:
-    //vector<SDL_AudioSpec> audios;
-    //vector<Uint8*> wavStart;
-    //vector<Uint32> wavLength;
+    std::vector<Mix_Chunk*> audioData;
+    int deviceId;
 };
 
 #endif /* AUDIOPLAYER_H */

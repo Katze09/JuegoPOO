@@ -77,15 +77,17 @@
           <incDir>
             <pElem>../../../../../SDL2/include</pElem>
             <pElem>../../../../../SDL2_TTF/include</pElem>
+            <pElem>../../../../../SDL2_MIXER/include</pElem>
           </incDir>
-          <commandLine>-mwindows -lwinmm</commandLine>
+          <commandLine>-mwindows -lwinmm -D _WIN32_WINNT=0x0603</commandLine>
         </ccTool>
         <linkerTool>
           <linkerAddLib>
             <pElem>../../../../../SDL2/lib</pElem>
             <pElem>../../../../../SDL2_TTF/lib</pElem>
+            <pElem>../../../../../SDL2_MIXER/lib</pElem>
           </linkerAddLib>
-          <commandLine>-lmingw32 -lsdl2main -lsdl2 -lstdc++ -lSDL2_ttf</commandLine>
+          <commandLine>-lmingw32 -lsdl2main -lsdl2 -lstdc++ -lSDL2_ttf -lSDL2_mixer</commandLine>
         </linkerTool>
       </compileType>
       <item path="AudioPlayer.cpp" ex="false" tool="1" flavor2="0">

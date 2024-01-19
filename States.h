@@ -9,6 +9,7 @@
 #include "Bullets.h"
 #include "Obstacle.h"
 #include "Texts.h"
+#include "AudioPlayer.h"
 #include "Level.h"
 
 using namespace std;
@@ -25,12 +26,12 @@ private:
     Level* gameLevels[10];
     SDL_Texture* spriteBullet;
     Texts texts;
-    int score;
     double cooldownShot;
     bool PlayerShot;
     void bulletsPlayerEvents(double deltaTime);
     void checkPartFinish();
     int level;
+    AudioPlayer* audioPlayer;
     Player* player;
     Background background;
     vector<SDL_Texture*> textures;
