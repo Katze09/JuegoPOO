@@ -6,10 +6,11 @@ EnemyBase::EnemyBase() : Object()
 {
 }
 
-EnemyBase::EnemyBase(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType) : Object(textures, X1, Y1)
+EnemyBase::EnemyBase(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, int bulletSpeed) : Object(textures, X1, Y1)
 {
     life = 1;
     speed = 300;
+    this->bulletSpeed = bulletSpeed;
     this->direction = direction;
     coolDownShot = 3;
     this->movimentType = movimentType;
@@ -142,6 +143,11 @@ void EnemyBase::animationDead(double deltaTime)
     }
 }
 
+int EnemyBase::getBulletSpeed()
+{
+    return bulletSpeed;
+}
+
 //
 // Class enemy2
 //
@@ -150,7 +156,7 @@ EnemyLaser::EnemyLaser() : EnemyBase()
 {
 }
 
-EnemyLaser::EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo) : EnemyBase(textures, X1, Y1, direction, movimentType)
+EnemyLaser::EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo, int bulletSpeed) : EnemyBase(textures, X1, Y1, direction, movimentType, bulletSpeed)
 {
     this->moveTo = moveTo;
     firstShot = true;
@@ -163,7 +169,7 @@ EnemyLaser::~EnemyLaser()
 
 bool EnemyLaser::shot(double deltaTime)
 {
-    if(laserSize >= 150)
+    if (laserSize >= 150)
     {
         laserSize = 0;
         coolDownShot = 8;
@@ -209,7 +215,7 @@ EnemyMid::EnemyMid() : EnemyBase()
 {
 }
 
-EnemyMid::EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo) : EnemyBase(textures, X1, Y1, false, 0)
+EnemyMid::EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed) : EnemyBase(textures, X1, Y1, false, 0, bulletSpeed)
 {
     life = 20;
     hitTex = 0;

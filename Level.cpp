@@ -59,7 +59,7 @@ void Level::setMaxNumParts(int numParts)
 }
 
 // Establecer enemigos de la base
-void Level::setEnemyBase(int cant, double y, int movetype, bool direction)
+void Level::setEnemyBase(int cant, double y, int movetype, bool direction, int bulletSpeed)
 {
     int x;
     int aumento;
@@ -78,7 +78,7 @@ void Level::setEnemyBase(int cant, double y, int movetype, bool direction)
     // Crear enemigos de la base y agregarlos al vector
     for (int i = 0; i < cant; i++)
     {
-        enemies[numParts].push_back(new EnemyBase(texturesEnemyBase, x, y, direction, movetype));
+        enemies[numParts].push_back(new EnemyBase(texturesEnemyBase, x, y, direction, movetype, bulletSpeed));
         x += aumento;
         if (movetype == 1)
             y += 20;
@@ -86,7 +86,7 @@ void Level::setEnemyBase(int cant, double y, int movetype, bool direction)
 }
 
 // Establecer enemigos láser
-void Level::setEnemyLaser(int cant, double y, int movetype, bool direction, double moveTo)
+void Level::setEnemyLaser(int cant, double y, int movetype, bool direction, double moveTo, int bulletSpeed)
 {
     int x;
     int aumento;
@@ -105,19 +105,19 @@ void Level::setEnemyLaser(int cant, double y, int movetype, bool direction, doub
     // Crear enemigos láser y agregarlos al vector
     for (int i = 0; i < cant; i++)
     {
-        enemies[numParts].push_back(new EnemyLaser(texturesEnemyLaser, x, y, direction, movetype, moveTo));
+        enemies[numParts].push_back(new EnemyLaser(texturesEnemyLaser, x, y, direction, movetype, moveTo, bulletSpeed));
         x += aumento;
         moveTo += aumento;
     }
 }
 
 // Establecer enemigos medianos
-void Level::setEnemyMid(int cant, double x, double y, double moveTo)
+void Level::setEnemyMid(int cant, double x, double y, double moveTo, int bulletSpeed)
 {
     // Crear enemigos medianos y agregarlos al vector
     for (int i = 0; i < cant; i++)
     {
-        enemies[numParts].push_back(new EnemyMid(texturesEnemyMid, x, y, moveTo));
+        enemies[numParts].push_back(new EnemyMid(texturesEnemyMid, x, y, moveTo, bulletSpeed));
     }
 }
 
@@ -141,12 +141,12 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
                 if (enemy->isFirstShot())
                 {
                     // Crear bala láser inicial
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[1], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, 500));
+                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[1], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
                     enemy->setFirstShot();
                     audioPlayer->Play(3, 30);
                 } else
                     // Crear otras balas láser
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[2], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, 500));
+                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[2], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
             } else if (dynamic_cast<EnemyMid*> (enemies[numParts][i]))
             {
                 // Manejar balas de enemigos medianos
@@ -157,7 +157,7 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
                 // Crear balas para enemigos medianos
                 for (int j = 0; j < 5; j++)
                 {
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, 700));
+                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, enemies[numParts][i]->getBulletSpeed()));
                     posBulletX += 14;
                     posBulletY += 10;
                 }
@@ -168,7 +168,7 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
                 // Crear más balas para enemigos medianos
                 for (int j = 0; j < 5; j++)
                 {
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, 700));
+                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, enemies[numParts][i]->getBulletSpeed()));
                     posBulletX += 14;
                     posBulletY -= 10;
                 }
@@ -176,8 +176,8 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
             {
                 // Manejar balas de enemigos de la base
                 audioPlayer->Play(2, 20);
-                bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 3, enemies[numParts][i]->getY1() + 10, false, 700));
-                bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 37, enemies[numParts][i]->getY1() + 10, false, 700));
+                bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 3, enemies[numParts][i]->getY1() + 10, false, enemies[numParts][i]->getBulletSpeed()));
+                bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 37, enemies[numParts][i]->getY1() + 10, false, enemies[numParts][i]->getBulletSpeed()));
             }
         }
 

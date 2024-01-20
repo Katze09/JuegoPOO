@@ -22,9 +22,9 @@ public:
     vector<BulletEnemy*> bulletsEnemy;
     vector<Obstacle*> asteroids;
     void setMaxNumParts(int numParts);
-    void setEnemyBase(int cant, double y, int movetype, bool direction);
-    void setEnemyLaser(int cant, double y, int movetype, bool direction, double moveTo);
-    void setEnemyMid(int cant, double x, double y, double moveTo);
+    void setEnemyBase(int cant, double y, int movetype, bool direction, int bulletSpeed);
+    void setEnemyLaser(int cant, double y, int movetype, bool direction, double moveTo, int bulletSpeed);
+    void setEnemyMid(int cant, double x, double y, double moveTo, int bulletSpeed);
     void setObstacles(int prob);
     int getScore();
 private:

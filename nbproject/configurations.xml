@@ -78,16 +78,18 @@
             <pElem>../../../../../SDL2/include</pElem>
             <pElem>../../../../../SDL2_TTF/include</pElem>
             <pElem>../../../../../SDL2_MIXER/include</pElem>
+            <pElem>../../../../../SDL2_Image/include</pElem>
           </incDir>
-          <commandLine>-mwindows -lwinmm -D _WIN32_WINNT=0x0603</commandLine>
+          <commandLine>-mwindows -lwinmm</commandLine>
         </ccTool>
         <linkerTool>
           <linkerAddLib>
             <pElem>../../../../../SDL2/lib</pElem>
             <pElem>../../../../../SDL2_TTF/lib</pElem>
             <pElem>../../../../../SDL2_MIXER/lib</pElem>
+            <pElem>../../../../../SDL2_Image/lib</pElem>
           </linkerAddLib>
-          <commandLine>-lmingw32 -lsdl2main -lsdl2 -lstdc++ -lSDL2_ttf -lSDL2_mixer</commandLine>
+          <commandLine>-lmingw32 -lsdl2main -lsdl2 -lstdc++ -lSDL2_ttf -lSDL2_mixer -lSDL2_image</commandLine>
         </linkerTool>
       </compileType>
       <item path="AudioPlayer.cpp" ex="false" tool="1" flavor2="0">
@@ -224,6 +226,12 @@
         <packType>Tar</packType>
         <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/juegopoo.tar</output>
         <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe"
+                            from="${OUTPUT_PATH}.exe"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
           <packFileListElem type="File"
                             to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe"
                             from="${OUTPUT_PATH}.exe"

@@ -28,7 +28,8 @@ build/Debug/MinGW-Windows/Obstacle.o: Obstacle.cpp Obstacle.h Object.h \
  c:\sdl2\include\sdl_stdinc.h c:\sdl2\include\sdl_rwops.h \
  c:\sdl2\include\sdl_audio.h c:\sdl2\include\sdl_endian.h \
  c:\sdl2\include\sdl_version.h c:\sdl2\include\begin_code.h \
- c:\sdl2\include\close_code.h tinyxml2.h
+ c:\sdl2\include\close_code.h tinyxml2.h \
+ c:\sdl2_image\include\sdl_image.h c:\sdl2\include\sdl.h
 
 Obstacle.h:
 
@@ -161,3 +162,7 @@ c:\sdl2\include\begin_code.h:
 c:\sdl2\include\close_code.h:
 
 tinyxml2.h:
+
+c:\sdl2_image\include\sdl_image.h:
+
+c:\sdl2\include\sdl.h:

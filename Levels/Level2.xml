@@ -6,12 +6,14 @@
 				<Y>200</Y>
 				<MoveType>0</MoveType>
 				<direction>0</direction>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyBase>
 			<EnemyBase>
 				<quantity>5</quantity>
 				<Y>250</Y>
 				<MoveType>0</MoveType>
 				<direction>1</direction>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyBase>
 			<Obstacles>
 				<SpawnProbability>60</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
@@ -25,12 +27,14 @@
 				<Y>200</Y>
 				<MoveType>1</MoveType>
 				<direction>0</direction>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyBase>
 			<EnemyBase>
 				<quantity>5</quantity>
 				<Y>200</Y>
 				<MoveType>1</MoveType>
 				<direction>1</direction>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyBase>
 			<EnemyLaser>
 				<quantity>3</quantity>
@@ -38,6 +42,7 @@
 				<MoveType>0</MoveType>
 				<direction>0</direction>
 				<moveTo>200</moveTo>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyLaser>
 			<EnemyLaser>
 				<quantity>3</quantity>
@@ -45,6 +50,7 @@
 				<MoveType>0</MoveType>
 				<direction>1</direction>
 				<moveTo>500</moveTo>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyLaser>
 			<Obstacles>
 				<SpawnProbability>50</SpawnProbability>
@@ -60,6 +66,7 @@
 				<MoveType>0</MoveType>
 				<direction>0</direction>
 				<moveTo>150</moveTo>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyMid>
 			<EnemyMid>
 				<quantity>1</quantity>
@@ -68,6 +75,7 @@
 				<MoveType>0</MoveType>
 				<direction>0</direction>
 				<moveTo>150</moveTo>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyMid>
 			<EnemyLaser>
 				<quantity>1</quantity>
@@ -75,6 +83,7 @@
 				<MoveType>0</MoveType>
 				<direction>0</direction>
 				<moveTo>50</moveTo>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyLaser>
 			<EnemyLaser>
 				<quantity>1</quantity>
@@ -82,6 +91,7 @@
 				<MoveType>0</MoveType>
 				<direction>0</direction>
 				<moveTo>250</moveTo>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyLaser>
 			<EnemyLaser>
 				<quantity>1</quantity>
@@ -89,6 +99,7 @@
 				<MoveType>0</MoveType>
 				<direction>1</direction>
 				<moveTo>500</moveTo>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyLaser>
 			<EnemyLaser>
 				<quantity>1</quantity>
@@ -96,6 +107,7 @@
 				<MoveType>0</MoveType>
 				<direction>1</direction>
 				<moveTo>650</moveTo>
+				<bulletSpeed>700</bulletSpeed>
 			</EnemyLaser>
 		</Enemys>
 	</part3>

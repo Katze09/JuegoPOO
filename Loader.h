@@ -12,6 +12,7 @@
 #include "tinyxml2.h"
 #include <cstring>
 #include "AudioPlayer.h"
+#include <sdl_image.h>
 
 using namespace std;
 

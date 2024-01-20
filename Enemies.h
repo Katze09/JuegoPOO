@@ -9,13 +9,15 @@ class EnemyBase : public Object
 {
 public:
     EnemyBase();
-    EnemyBase(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType);
+    EnemyBase(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, int bulletSpeed);
     virtual ~EnemyBase();
     void update(double deltaTime);
     virtual int isEnemyHit(vector<BulletPlayer*> bulletPlayer);
     virtual bool shot(double deltaTime);
     bool isDead();
+    int getBulletSpeed();
 protected:
+    int bulletSpeed;
     int life;
     bool direction;
     int movimentType;
@@ -30,7 +32,7 @@ class EnemyLaser : public EnemyBase
 {
 public:
     EnemyLaser();
-    EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo);
+    EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo, int bulletSpeed);
     virtual ~EnemyLaser();
     bool shot(double deltaTime) override;
     void update(double deltaTime) override;
@@ -46,7 +48,7 @@ class EnemyMid : public EnemyBase
 {
 public:
     EnemyMid();
-    EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo);
+    EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed);
     virtual ~EnemyMid();
     int isEnemyHit(vector<BulletPlayer*> bulletPlayer) override;
     void update(double deltaTime) override;

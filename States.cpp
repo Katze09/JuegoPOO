@@ -6,6 +6,7 @@
 Loader loader; // Instancia del cargador
 
 // Constructor de States que inicializa varios componentes del juego
+
 States::States(SDL_Renderer* renderer)
 {
     // Inicializar el reproductor de audio
@@ -25,7 +26,7 @@ States::States(SDL_Renderer* renderer)
     textures = loader.loadTextures(nameFile, renderer, 2);
 
     // Crear jugador en la posición inicial
-    player = new Player(textures, 250, 250);
+    player = new Player(textures, 310, 460);
     textures.clear(); // Limpiar texturas después de su uso
 
     // Inicializar el fondo del juego
@@ -43,9 +44,11 @@ States::States(SDL_Renderer* renderer)
 
     level = 0;
     pastPart = false;
+    continueLevel = false;
 }
 
 // Manejar eventos relacionados con las balas del jugador
+
 void States::bulletsPlayerEvents(double deltaTime)
 {
     if (PlayerShot && cooldownShot <= 0 && !player->isDead())
@@ -74,36 +77,44 @@ void States::bulletsPlayerEvents(double deltaTime)
 }
 
 // Dibujar elementos del juego en el renderizador
+
 void States::draw(SDL_Renderer* renderer)
 {
     // Dibujar fondo, jugador, balas del jugador y nivel actual
     background.draw(renderer);
-    player->draw(renderer);
     for (int i = 0; i < bulletsPlayer.size(); i++)
         bulletsPlayer[i]->draw(renderer);
     gameLevels[level]->draw(renderer);
 
     // Mostrar información de puntuación en la pantalla
+    if (!player->endDeadAnimation())
+        player->draw(renderer);
+    else
+        deadEvent(renderer);
     if (passingLevel)
-    {
         passLevel(renderer);
-    }
     texts.drawText("Score " + to_string(gameLevels[level]->getScore()), 10, 10, renderer);
 }
 
 // Actualizar elementos del juego
+
 void States::update(double deltaTime)
 {
     // Actualizar fondo y jugador
     background.update(deltaTime);
-    player->update(deltaTime);
+    if (!player->endDeadAnimation())
+    {
+        player->update(deltaTime);
 
-    // Verificar colisiones del jugador con balas enemigas y obstáculos
-    if(player->isPlayerHit(gameLevels[level]->bulletsEnemy) > -1)
-        audioPlayer->Play(1,100);
-    if(player->isPlayerHitObstacle(gameLevels[level]->asteroids) > -1)
-        audioPlayer->Play(1,100);
-
+        // Verificar colisiones del jugador con balas enemigas y obstáculos
+        if (!player->isDead())
+        {
+            if (player->isPlayerHit(gameLevels[level]->bulletsEnemy) > -1)
+                audioPlayer->Play(1, 128);
+            if (player->isPlayerHitObstacle(gameLevels[level]->asteroids) > -1)
+                audioPlayer->Play(1, 128);
+        }
+    }
     // Manejar eventos relacionados con las balas del jugador
     bulletsPlayerEvents(deltaTime);
 
@@ -122,6 +133,7 @@ void States::update(double deltaTime)
 }
 
 // Comprobar si se ha completado una parte del nivel
+
 void States::checkPartFinish()
 {
     if (gameLevels[level]->enemies[gameLevels[level]->numParts].size() <= 0 && delayPart == 0)
@@ -144,6 +156,7 @@ void States::checkPartFinish()
 }
 
 // Realizar transición al pasar de nivel
+
 void States::passLevel(SDL_Renderer* renderer)
 {
     if (delayLevel <= 0)
@@ -153,22 +166,45 @@ void States::passLevel(SDL_Renderer* renderer)
     }
 
     // Mostrar mensajes de nivel pasado y próximo nivel
-    if(delayLevel > 30)
-        textsTitle.drawText("Level " + to_string(level + 1) + " Passed", 100, 400, renderer);
-    else if(delayLevel < 20)
-        textsTitle.drawText("Level " + to_string(level + 2) + " Start", 100, 400, renderer);
+    if (delayLevel > 30)
+        textsTitle.drawText("Level " + to_string(level + 1) + " Passed", 100, 300, renderer);
+    else if (delayLevel < 20)
+        textsTitle.drawText("Level " + to_string(level + 2) + " Start", 100, 300, renderer);
 }
 
+void States::deadEvent(SDL_Renderer* renderer)
+{
+    if (continueLevel)
+    {
+        string nameFile[10];
+        nameFile[0] = "Player";
+        nameFile[1] = "Died";
+        textures = loader.loadTextures(nameFile, renderer, 2);
+
+        // Crear jugador en la posición inicial
+        player = new Player(textures, 310, 460);
+        gameLevels[level] = loader.LoadLevel((level + 1), renderer, audioPlayer);
+        continueLevel = false;
+    }
+    textsTitle.drawText("You died", 200, 300, renderer);
+    texts.drawText("Press space to try again", 110, 400, renderer);
+}
 // Actualizar entrada del jugador
+
 void States::updateInput(SDL_Keycode key)
 {
     // Mover jugador y activar disparo al presionar teclas
     player->move(key);
     if (key == SDLK_SPACE)
+    {
         PlayerShot = true;
+        if (player->endDeadAnimation())
+            continueLevel = true;
+    }
 }
 
 // Manejar liberación de teclas
+
 void States::inputUp(SDL_Keycode key)
 {
     // Desactivar disparo al soltar la tecla de espacio

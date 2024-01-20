@@ -32,8 +32,10 @@ private:
     void bulletsPlayerEvents(double deltaTime);
     void checkPartFinish();
     void passLevel(SDL_Renderer* renderer);
+    void deadEvent(SDL_Renderer* renderer);
     bool passingLevel;
     int level;
+    bool continueLevel;
     AudioPlayer* audioPlayer;
     Player* player;
     Background background;

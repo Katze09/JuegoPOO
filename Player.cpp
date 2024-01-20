@@ -9,6 +9,10 @@ Player::Player(vector<SDL_Texture*> textures, float X1, float Y1)
 : Object(textures, X1, Y1)
 {
     speed = 500;
+    X1HitBox = X1 + (WIDTH * 0.2);
+    X2HitBox = X2 - (WIDTH * 0.2);
+    Y1HitBox = Y1 + (HEIGHT * 0.2);
+    Y2HitBox = Y2 - (HEIGHT * 0.2);
     up = false;
     down = false;
     right = false;
@@ -70,14 +74,14 @@ void Player::move(SDL_Keycode key)
 
 void Player::collisionBorder()
 {
-    if (X1 < -20)
-        Player::setX(-15);
+    if (X1 <= 0)
+        Player::setX(0);
     if (X2 >= 700)
         Player::setX(650);
-    if (Y1 < -20)
-        Player::setY(-20);
-    if (Y2 >= 900)
-        Player::setY(850);
+    if (Y1 < 0)
+        Player::setY(0);
+    if (Y2 >= 800)
+        Player::setY(750);
 }
 
 void Player::stop(SDL_Keycode key)
