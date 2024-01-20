@@ -35,6 +35,20 @@ int Player::isPlayerHit(vector<BulletEnemy*> bulletsEnemy)
     return -1;
 }
 
+int Player::isPlayerHitObstacle(vector<Obstacle*> asteroids)
+{
+    for(int i = 0; i < asteroids.size();i++)
+    if (asteroids[i]->getX1HitBox() < X2HitBox && asteroids[i]->getX2HitBox() > X1HitBox &&
+                asteroids[i]->getY1HitBox() < Y2HitBox && asteroids[i]->getY2HitBox() > Y1HitBox)
+        {
+            dead = true;
+            speedAnimations = 1;
+            //isDead();
+            return i;
+        }
+    return -1;
+}
+
 void Player::move(SDL_Keycode key)
 {
     switch (key)

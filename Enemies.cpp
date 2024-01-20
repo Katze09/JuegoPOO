@@ -150,9 +150,11 @@ EnemyLaser::EnemyLaser() : EnemyBase()
 {
 }
 
-EnemyLaser::EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType) : EnemyBase(textures, X1, Y1, direction, movimentType)
+EnemyLaser::EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo) : EnemyBase(textures, X1, Y1, direction, movimentType)
 {
+    this->moveTo = moveTo;
     firstShot = true;
+    laserSize = 0;
 }
 
 EnemyLaser::~EnemyLaser()
@@ -161,10 +163,17 @@ EnemyLaser::~EnemyLaser()
 
 bool EnemyLaser::shot(double deltaTime)
 {
+    if(laserSize >= 150)
+    {
+        laserSize = 0;
+        coolDownShot = 8;
+        firstShot = true;
+    }
     coolDownShot -= 3 * deltaTime;
     if (coolDownShot <= 0)
     {
         coolDownShot = 0;
+        laserSize++;
         return true;
     }
     return false;
@@ -174,12 +183,12 @@ void EnemyLaser::update(double deltaTime)
 {
     if (direction)
     {
-        if (X1 >= 550)
+        if (X1 >= moveTo)
             setX(X1 - (speed * deltaTime));
         collisionBorder();
     } else
     {
-        if (X1 <= 150)
+        if (X1 <= moveTo)
             setX(X1 + (speed * deltaTime));
         collisionBorder();
     }
@@ -200,10 +209,11 @@ EnemyMid::EnemyMid() : EnemyBase()
 {
 }
 
-EnemyMid::EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1) : EnemyBase(textures, X1, Y1, false, 0)
+EnemyMid::EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo) : EnemyBase(textures, X1, Y1, false, 0)
 {
-    life = 10;
+    life = 20;
     hitTex = 0;
+    this->moveTo = moveTo;
 }
 
 EnemyMid::~EnemyMid()
@@ -227,7 +237,7 @@ int EnemyMid::isEnemyHit(vector<BulletPlayer*> bulletPlayer)
 
 void EnemyMid::update(double deltaTime)
 {
-    if (Y1 <= 100)
+    if (Y1 <= moveTo)
         setY(Y1 + (speed * deltaTime));
     else
     {

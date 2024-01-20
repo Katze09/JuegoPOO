@@ -6,7 +6,7 @@ AudioPlayer::AudioPlayer() : deviceId(0)
         std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 4096) == -1)
         std::cerr << "Mix_OpenAudio Error: " << Mix_GetError() << std::endl;
-    std::vector<std::string> audioFiles = {"Audio/Laser.wav", "Audio/Explosion.wav", "Audio/LaserEnemy.mp3"};
+    std::vector<std::string> audioFiles = {"Audio/Laser.wav", "Audio/Explosion.wav", "Audio/LaserEnemy.mp3", "Audio/LaserEnemyLarge.mp3"};
     for (const auto& file : audioFiles)
     {
         Mix_Chunk* sound = Mix_LoadWAV(file.c_str());

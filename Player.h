@@ -4,6 +4,7 @@
 
 #include "Object.h"
 #include "Bullets.h"
+#include "Obstacle.h"
 
 using namespace std;
 
@@ -14,6 +15,7 @@ public:
     virtual ~Player();
     void update(double deltaTime);
     int isPlayerHit(vector<BulletEnemy*> bulletsEnemy);
+    int isPlayerHitObstacle(vector<Obstacle*> asteroids);
     void move(SDL_Keycode key);
     void stop(SDL_Keycode key);
     bool isDead();

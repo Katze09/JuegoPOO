@@ -87,7 +87,31 @@ Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPl
                     std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
                     std::cout << "      Tipo de movimiento: " << enemy->FirstChildElement("MoveType")->GetText() << std::endl;
                     std::cout << "      Dirección: " << enemy->FirstChildElement("direction")->GetText() << std::endl;
-                } else if (std::string(enemy->Name()) == "Obstacles")
+                } else if(std::string(enemy->Name()) == "EnemyLaser")
+                {
+                    int cant = stoi(enemy->FirstChildElement("quantity")->GetText());
+                    double y = atof(enemy->FirstChildElement("Y")->GetText());
+                    int movetype = stoi(enemy->FirstChildElement("MoveType")->GetText());
+                    int direction = stoi(enemy->FirstChildElement("direction")->GetText());
+                    double moveTo = atof(enemy->FirstChildElement("moveTo")->GetText());
+                    gameLevel->setEnemyLaser(cant, y, movetype, direction, moveTo);
+                    std::cout << "      Cantidad: " << enemy->FirstChildElement("quantity")->GetText() << std::endl;
+                    std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
+                    std::cout << "      Tipo de movimiento: " << enemy->FirstChildElement("MoveType")->GetText() << std::endl;
+                    std::cout << "      Dirección: " << enemy->FirstChildElement("direction")->GetText() << std::endl;
+                    std::cout << "      Mover a : " << enemy->FirstChildElement("moveTo")->GetText() << std::endl;
+                }else if(std::string(enemy->Name()) == "EnemyMid")
+                {
+                    int cant = stoi(enemy->FirstChildElement("quantity")->GetText());
+                    double x = atof(enemy->FirstChildElement("X")->GetText());
+                    double y = atof(enemy->FirstChildElement("Y")->GetText());
+                    double moveTo = atof(enemy->FirstChildElement("moveTo")->GetText());
+                    gameLevel->setEnemyMid(cant, x, y, moveTo);
+                    std::cout << "      Cantidad: " << enemy->FirstChildElement("quantity")->GetText() << std::endl;
+                    std::cout << "      X: " << enemy->FirstChildElement("X")->GetText() << std::endl;
+                    std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
+                    std::cout << "      Mover a : " << enemy->FirstChildElement("moveTo")->GetText() << std::endl;
+                }else if (std::string(enemy->Name()) == "Obstacles")
                 {
                     gameLevel->setObstacles(stoi(enemy->FirstChildElement("SpawnProbability")->GetText()));
                     std::cout << "      Probabilidad de spawn: " << enemy->FirstChildElement("SpawnProbability")->GetText() << std::endl;

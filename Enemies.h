@@ -30,26 +30,29 @@ class EnemyLaser : public EnemyBase
 {
 public:
     EnemyLaser();
-    EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType);
+    EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo);
     virtual ~EnemyLaser();
     bool shot(double deltaTime) override;
     void update(double deltaTime) override;
     bool isFirstShot();
     void setFirstShot();
 private:
+    double laserSize;
     bool firstShot;
+    double moveTo;
 };
 
 class EnemyMid : public EnemyBase
 {
 public:
     EnemyMid();
-    EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1);
+    EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo);
     virtual ~EnemyMid();
     int isEnemyHit(vector<BulletPlayer*> bulletPlayer) override;
     void update(double deltaTime) override;
 private:
     double hitTex;
+    double moveTo;
 };
 
 #endif /* ENEMIES_H */
