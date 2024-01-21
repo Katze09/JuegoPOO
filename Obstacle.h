@@ -29,6 +29,7 @@ public:
     int isObstacleHit(vector<BulletPlayer*> bulletPlayer);
     bool isCollsionBorder();
     bool isDead();
+    void reduceLife();
     virtual void draw(SDL_Renderer* renderer);
 protected:
     int life;

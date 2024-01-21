@@ -18,6 +18,7 @@ class States
 {
 public:
     States(SDL_Renderer* renderer);
+    virtual ~States();
     void draw(SDL_Renderer* renderer);
     void update(double deltaTime);
     void updateInput(SDL_Keycode key);

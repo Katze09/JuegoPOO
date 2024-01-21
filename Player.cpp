@@ -9,10 +9,10 @@ Player::Player(vector<SDL_Texture*> textures, float X1, float Y1)
 : Object(textures, X1, Y1)
 {
     speed = 500;
-    X1HitBox = X1 + (WIDTH * 0.2);
-    X2HitBox = X2 - (WIDTH * 0.2);
-    Y1HitBox = Y1 + (HEIGHT * 0.2);
-    Y2HitBox = Y2 - (HEIGHT * 0.2);
+    X1HitBox = X1 + (WIDTH * 0.3);
+    X2HitBox = X2 - (WIDTH * 0.3);
+    Y1HitBox = Y1 + (HEIGHT * 0.3);
+    Y2HitBox = Y2 - (HEIGHT * 0.3);
     up = false;
     down = false;
     right = false;

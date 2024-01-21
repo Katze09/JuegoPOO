@@ -27,6 +27,7 @@ public:
     void setEnemyMid(int cant, double x, double y, double moveTo, int bulletSpeed);
     void setObstacles(int prob);
     int getScore();
+    void setScore(int score);
 private:
     void bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTime);
     void obstaclesEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTime);

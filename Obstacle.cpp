@@ -88,6 +88,12 @@ bool Obstacle::isDead()
     return dead;
 }
 
+void Obstacle::reduceLife()
+{
+    life--;
+    isDead();
+}
+
 int Obstacle::isObstacleHit(vector<BulletPlayer*> bulletPlayer)
 {
     for (int i = 0; i < bulletPlayer.size(); i++)

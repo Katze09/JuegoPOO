@@ -32,7 +32,8 @@ Object::Object(vector<SDL_Texture*> textures, float X1, float Y1) : X1(X1), Y1(Y
 
 Object::~Object()
 {
-    // Destructor
+    for (auto& texture : textures)
+        SDL_DestroyTexture(texture);
 }
 
 SDL_Texture* Object::getTexture(int index)

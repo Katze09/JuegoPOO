@@ -64,7 +64,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../../../../../SDL2/lib -L../../../../../SDL2_TTF/lib
+LDLIBSOPTIONS=-L../../../../../SDL2/lib -L../../../../../SDL2_TTF/lib -L../../../../../SDL2_MIXER/lib -L../../../../../SDL2_Image/lib
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -72,72 +72,72 @@ LDLIBSOPTIONS=-L../../../../../SDL2/lib -L../../../../../SDL2_TTF/lib
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/juegopoo.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/juegopoo ${OBJECTFILES} ${LDLIBSOPTIONS} -lmingw32 -lsdl2main -lsdl2 -lstdc++ -lSDL2_ttf
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/juegopoo ${OBJECTFILES} ${LDLIBSOPTIONS} -lmingw32 -lsdl2main -lsdl2 -lstdc++ -lSDL2_ttf -lSDL2_mixer -lSDL2_image
 
 ${OBJECTDIR}/AudioPlayer.o: AudioPlayer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AudioPlayer.o AudioPlayer.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AudioPlayer.o AudioPlayer.cpp
 
 ${OBJECTDIR}/Background.o: Background.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Background.o Background.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Background.o Background.cpp
 
 ${OBJECTDIR}/Bullets.o: Bullets.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Bullets.o Bullets.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Bullets.o Bullets.cpp
 
 ${OBJECTDIR}/Enemies.o: Enemies.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Enemies.o Enemies.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Enemies.o Enemies.cpp
 
 ${OBJECTDIR}/Level.o: Level.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Level.o Level.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Level.o Level.cpp
 
 ${OBJECTDIR}/Loader.o: Loader.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Loader.o Loader.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Loader.o Loader.cpp
 
 ${OBJECTDIR}/Object.o: Object.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Object.o Object.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Object.o Object.cpp
 
 ${OBJECTDIR}/Obstacle.o: Obstacle.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Obstacle.o Obstacle.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Obstacle.o Obstacle.cpp
 
 ${OBJECTDIR}/Player.o: Player.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Player.o Player.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Player.o Player.cpp
 
 ${OBJECTDIR}/States.o: States.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/States.o States.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/States.o States.cpp
 
 ${OBJECTDIR}/Texts.o: Texts.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Texts.o Texts.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Texts.o Texts.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 ${OBJECTDIR}/tinyxml2.o: tinyxml2.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tinyxml2.o tinyxml2.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tinyxml2.o tinyxml2.cpp
 
 # Subprojects
 .build-subprojects:

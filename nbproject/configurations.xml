@@ -66,7 +66,7 @@
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <compilerSet>MinGW|MinGW</compilerSet>
+        <compilerSet>default</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -145,7 +145,7 @@
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-        <compilerSet>CLang|CLang</compilerSet>
+        <compilerSet>MinGW|MinGW</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -157,26 +157,12 @@
           <developmentMode>0</developmentMode>
           <standard>8</standard>
           <incDir>
-            <pElem>../../../../../Program Files/LLVM/include</pElem>
+            <pElem>../../../../../SDL2/include</pElem>
+            <pElem>../../../../../SDL2_Image/include</pElem>
+            <pElem>../../../../../SDL2_MIXER/include</pElem>
+            <pElem>../../../../../SDL2_TTF/include</pElem>
           </incDir>
-          <incFile>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/BuildSystem.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/CXCompilationDatabase.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/CXDiagnostic.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/CXErrorCode.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/CXFile.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/CXSourceLocation.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/CXString.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/Documentation.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/ExternC.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/FatalErrorHandler.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/Index.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/Platform.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/clang-c/Rewrite.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/llvm-c</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/llvm-c/Remarks.h</pElem>
-            <pElem>../../../../../Program Files/LLVM/include/llvm-c/lto.h</pElem>
-          </incFile>
+          <commandLine>-mwindows -lwinmm</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -187,45 +173,24 @@
         <linkerTool>
           <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/juegopoo</output>
           <linkerAddLib>
-            <pElem>../../../../../Program Files/LLVM/lib</pElem>
+            <pElem>../../../../../SDL2/lib</pElem>
+            <pElem>../../../../../SDL2_Image/lib</pElem>
+            <pElem>../../../../../SDL2_MIXER/lib</pElem>
+            <pElem>../../../../../SDL2_TTF/lib</pElem>
           </linkerAddLib>
-          <linkerLibItems>
-            <linkerLibLibItem>sfml-graphics</linkerLibLibItem>
-            <linkerLibLibItem>FLAC</linkerLibLibItem>
-            <linkerLibLibItem>freetype</linkerLibLibItem>
-            <linkerLibLibItem>ogg</linkerLibLibItem>
-            <linkerLibLibItem>openal32</linkerLibLibItem>
-            <linkerLibLibItem>sfml-audio-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-audio-s-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-audio-s</linkerLibLibItem>
-            <linkerLibLibItem>sfml-audio</linkerLibLibItem>
-            <linkerLibLibItem>sfml-graphics-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-graphics-s-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-graphics-s</linkerLibLibItem>
-            <linkerLibLibItem>sfml-main-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-main</linkerLibLibItem>
-            <linkerLibLibItem>sfml-network-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-network-s-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-network-s</linkerLibLibItem>
-            <linkerLibLibItem>sfml-network</linkerLibLibItem>
-            <linkerLibLibItem>sfml-system-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-system-s-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-system-s</linkerLibLibItem>
-            <linkerLibLibItem>sfml-system</linkerLibLibItem>
-            <linkerLibLibItem>sfml-window-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-window-s-d</linkerLibLibItem>
-            <linkerLibLibItem>sfml-window-s</linkerLibLibItem>
-            <linkerLibLibItem>sfml-window</linkerLibLibItem>
-            <linkerLibLibItem>vorbis</linkerLibLibItem>
-            <linkerLibLibItem>vorbisenc</linkerLibLibItem>
-            <linkerLibLibItem>vorbisfile</linkerLibLibItem>
-          </linkerLibItems>
+          <commandLine>-lmingw32 -lsdl2main -lsdl2 -lstdc++ -lSDL2_ttf -lSDL2_mixer -lSDL2_image</commandLine>
         </linkerTool>
       </compileType>
       <packaging>
         <packType>Tar</packType>
         <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/juegopoo.tar</output>
         <packFileList>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe"
+                            from="${OUTPUT_PATH}.exe"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
           <packFileListElem type="File"
                             to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe"
                             from="${OUTPUT_PATH}.exe"

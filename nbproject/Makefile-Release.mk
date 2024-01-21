@@ -14,14 +14,14 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=clang
-CCC=clang++
-CXX=clang++
+CC=gcc
+CCC=g++
+CXX=g++
 FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=CLang-Windows
+CND_PLATFORM=MinGW-Windows
 CND_DLIB_EXT=dll
 CND_CONF=Release
 CND_DISTDIR=dist
@@ -35,16 +35,27 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/AudioPlayer.o \
+	${OBJECTDIR}/Background.o \
+	${OBJECTDIR}/Bullets.o \
+	${OBJECTDIR}/Enemies.o \
+	${OBJECTDIR}/Level.o \
+	${OBJECTDIR}/Loader.o \
 	${OBJECTDIR}/Object.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/Obstacle.o \
+	${OBJECTDIR}/Player.o \
+	${OBJECTDIR}/States.o \
+	${OBJECTDIR}/Texts.o \
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/tinyxml2.o
 
 
 # C Compiler Flags
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-mwindows -lwinmm
+CXXFLAGS=-mwindows -lwinmm
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -53,7 +64,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../../../../../Program\ Files/LLVM/lib -lsfml-graphics -lFLAC -lfreetype -logg -lopenal32 -lsfml-audio-d -lsfml-audio-s-d -lsfml-audio-s -lsfml-audio -lsfml-graphics-d -lsfml-graphics-s-d -lsfml-graphics-s -lsfml-main-d -lsfml-main -lsfml-network-d -lsfml-network-s-d -lsfml-network-s -lsfml-network -lsfml-system-d -lsfml-system-s-d -lsfml-system-s -lsfml-system -lsfml-window-d -lsfml-window-s-d -lsfml-window-s -lsfml-window -lvorbis -lvorbisenc -lvorbisfile
+LDLIBSOPTIONS=-L../../../../../SDL2/lib -L../../../../../SDL2_Image/lib -L../../../../../SDL2_MIXER/lib -L../../../../../SDL2_TTF/lib
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -61,17 +72,72 @@ LDLIBSOPTIONS=-L../../../../../Program\ Files/LLVM/lib -lsfml-graphics -lFLAC -l
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/juegopoo.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/juegopoo ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/juegopoo ${OBJECTFILES} ${LDLIBSOPTIONS} -lmingw32 -lsdl2main -lsdl2 -lstdc++ -lSDL2_ttf -lSDL2_mixer -lSDL2_image
+
+${OBJECTDIR}/AudioPlayer.o: AudioPlayer.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AudioPlayer.o AudioPlayer.cpp
+
+${OBJECTDIR}/Background.o: Background.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Background.o Background.cpp
+
+${OBJECTDIR}/Bullets.o: Bullets.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Bullets.o Bullets.cpp
+
+${OBJECTDIR}/Enemies.o: Enemies.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Enemies.o Enemies.cpp
+
+${OBJECTDIR}/Level.o: Level.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Level.o Level.cpp
+
+${OBJECTDIR}/Loader.o: Loader.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Loader.o Loader.cpp
 
 ${OBJECTDIR}/Object.o: Object.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../Program\ Files/LLVM/include -include ../../../../../Program\ Files/LLVM/include/clang-c/BuildSystem.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXCompilationDatabase.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXDiagnostic.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXErrorCode.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXFile.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXSourceLocation.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXString.h -include ../../../../../Program\ Files/LLVM/include/clang-c/Documentation.h -include ../../../../../Program\ Files/LLVM/include/clang-c/ExternC.h -include ../../../../../Program\ Files/LLVM/include/clang-c/FatalErrorHandler.h -include ../../../../../Program\ Files/LLVM/include/clang-c/Index.h -include ../../../../../Program\ Files/LLVM/include/clang-c/Platform.h -include ../../../../../Program\ Files/LLVM/include/clang-c/Rewrite.h -include ../../../../../Program\ Files/LLVM/include/llvm-c -include ../../../../../Program\ Files/LLVM/include/llvm-c/Remarks.h -include ../../../../../Program\ Files/LLVM/include/llvm-c/lto.h -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Object.o Object.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Object.o Object.cpp
+
+${OBJECTDIR}/Obstacle.o: Obstacle.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Obstacle.o Obstacle.cpp
+
+${OBJECTDIR}/Player.o: Player.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Player.o Player.cpp
+
+${OBJECTDIR}/States.o: States.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/States.o States.cpp
+
+${OBJECTDIR}/Texts.o: Texts.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Texts.o Texts.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -I../../../../../Program\ Files/LLVM/include -include ../../../../../Program\ Files/LLVM/include/clang-c/BuildSystem.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXCompilationDatabase.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXDiagnostic.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXErrorCode.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXFile.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXSourceLocation.h -include ../../../../../Program\ Files/LLVM/include/clang-c/CXString.h -include ../../../../../Program\ Files/LLVM/include/clang-c/Documentation.h -include ../../../../../Program\ Files/LLVM/include/clang-c/ExternC.h -include ../../../../../Program\ Files/LLVM/include/clang-c/FatalErrorHandler.h -include ../../../../../Program\ Files/LLVM/include/clang-c/Index.h -include ../../../../../Program\ Files/LLVM/include/clang-c/Platform.h -include ../../../../../Program\ Files/LLVM/include/clang-c/Rewrite.h -include ../../../../../Program\ Files/LLVM/include/llvm-c -include ../../../../../Program\ Files/LLVM/include/llvm-c/Remarks.h -include ../../../../../Program\ Files/LLVM/include/llvm-c/lto.h -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/tinyxml2.o: tinyxml2.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_Image/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_TTF/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tinyxml2.o tinyxml2.cpp
 
 # Subprojects
 .build-subprojects:

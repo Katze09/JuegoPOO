@@ -47,6 +47,18 @@ States::States(SDL_Renderer* renderer)
     continueLevel = false;
 }
 
+States::~States()
+{
+    delete audioPlayer; // Liberar memoria para el reproductor de audio
+    delete player; // Liberar memoria para el jugador
+    // Liberar memoria para las balas del jugador
+    for (int i = 0; i < bulletsPlayer.size(); ++i) 
+        delete bulletsPlayer[i];
+    // Liberar memoria para cada nivel en el array gameLevels
+    for (int i = 0; i < 2; ++i) 
+        delete gameLevels[i];
+}
+
 // Manejar eventos relacionados con las balas del jugador
 
 void States::bulletsPlayerEvents(double deltaTime)
@@ -111,8 +123,12 @@ void States::update(double deltaTime)
         {
             if (player->isPlayerHit(gameLevels[level]->bulletsEnemy) > -1)
                 audioPlayer->Play(1, 128);
-            if (player->isPlayerHitObstacle(gameLevels[level]->asteroids) > -1)
+            int ind = player->isPlayerHitObstacle(gameLevels[level]->asteroids);
+            if (ind > -1)
+            {
+                gameLevels[level]->asteroids[ind]->reduceLife();
                 audioPlayer->Play(1, 128);
+            }
         }
     }
     // Manejar eventos relacionados con las balas del jugador
@@ -163,6 +179,7 @@ void States::passLevel(SDL_Renderer* renderer)
     {
         passingLevel = false;
         level++;
+        gameLevels[level]->setScore(gameLevels[level - 1]->getScore());
     }
 
     // Mostrar mensajes de nivel pasado y próximo nivel

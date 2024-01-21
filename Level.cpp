@@ -4,11 +4,13 @@
 Loader load;
 
 // Constructor predeterminado de Level
+
 Level::Level()
 {
 }
 
 // Constructor de Level con parámetros para el renderizador y el reproductor de audio
+
 Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
 {
     // Arreglos de nombres de archivos y texturas para las balas
@@ -48,17 +50,27 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
 }
 
 // Destructor de Level
+
 Level::~Level()
 {
+    for (auto& part : enemies)
+        for (auto& enemy : part)
+            delete enemy;
+    for (auto& bullet : bulletsEnemy)
+        delete bullet;
+    for (auto& asteroid : asteroids)
+        delete asteroid;
 }
 
 // Establecer el número máximo de partes
+
 void Level::setMaxNumParts(int numParts)
 {
     this->maxnumParts = numParts;
 }
 
 // Establecer enemigos de la base
+
 void Level::setEnemyBase(int cant, double y, int movetype, bool direction, int bulletSpeed)
 {
     int x;
@@ -86,6 +98,7 @@ void Level::setEnemyBase(int cant, double y, int movetype, bool direction, int b
 }
 
 // Establecer enemigos láser
+
 void Level::setEnemyLaser(int cant, double y, int movetype, bool direction, double moveTo, int bulletSpeed)
 {
     int x;
@@ -112,6 +125,7 @@ void Level::setEnemyLaser(int cant, double y, int movetype, bool direction, doub
 }
 
 // Establecer enemigos medianos
+
 void Level::setEnemyMid(int cant, double x, double y, double moveTo, int bulletSpeed)
 {
     // Crear enemigos medianos y agregarlos al vector
@@ -122,12 +136,14 @@ void Level::setEnemyMid(int cant, double x, double y, double moveTo, int bulletS
 }
 
 // Establecer obstáculos con una probabilidad de aparición
+
 void Level::setObstacles(int prob)
 {
     probSpawn[numParts] = prob;
 }
 
 // Manejar eventos de balas de enemigos
+
 void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTime)
 {
     for (int i = 0; i < enemies[numParts].size(); i++)
@@ -183,11 +199,11 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
 
         // Verificar colisión de balas de jugador con enemigos
         int ind = -1;
-        if(!enemies[numParts][i]->isDead())
+        if (!enemies[numParts][i]->isDead())
             ind = enemies[numParts][i]->isEnemyHit(bulletsPlayer);
         if (ind >= 0)
             bulletsPlayer.erase(bulletsPlayer.begin() + ind);
-        
+
         // Actualizar posición y animación de enemigos
         enemies[numParts][i]->update(deltaTime);
 
@@ -201,6 +217,7 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
 }
 
 // Manejar eventos de obstáculos (asteroides)
+
 void Level::obstaclesEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTime)
 {
     for (int i = 0; i < asteroids.size(); i++)
@@ -209,7 +226,7 @@ void Level::obstaclesEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTim
         int ind = asteroids[i]->isObstacleHit(bulletsPlayer);
         if (ind >= 0)
             bulletsPlayer.erase(bulletsPlayer.begin() + ind);
-        
+
         // Actualizar posición y animación de asteroides
         asteroids[i]->update(deltaTime);
 
@@ -226,6 +243,7 @@ void Level::obstaclesEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTim
 }
 
 // Crear asteroides con una cierta probabilidad
+
 void Level::createAsteroid()
 {
     int ran = load.randomNumber(1, probSpawn[numParts]);
@@ -234,6 +252,7 @@ void Level::createAsteroid()
 }
 
 // Actualizar el nivel
+
 void Level::update(vector<BulletPlayer*> bulletsPlayer, double deltaTime)
 {
     bulletsEnemysEvents(bulletsPlayer, deltaTime);
@@ -252,6 +271,7 @@ void Level::update(vector<BulletPlayer*> bulletsPlayer, double deltaTime)
 }
 
 // Dibujar el nivel en el renderizador
+
 void Level::draw(SDL_Renderer* renderer)
 {
     // Dibujar asteroides
@@ -268,7 +288,13 @@ void Level::draw(SDL_Renderer* renderer)
 }
 
 // Obtener la puntuación actual
+
 int Level::getScore()
 {
     return score;
+}
+
+void Level::setScore(int score)
+{
+    this->score = score;
 }

@@ -15,13 +15,13 @@ CND_PACKAGE_DIR_Debug=dist/Debug/MinGW-Windows/package
 CND_PACKAGE_NAME_Debug=juegopoo.tar
 CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/juegopoo.tar
 # Release configuration
-CND_PLATFORM_Release=CLang-Windows
-CND_ARTIFACT_DIR_Release=dist/Release/CLang-Windows
+CND_PLATFORM_Release=MinGW-Windows
+CND_ARTIFACT_DIR_Release=dist/Release/MinGW-Windows
 CND_ARTIFACT_NAME_Release=juegopoo
-CND_ARTIFACT_PATH_Release=dist/Release/CLang-Windows/juegopoo
-CND_PACKAGE_DIR_Release=dist/Release/CLang-Windows/package
+CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/juegopoo
+CND_PACKAGE_DIR_Release=dist/Release/MinGW-Windows/package
 CND_PACKAGE_NAME_Release=juegopoo.tar
-CND_PACKAGE_PATH_Release=dist/Release/CLang-Windows/package/juegopoo.tar
+CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/juegopoo.tar
 #
 # include compiler specific variables
 #
