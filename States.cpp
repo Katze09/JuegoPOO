@@ -36,7 +36,8 @@ States::States(SDL_Renderer* renderer)
     cooldownShot = 0;
     passingLevel = PlayerShot = false;
     level = 0;
-    delayLevel = delayPart = 0;
+    startCoolDown = 80;
+    totalScore = delayLevel = delayPart = 0;
 
     // Cargar niveles de juego
     for (level; level < 2; level++)
@@ -52,10 +53,10 @@ States::~States()
     delete audioPlayer; // Liberar memoria para el reproductor de audio
     delete player; // Liberar memoria para el jugador
     // Liberar memoria para las balas del jugador
-    for (int i = 0; i < bulletsPlayer.size(); ++i) 
+    for (int i = 0; i < bulletsPlayer.size(); ++i)
         delete bulletsPlayer[i];
     // Liberar memoria para cada nivel en el array gameLevels
-    for (int i = 0; i < 2; ++i) 
+    for (int i = 0; i < 2; ++i)
         delete gameLevels[i];
 }
 
@@ -96,16 +97,25 @@ void States::draw(SDL_Renderer* renderer)
     background.draw(renderer);
     for (int i = 0; i < bulletsPlayer.size(); i++)
         bulletsPlayer[i]->draw(renderer);
-    gameLevels[level]->draw(renderer);
-
     // Mostrar información de puntuación en la pantalla
+    if (startCoolDown <= 0)
+    {
+        gameLevels[level]->draw(renderer);
+        if (passingLevel)
+            passLevel(renderer);
+    } else
+    {
+        if (startCoolDown > 40)
+            textsTitle.drawText("Level " + to_string(level + 1), 200, 300, renderer);
+        else if (startCoolDown < 30)
+            textsTitle.drawText("Start", 250, 300, renderer);
+    }
     if (!player->endDeadAnimation())
         player->draw(renderer);
     else
         deadEvent(renderer);
-    if (passingLevel)
-        passLevel(renderer);
     texts.drawText("Score " + to_string(gameLevels[level]->getScore()), 10, 10, renderer);
+    texts.drawText("Level " + to_string(level + 1), 565, 10, renderer);
 }
 
 // Actualizar elementos del juego
@@ -131,21 +141,26 @@ void States::update(double deltaTime)
             }
         }
     }
-    // Manejar eventos relacionados con las balas del jugador
     bulletsPlayerEvents(deltaTime);
-
-    // Actualizar nivel actual si no se está pasando de nivel
-    if (!passingLevel)
+    if (startCoolDown <= 0)
     {
-        gameLevels[level]->update(bulletsPlayer, deltaTime);
-        checkPartFinish();
-    }
+        // Actualizar nivel actual si no se está pasando de nivel
+        if (!passingLevel)
+        {
+            gameLevels[level]->update(bulletsPlayer, deltaTime);
+            checkPartFinish();
+        }
 
-    // Contar tiempo de retardo entre partes del nivel y niveles
-    if (delayPart > 0)
-        delayPart -= deltaTime * 15;
-    if (delayLevel > 0)
-        delayLevel -= deltaTime * 15;
+        // Contar tiempo de retardo entre partes del nivel y niveles
+        if (delayPart > 0)
+            delayPart -= deltaTime * 15;
+        if (delayLevel > 0)
+            delayLevel -= deltaTime * 15;
+    }
+    if (startCoolDown > 0)
+        startCoolDown -= deltaTime * 15;
+    if (startCoolDown > 0)
+        startCoolDown -= deltaTime * 15;
 }
 
 // Comprobar si se ha completado una parte del nivel
@@ -175,18 +190,18 @@ void States::checkPartFinish()
 
 void States::passLevel(SDL_Renderer* renderer)
 {
-    if (delayLevel <= 0)
-    {
-        passingLevel = false;
-        level++;
-        gameLevels[level]->setScore(gameLevels[level - 1]->getScore());
-    }
-
     // Mostrar mensajes de nivel pasado y próximo nivel
     if (delayLevel > 30)
         textsTitle.drawText("Level " + to_string(level + 1) + " Passed", 100, 300, renderer);
     else if (delayLevel < 20)
         textsTitle.drawText("Level " + to_string(level + 2) + " Start", 100, 300, renderer);
+    if (delayLevel <= 0)
+    {
+        passingLevel = false;
+        level++;
+        gameLevels[level]->setScore(gameLevels[level - 1]->getScore());
+        totalScore = gameLevels[level]->getScore();
+    }
 }
 
 void States::deadEvent(SDL_Renderer* renderer)
@@ -200,7 +215,9 @@ void States::deadEvent(SDL_Renderer* renderer)
 
         // Crear jugador en la posición inicial
         player = new Player(textures, 310, 460);
-        gameLevels[level] = loader.LoadLevel((level + 1), renderer, audioPlayer);
+        Level* lev = loader.LoadLevel((level + 1), renderer, audioPlayer);
+        lev->setScore(totalScore);
+        gameLevels[level] = lev;
         continueLevel = false;
     }
     textsTitle.drawText("You died", 200, 300, renderer);

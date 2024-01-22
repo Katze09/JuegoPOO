@@ -41,6 +41,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Enemies.o \
 	${OBJECTDIR}/Level.o \
 	${OBJECTDIR}/Loader.o \
+	${OBJECTDIR}/Menu.o \
 	${OBJECTDIR}/Object.o \
 	${OBJECTDIR}/Obstacle.o \
 	${OBJECTDIR}/Player.o \
@@ -103,6 +104,11 @@ ${OBJECTDIR}/Loader.o: Loader.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Loader.o Loader.cpp
+
+${OBJECTDIR}/Menu.o: Menu.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -I../../../../../SDL2/include -I../../../../../SDL2_TTF/include -I../../../../../SDL2_MIXER/include -I../../../../../SDL2_Image/include -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Menu.o Menu.cpp
 
 ${OBJECTDIR}/Object.o: Object.cpp
 	${MKDIR} -p ${OBJECTDIR}

@@ -17,6 +17,7 @@
 #include <string>
 #include <sdl_ttf.h>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -27,6 +28,8 @@ public:
     Texts(string nameFont, int size);
     virtual ~Texts();
     void drawText(string text, int X, int Y, SDL_Renderer* renderer);
+    void drawText(string text, int X, int Y, SDL_Renderer* renderer, SDL_Color textColor);
+    vector<int>getTextSize(string texts);
 private:
     TTF_Font* font;
     int size;

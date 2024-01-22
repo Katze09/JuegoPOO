@@ -25,6 +25,7 @@ private:
     bool right;
     bool left;
     bool dead;
+    double normalSpeedCool;
     void collisionBorder();
     void animationBase(double deltaTime);
     void animationDead(double deltaTime);

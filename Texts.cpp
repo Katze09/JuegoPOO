@@ -46,3 +46,27 @@ void Texts::drawText(string text, int X, int Y, SDL_Renderer* renderer)
     SDL_DestroyTexture(textTexture);
 }
 
+void Texts::drawText(string text, int X, int Y, SDL_Renderer* renderer, SDL_Color textColor)
+{
+    const char* textCStr = text.c_str();
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, textCStr, textColor);
+    if (!textSurface)
+        cout << "Error surface" << endl;
+    
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect destRect = {X, Y, textSurface->w, textSurface->h};
+
+    SDL_RenderCopy(renderer, textTexture, nullptr, &destRect);
+
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+}
+
+std::vector<int> Texts::getTextSize(string texts)
+{
+    const char* text = texts.c_str();
+    int textWidth, textHeight;
+    TTF_SizeText(font, text, &textWidth, &textHeight);
+    return {textWidth, textHeight};
+}
+

@@ -44,6 +44,8 @@ private:
     double delayPart;
     double delayLevel;
     bool pastPart;
+    int totalScore;
+    double startCoolDown;
     std::vector<BulletPlayer*> bulletsPlayer;
 };
 

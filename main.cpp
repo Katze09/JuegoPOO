@@ -2,14 +2,17 @@
 #include <iostream>
 #include <chrono>
 #include "States.h"
+#include "Menu.h"
 
 using namespace std;
 
 
 States* states;
+Menu* menu;
 
 // Variables globales
 double deltaTime;
+bool startGame = false;
 
 int main(int argc, char** argv)
 {
@@ -19,6 +22,7 @@ int main(int argc, char** argv)
     const int targetFPS = 60; // Reducido a 60 FPS para hacerlo más estándar
     const int frameDelay = 1000 / targetFPS;
 
+    menu = new Menu(renderer);
     states = new States(renderer);
 
     auto lastFrameTime = chrono::high_resolution_clock::now();
@@ -42,12 +46,34 @@ int main(int argc, char** argv)
                     // Manejar el evento de tecla liberada
                     states->inputUp(event.key.keysym.sym);
                     break;
+                case SDL_MOUSEBUTTONDOWN:
+                    if (event.button.button == SDL_BUTTON_LEFT)
+                    {
+                        int click = menu->click(event.button.x, event.button.y);
+                        switch (click)
+                        {
+                            case 1:
+                                startGame = true;
+                                break;
+                        }
+                    }
+                    break;
+                case SDL_MOUSEMOTION:
+                    menu->hover(event.motion.x, event.motion.y);
+                    break;
             }
         }
         // Lógica del juego
-        states->update(deltaTime);
-        // Renderizar
-        states->draw(renderer);
+        if (startGame)
+        {
+            states->update(deltaTime);
+            // Renderizar
+            states->draw(renderer);
+        } else
+        {
+            menu->update(deltaTime);
+            menu->draw(renderer);
+        }
 
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
@@ -63,6 +89,7 @@ int main(int argc, char** argv)
     }
 
     delete states;
+    delete menu;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
