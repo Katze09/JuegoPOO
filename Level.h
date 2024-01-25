@@ -21,26 +21,32 @@ public:
     vector<std::vector<EnemyBase*>> enemies;
     vector<BulletEnemy*> bulletsEnemy;
     vector<Obstacle*> asteroids;
+    vector<PowerUp*> powerUps;
     void setMaxNumParts(int numParts);
     void setEnemyBase(int cant, double y, int movetype, bool direction, int bulletSpeed);
     void setEnemyLaser(int cant, double y, int movetype, bool direction, double moveTo, int bulletSpeed);
     void setEnemyMid(int cant, double x, double y, double moveTo, int bulletSpeed);
     void setObstacles(int prob);
+    void setPowerUps(int prob);
     int getScore();
     void setScore(int score);
 private:
     void bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTime);
     void obstaclesEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTime);
+    void powerUpsEvents(double deltaTime);
     void createAsteroid();
+    void createPowerUp();
     vector<SDL_Texture*> texturesEnemyBase;
     vector<SDL_Texture*> texturesEnemyLaser;
     vector<SDL_Texture*> texturesEnemyMid;
     vector<SDL_Texture*> texturesAsteroid;
+    vector<SDL_Texture*> texturesPowerUp[2];
     SDL_Texture* textureBullet[10];
     AudioPlayer* audioPlayer;
     int score;
     int numEnemies;
     int probSpawn[10];
+    int probSpawnPowerUp[10];
 };
 
 #endif /* LEVEL_H */

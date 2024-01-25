@@ -26,7 +26,7 @@ build/Debug/MinGW-Windows/Menu.o: Menu.cpp Menu.h Background.h \
  c:\sdl2\include\SDL_locale.h c:\sdl2\include\SDL_misc.h Texts.h \
  c:\sdl2_ttf\include\sdl_ttf.h c:\sdl2\include\sdl.h \
  c:\sdl2\include\begin_code.h c:\sdl2\include\close_code.h Loader.h \
- Level.h Obstacle.h Object.h Bullets.h Enemies.h AudioPlayer.h \
+ Level.h Obstacle.h Object.h Bullets.h Player.h Enemies.h AudioPlayer.h \
  c:\sdl2_mixer\include\sdl_mixer.h c:\sdl2\include\sdl_stdinc.h \
  c:\sdl2\include\sdl_rwops.h c:\sdl2\include\sdl_audio.h \
  c:\sdl2\include\sdl_endian.h c:\sdl2\include\sdl_version.h tinyxml2.h \
@@ -155,6 +155,8 @@ Obstacle.h:
 Object.h:
 
 Bullets.h:
+
+Player.h:
 
 Enemies.h:
 

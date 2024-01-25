@@ -19,14 +19,26 @@ public:
     void move(SDL_Keycode key);
     void stop(SDL_Keycode key);
     bool isDead();
+    bool isInmortal();
+    void setInmortal(bool inmortal);
+    int getBulletSpeed();
+    void setBulletSpeed(int bulletSpeed);
+    int getCoolDownShot();
+    void setCoolDownShot(int coolDownShot);
+    bool activePowerUps[2];
+    double timeLeftPowerUp[2];
 private:
     bool up;
     bool down;
     bool right;
     bool left;
     bool dead;
+    bool inmortal;
     double normalSpeedCool;
+    int bulletSpeed;
+    int coolDownShot;
     void collisionBorder();
+    void timeLetfPowerUps(double deltaTime);
     void animationBase(double deltaTime);
     void animationDead(double deltaTime);
 };

@@ -21,7 +21,7 @@ bool comp = true;
 
 int Loader::randomNumber(int i, int j)
 {
-    auto now = std::chrono::system_clock::now();
+    /*auto now = std::chrono::system_clock::now();
     auto seed = 0;
     if (comp)
         seed = static_cast<int> (std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count());
@@ -34,8 +34,10 @@ int Loader::randomNumber(int i, int j)
     seed += rd();
     std::default_random_engine generator(seed);
     std::uniform_int_distribution<int> distribution(i, j);
-    return distribution(generator);
+    return distribution(generator);*/
+    return rand() % j + i;
 }
+
 
 vector<SDL_Texture*> Loader::loadTextures(string nameFile[], SDL_Renderer* renderer, int sizeNames)
 {
@@ -123,7 +125,9 @@ Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPl
                 } else if (std::string(enemy->Name()) == "Obstacles")
                 {
                     gameLevel->setObstacles(stoi(enemy->FirstChildElement("SpawnProbability")->GetText()));
+                    gameLevel->setPowerUps(stoi(enemy->FirstChildElement("SpawnProbabilityPowerUp")->GetText()));
                     std::cout << "      Probabilidad de spawn: " << enemy->FirstChildElement("SpawnProbability")->GetText() << std::endl;
+                    std::cout << "      Probabilidad de spawn PowerUp: " << enemy->FirstChildElement("SpawnProbabilityPowerUp")->GetText() << std::endl;
                 }
             }
         }

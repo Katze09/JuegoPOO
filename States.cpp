@@ -67,11 +67,11 @@ void States::bulletsPlayerEvents(double deltaTime)
     if (PlayerShot && cooldownShot <= 0 && !player->isDead())
     {
         // Crear balas si se presiona el espacio y el cooldown ha terminado
-        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 3, player->getY1() + 10, true));
-        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 37, player->getY1() + 10, true));
+        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 3, player->getY1() + 10, true, player->getBulletSpeed()));
+        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 37, player->getY1() + 10, true, player->getBulletSpeed()));
 
         // Establecer cooldown y reproducir sonido de disparo
-        cooldownShot = 2;
+        cooldownShot = player->getCoolDownShot();
         audioPlayer->Play(0, 100);
     }
 
@@ -129,7 +129,7 @@ void States::update(double deltaTime)
         player->update(deltaTime);
 
         // Verificar colisiones del jugador con balas enemigas y obstáculos
-        if (!player->isDead())
+        if (!player->isDead() && !player->isInmortal())
         {
             if (player->isPlayerHit(gameLevels[level]->bulletsEnemy) > -1)
                 audioPlayer->Play(1, 128);
@@ -140,6 +140,12 @@ void States::update(double deltaTime)
                 audioPlayer->Play(1, 128);
             }
         }
+        for (int i = 0; i < gameLevels[level]->powerUps.size(); i++)
+            if (gameLevels[level]->powerUps[i]->isCollisionPlayer(player))
+            {
+                gameLevels[level]->powerUps[i]->setPowerEffect(player);
+                gameLevels[level]->powerUps.erase(gameLevels[level]->powerUps.begin() + i);
+            }
     }
     bulletsPlayerEvents(deltaTime);
     if (startCoolDown <= 0)

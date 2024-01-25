@@ -6,13 +6,13 @@
 #include <tchar.h>
 #include <sdl.h>
 #include "Level.h"
-#include <random>
 #include <chrono>
 #include "Level.h"
 #include "tinyxml2.h"
 #include <cstring>
 #include "AudioPlayer.h"
 #include <sdl_image.h>
+#include <cstdlib>
 
 using namespace std;
 

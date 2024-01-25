@@ -36,6 +36,12 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[1] = "Died";
     texturesAsteroid = load.loadTextures(nameFile, renderer, 2);
 
+    nameFile[0] = "PowerUpShot";
+    texturesPowerUp[0] = load.loadTextures(nameFile, renderer, 1);
+    
+    nameFile[0] = "PowerUpInmortal";
+    texturesPowerUp[1] = load.loadTextures(nameFile, renderer, 1);
+
     numParts = 0;
     numEnemies = 0;
 
@@ -44,7 +50,6 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
 
     // Establecer el reproductor de audio
     this->audioPlayer = audioPlayer;
-
     // Inicializar la puntuación
     score = 0;
 }
@@ -130,9 +135,7 @@ void Level::setEnemyMid(int cant, double x, double y, double moveTo, int bulletS
 {
     // Crear enemigos medianos y agregarlos al vector
     for (int i = 0; i < cant; i++)
-    {
         enemies[numParts].push_back(new EnemyMid(texturesEnemyMid, x, y, moveTo, bulletSpeed));
-    }
 }
 
 // Establecer obstáculos con una probabilidad de aparición
@@ -140,6 +143,11 @@ void Level::setEnemyMid(int cant, double x, double y, double moveTo, int bulletS
 void Level::setObstacles(int prob)
 {
     probSpawn[numParts] = prob;
+}
+
+void Level::setPowerUps(int prob)
+{
+    probSpawnPowerUp[numParts] = prob;
 }
 
 // Manejar eventos de balas de enemigos
@@ -236,9 +244,17 @@ void Level::obstaclesEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTim
 
         // Borrar asteroides después de la animación de muerte
         if (asteroids[i]->endDeadAnimation())
-        {
             asteroids.erase(asteroids.begin() + i);
-        }
+    }
+}
+
+void Level::powerUpsEvents(double deltaTime)
+{
+    for (int i = 0; i < powerUps.size(); i++)
+    {
+        if (powerUps[i]->isCollsionBorder())
+            powerUps.erase(powerUps.begin() + i);
+        powerUps[i]->update(deltaTime);
     }
 }
 
@@ -251,12 +267,21 @@ void Level::createAsteroid()
         asteroids.push_back(new Asteroid(texturesAsteroid));
 }
 
+void Level::createPowerUp()
+{
+    int ran = load.randomNumber(1, probSpawnPowerUp[numParts]);
+    int type = load.randomNumber(0, 2);
+    if (ran == 5)
+        powerUps.push_back(new PowerUp(texturesPowerUp[type], type));
+}
+
 // Actualizar el nivel
 
 void Level::update(vector<BulletPlayer*> bulletsPlayer, double deltaTime)
 {
     bulletsEnemysEvents(bulletsPlayer, deltaTime);
     obstaclesEvents(bulletsPlayer, deltaTime);
+    powerUpsEvents(deltaTime);
 
     // Actualizar posición de balas de enemigos y borrarlas si salen de la pantalla
     for (int i = 0; i < bulletsEnemy.size(); i++)
@@ -268,6 +293,7 @@ void Level::update(vector<BulletPlayer*> bulletsPlayer, double deltaTime)
 
     // Crear asteroides con cierta probabilidad
     createAsteroid();
+    createPowerUp();
 }
 
 // Dibujar el nivel en el renderizador
@@ -277,6 +303,9 @@ void Level::draw(SDL_Renderer* renderer)
     // Dibujar asteroides
     for (int i = 0; i < asteroids.size(); i++)
         asteroids[i]->draw(renderer);
+
+    for (int i = 0; i < powerUps.size(); i++)
+        powerUps[i]->draw(renderer);
 
     // Dibujar enemigos
     for (int i = 0; i < enemies[numParts].size(); i++)

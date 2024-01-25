@@ -41,42 +41,42 @@ SDL_Texture* Object::getTexture(int index)
     return textures[index];
 }
 
-float Object::getX1()
+double Object::getX1()
 {
     return X1;
 }
 
-float Object::getX2()
+double Object::getX2()
 {
     return X2;
 }
 
-float Object::getY1()
+double Object::getY1()
 {
     return Y1;
 }
 
-float Object::getY2()
+double Object::getY2()
 {
     return Y2;
 }
 
-float Object::getX1HitBox()
+double Object::getX1HitBox()
 {
     return X1HitBox;
 }
 
-float Object::getX2HitBox()
+double Object::getX2HitBox()
 {
     return X2HitBox;
 }
 
-float Object::getY1HitBox()
+double Object::getY1HitBox()
 {
     return Y1HitBox;
 }
 
-float Object::getY2HitBox()
+double Object::getY2HitBox()
 {
     return Y2HitBox;
 }
@@ -126,7 +126,7 @@ void Object::setSprite(SDL_Texture* texture, int index)
     this->textures[index] = texture;
 }
 
-void Object::setX(float X)
+void Object::setX(double X)
 {
     X1 = X;
     X2 = X1 + WIDTH;
@@ -134,7 +134,7 @@ void Object::setX(float X)
     X2HitBox = X2 - (WIDTH * 0.1);
 }
 
-void Object::setY(float Y)
+void Object::setY(double Y)
 {
     Y1 = Y;
     Y2 = Y1 + HEIGHT;
@@ -142,7 +142,7 @@ void Object::setY(float Y)
     Y2HitBox = Y2 - (HEIGHT * 0.1);
 }
 
-void Object::setSpeed(int speed)
+void Object::setSpeed(double speed)
 {
     this->speed = speed;
 }

@@ -1,20 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/class.h to edit this template
- */
-
-/* 
- * File:   Obstacle.h
- * Author: Katze
- *
- * Created on 11 de enero de 2024, 23:49
- */
 #include "Object.h"
 #include "Loader.h"
 #include "Bullets.h"
+#include "Player.h"
 
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
+
+using namespace std;
+
+class Player;
 
 class Obstacle : public Object 
 {
@@ -48,6 +42,19 @@ public:
     Asteroid(vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Asteroid();
 protected:
+};
+
+class PowerUp : public Obstacle
+{
+public:
+    PowerUp();
+    PowerUp(vector<SDL_Texture*> textures, int type);
+    PowerUp(vector<SDL_Texture*> textures, float X1, float Y1, int type);
+    virtual ~PowerUp();
+    bool isCollisionPlayer(Player* player);
+    void setPowerEffect(Player* player);
+private:
+    int type;
 };
 
 #endif /* OBSTACLE_H */

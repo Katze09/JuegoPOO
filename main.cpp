@@ -26,8 +26,8 @@ int main(int argc, char** argv)
     states = new States(renderer);
 
     auto lastFrameTime = chrono::high_resolution_clock::now();
-    bool quit = false;
-    while (!quit)
+    bool run = true;
+    while (run)
     {
         auto frameStart = chrono::high_resolution_clock::now();
         SDL_Event event;
@@ -36,11 +36,14 @@ int main(int argc, char** argv)
             switch (event.type)
             {
                 case SDL_QUIT:
-                    quit = true;
+                    run = false;
                     break;
                 case SDL_KEYDOWN:
                     // Manejar el evento de tecla presionada
-                    states->updateInput(event.key.keysym.sym);
+                    if(event.key.keysym.sym == SDLK_ESCAPE)
+                        run = false;
+                    else
+                        states->updateInput(event.key.keysym.sym);
                     break;
                 case SDL_KEYUP:
                     // Manejar el evento de tecla liberada

@@ -17,6 +17,7 @@
 			</EnemyBase>
 			<Obstacles>
 				<SpawnProbability>60</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
+				<SpawnProbabilityPowerUp>140</SpawnProbabilityPowerUp>
 			</Obstacles>
 		</Enemys>
 	</part1>
@@ -54,6 +55,7 @@
 			</EnemyLaser>
 			<Obstacles>
 				<SpawnProbability>50</SpawnProbability>
+				<SpawnProbabilityPowerUp>140</SpawnProbabilityPowerUp>
 			</Obstacles>
 		</Enemys>
 	</part2>

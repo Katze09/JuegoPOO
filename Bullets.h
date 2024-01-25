@@ -7,7 +7,7 @@ class BulletPlayer : public Object
 {
 public:
     BulletPlayer();
-    BulletPlayer(SDL_Texture* texture, float X1, float Y1, bool direction);
+    BulletPlayer(SDL_Texture* texture, float X1, float Y1, bool direction, int speed);
     virtual ~BulletPlayer();
     void update(double deltaTime);
 protected:

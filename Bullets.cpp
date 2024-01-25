@@ -4,9 +4,9 @@ BulletPlayer::BulletPlayer() : Object()
 {
 }
 
-BulletPlayer::BulletPlayer(SDL_Texture* texture, float X1, float Y1, bool direction) : Object(vector<SDL_Texture*>{texture}, X1, Y1)
+BulletPlayer::BulletPlayer(SDL_Texture* texture, float X1, float Y1, bool direction, int speed) : Object(vector<SDL_Texture*>{texture}, X1, Y1)
 {
-    speed = 1000;
+    this->speed = speed;
     this->direction = direction;
 }
 
@@ -48,9 +48,9 @@ BulletEnemy::BulletEnemy() : BulletPlayer()
 {
 }
 
-BulletEnemy::BulletEnemy(SDL_Texture* texture, float X1, float Y1, bool direction, int speed) : BulletPlayer(texture, X1, Y1, direction)
+BulletEnemy::BulletEnemy(SDL_Texture* texture, float X1, float Y1, bool direction, int speed) : BulletPlayer(texture, X1, Y1, direction, speed)
 {
-    this->speed = speed;
+    //this->speed = speed;
 }
 
 BulletEnemy::~BulletEnemy()

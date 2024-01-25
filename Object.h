@@ -18,14 +18,14 @@ public:
     virtual ~Object();
 
     SDL_Texture* getTexture(int index);
-    float getX1();
-    float getX2();
-    float getY1();
-    float getY2();
-    float getX1HitBox();
-    float getX2HitBox();
-    float getY1HitBox();
-    float getY2HitBox(); 
+    double getX1();
+    double getX2();
+    double getY1();
+    double getY2();
+    double getX1HitBox();
+    double getX2HitBox();
+    double getY1HitBox();
+    double getY2HitBox(); 
     int getWIDTH();
     int getHEIGHT();
     int getSpeed();
@@ -35,9 +35,9 @@ public:
 
     void setSprite(vector<SDL_Texture*> textures);
     void setSprite(SDL_Texture* texture, int index);
-    void setX(float X);
-    void setY(float Y);
-    void setSpeed(int speed);
+    void setX(double X);
+    void setY(double Y);
+    void setSpeed(double speed);
     void setSpeedAnimations(double speedAnimations);
     void setDead();
     
@@ -49,18 +49,18 @@ public:
 
 protected:
     std::vector<SDL_Texture*> textures;
-    float X1;
-    float X2;
-    float Y1;
-    float Y2;
-    float X1HitBox;
-    float X2HitBox;
-    float Y1HitBox;
-    float Y2HitBox; 
+    double X1;
+    double X2;
+    double Y1;
+    double Y2;
+    double X1HitBox;
+    double X2HitBox;
+    double Y1HitBox;
+    double Y2HitBox; 
     int WIDTH;
     int HEIGHT;
     double deltaTime;
-    int speed;
+    double speed;
     double speedAnimations;
     int indexTexture;
     bool dead;

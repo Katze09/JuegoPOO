@@ -13,7 +13,14 @@ Player::Player(vector<SDL_Texture*> textures, float X1, float Y1)
     X2HitBox = X2 - (WIDTH * 0.3);
     Y1HitBox = Y1 + (HEIGHT * 0.3);
     Y2HitBox = Y2 - (HEIGHT * 0.3);
+    bulletSpeed = 1000;
+    coolDownShot = 2;
     normalSpeedCool = 2;
+    inmortal = false;
+    activePowerUps[0] = false;
+    activePowerUps[1] = false;
+    timeLeftPowerUp[0] = 3;
+    timeLeftPowerUp[1] = 3;
     up = false;
     down = false;
     right = false;
@@ -40,11 +47,11 @@ int Player::isPlayerHit(vector<BulletEnemy*> bulletsEnemy)
     return -1;
 }
 
-int Player::isPlayerHitObstacle(vector<Obstacle*> asteroids)
+int Player::isPlayerHitObstacle(vector<Obstacle*> obstacle)
 {
-    for (int i = 0; i < asteroids.size(); i++)
-        if (asteroids[i]->getX1HitBox() < X2HitBox && asteroids[i]->getX2HitBox() > X1HitBox &&
-                asteroids[i]->getY1HitBox() < Y2HitBox && asteroids[i]->getY2HitBox() > Y1HitBox)
+    for (int i = 0; i < obstacle.size(); i++)
+        if (obstacle[i]->getX1HitBox() < X2HitBox && obstacle[i]->getX2HitBox() > X1HitBox &&
+                obstacle[i]->getY1HitBox() < Y2HitBox && obstacle[i]->getY2HitBox() > Y1HitBox)
         {
             dead = true;
             speedAnimations = 1;
@@ -136,6 +143,28 @@ void Player::animationDead(double deltaTime)
     }
 }
 
+void Player::timeLetfPowerUps(double deltaTime)
+{
+    for (int i = 0; i < 2; i++)
+        if (activePowerUps[i])
+        {
+            timeLeftPowerUp[i] -= 15 * deltaTime;
+            if (timeLeftPowerUp[i] <= 0)
+            {
+                activePowerUps[i] = false;
+                switch (i)
+                {
+                    case 0:
+                        coolDownShot = 2;
+                        break;
+                    case 1:
+                        inmortal = false;
+                        break;
+                }
+            }
+        }
+}
+
 void Player::update(double deltaTime)
 {
     this->deltaTime = deltaTime;
@@ -157,6 +186,7 @@ void Player::update(double deltaTime)
         setY(Y1 + (speed * deltaTime));
     if (!right && !left && !up && !down)
         normalSpeedCool = 2;
+    timeLetfPowerUps(deltaTime);
     collisionBorder();
     animationBase(deltaTime);
     animationDead(deltaTime);
@@ -165,4 +195,34 @@ void Player::update(double deltaTime)
 bool Player::isDead()
 {
     return dead;
+}
+
+bool Player::isInmortal()
+{
+    return inmortal;
+}
+
+void Player::setInmortal(bool inmortal)
+{
+    this->inmortal = inmortal;
+}
+
+int Player::getBulletSpeed()
+{
+    return bulletSpeed;
+}
+
+void Player::setBulletSpeed(int bulletSpeed)
+{
+    this->bulletSpeed = bulletSpeed;
+}
+
+int Player::getCoolDownShot()
+{
+    return coolDownShot;
+}
+
+void Player::setCoolDownShot(int coolDownShot)
+{
+    this->coolDownShot = coolDownShot;
 }
