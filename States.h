@@ -39,6 +39,7 @@ private:
     bool continueLevel;
     AudioPlayer* audioPlayer;
     Player* player;
+    Player* player2;
     Background background;
     vector<SDL_Texture*> textures;
     double delayPart;

@@ -11,7 +11,7 @@ using namespace std;
 class Player : public Object {
 public:
     Player();
-    Player(vector<SDL_Texture*> textures, float X1, float Y1);
+    Player(vector<SDL_Texture*> textures, float X1, float Y1, bool player1);
     virtual ~Player();
     void update(double deltaTime);
     int isPlayerHit(vector<BulletEnemy*> bulletsEnemy);
@@ -21,12 +21,14 @@ public:
     bool isDead();
     bool isInmortal();
     void setInmortal(bool inmortal);
+    bool haveDoubleScore();
+    void setDoubleScore(bool doubleScore);
     int getBulletSpeed();
     void setBulletSpeed(int bulletSpeed);
     int getCoolDownShot();
     void setCoolDownShot(int coolDownShot);
-    bool activePowerUps[2];
-    double timeLeftPowerUp[2];
+    bool activePowerUps[3];
+    double timeLeftPowerUp[3];
 private:
     bool up;
     bool down;
@@ -34,9 +36,11 @@ private:
     bool left;
     bool dead;
     bool inmortal;
+    bool doubleScore;
     double normalSpeedCool;
     int bulletSpeed;
     int coolDownShot;
+    bool player1;
     void collisionBorder();
     void timeLetfPowerUps(double deltaTime);
     void animationBase(double deltaTime);

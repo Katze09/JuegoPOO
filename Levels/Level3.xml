@@ -15,6 +15,20 @@
 				<direction>1</direction>
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyBase>
+            <EnemyBase>
+				<quantity>5</quantity>
+				<Y>400</Y>
+				<MoveType>0</MoveType>
+				<direction>0</direction>
+				<bulletSpeed>700</bulletSpeed>
+			</EnemyBase>
+			<EnemyBase>
+				<quantity>5</quantity>
+				<Y>450</Y>
+				<MoveType>0</MoveType>
+				<direction>1</direction>
+				<bulletSpeed>700</bulletSpeed>
+			</EnemyBase>
 			<Obstacles>
 				<SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
 				<SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>
@@ -38,7 +52,7 @@
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyBase>
 			<EnemyLaser>
-				<quantity>3</quantity>
+				<quantity>1</quantity>
 				<Y>400</Y>
 				<MoveType>0</MoveType>
 				<direction>0</direction>
@@ -46,13 +60,22 @@
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyLaser>
 			<EnemyLaser>
-				<quantity>3</quantity>
+				<quantity>1</quantity>
 				<Y>400</Y>
 				<MoveType>0</MoveType>
 				<direction>1</direction>
 				<moveTo>500</moveTo>
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyLaser>
+            <EnemyMid>
+				<quantity>1</quantity>
+				<X>100</X>
+				<Y>-200</Y>
+				<MoveType>0</MoveType>
+				<direction>0</direction>
+				<moveTo>150</moveTo>
+				<bulletSpeed>700</bulletSpeed>
+			</EnemyMid>
 			<Obstacles>
 				<SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
 				<SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>
@@ -70,47 +93,66 @@
 				<moveTo>150</moveTo>
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyMid>
-			<EnemyMid>
+            <EnemyMid>
 				<quantity>1</quantity>
-				<X>500</X>
+				<X>250</X>
+				<Y>-200</Y>
+				<MoveType>0</MoveType>
+				<direction>1</direction>
+				<moveTo>300</moveTo>
+				<bulletSpeed>700</bulletSpeed>
+			</EnemyMid>
+            <EnemyMid>
+				<quantity>1</quantity>
+				<X>400</X>
 				<Y>-200</Y>
 				<MoveType>0</MoveType>
 				<direction>0</direction>
-				<moveTo>150</moveTo>
+				<moveTo>450</moveTo>
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyMid>
-			<EnemyLaser>
-				<quantity>1</quantity>
+            <EnemyBase>
+				<quantity>5</quantity>
+				<Y>200</Y>
+				<MoveType>0</MoveType>
+				<direction>0</direction>
+				<bulletSpeed>700</bulletSpeed>
+			</EnemyBase>
+			<EnemyBase>
+				<quantity>5</quantity>
+				<Y>250</Y>
+				<MoveType>0</MoveType>
+				<direction>1</direction>
+				<bulletSpeed>700</bulletSpeed>
+			</EnemyBase>
+            <EnemyBase>
+				<quantity>5</quantity>
 				<Y>400</Y>
 				<MoveType>0</MoveType>
 				<direction>0</direction>
-				<moveTo>50</moveTo>
 				<bulletSpeed>700</bulletSpeed>
-			</EnemyLaser>
-			<EnemyLaser>
-				<quantity>1</quantity>
-				<Y>400</Y>
+			</EnemyBase>
+			<EnemyBase>
+				<quantity>5</quantity>
+				<Y>450</Y>
+				<MoveType>0</MoveType>
+				<direction>1</direction>
+				<bulletSpeed>700</bulletSpeed>
+			</EnemyBase>
+            <EnemyBase>
+				<quantity>5</quantity>
+				<Y>600</Y>
 				<MoveType>0</MoveType>
 				<direction>0</direction>
-				<moveTo>250</moveTo>
 				<bulletSpeed>700</bulletSpeed>
-			</EnemyLaser>
-			<EnemyLaser>
-				<quantity>1</quantity>
-				<Y>400</Y>
+			</EnemyBase>
+			<EnemyBase>
+				<quantity>5</quantity>
+				<Y>650</Y>
 				<MoveType>0</MoveType>
 				<direction>1</direction>
-				<moveTo>500</moveTo>
 				<bulletSpeed>700</bulletSpeed>
-			</EnemyLaser>
-			<EnemyLaser>
-				<quantity>1</quantity>
-				<Y>400</Y>
-				<MoveType>0</MoveType>
-				<direction>1</direction>
-				<moveTo>650</moveTo>
-				<bulletSpeed>700</bulletSpeed>
-			</EnemyLaser>
+			</EnemyBase>
 			<Obstacles>
 				<SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
 				<SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>

@@ -2,6 +2,7 @@
 #define BULLETS_H
 
 #include "Object.h"
+#include <cmath>
 
 class BulletPlayer : public Object
 {
@@ -26,6 +27,20 @@ public:
     //void update(double deltaTime);
 private:
     //int speed;  
+};
+
+class BulletEnemyDiagonal : public BulletEnemy
+{
+public:
+    BulletEnemyDiagonal();
+    BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, bool direction, int speed, double targetX, double targetY);
+    virtual ~BulletEnemyDiagonal();
+    void update(double deltaTime);
+    void draw(SDL_Renderer * renderer);
+private:
+    double slope;
+    double intercept;
+    double angleRotation;
 };
 
 #endif /* BULLETPLAYER_H */

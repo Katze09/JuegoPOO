@@ -15,6 +15,7 @@ EnemyBase::EnemyBase(vector<SDL_Texture*> textures, float X1, float Y1, bool dir
     coolDownShot = 3;
     this->movimentType = movimentType;
     angle = 0;
+    score = 5;
 }
 
 EnemyBase::~EnemyBase()
@@ -148,6 +149,11 @@ int EnemyBase::getBulletSpeed()
     return bulletSpeed;
 }
 
+int EnemyBase::getScore()
+{
+    return score;
+}
+
 //
 // Class enemy2
 //
@@ -220,6 +226,7 @@ EnemyMid::EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, double mov
     life = 20;
     hitTex = 0;
     this->moveTo = moveTo;
+    score = 20;
 }
 
 EnemyMid::~EnemyMid()
@@ -265,3 +272,22 @@ void EnemyMid::update(double deltaTime)
         hitTex -= 15 * deltaTime;
     animationDead(deltaTime);
 }
+
+EnemyBoss::EnemyBoss() : EnemyMid()
+{
+}
+
+EnemyBoss::EnemyBoss(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed) : EnemyMid(textures, X1, Y1, moveTo, bulletSpeed)
+{
+    life = 500;
+}
+
+EnemyBoss::~EnemyBoss()
+{
+}
+
+/*void EnemyBoss::update(double deltaTime)
+{
+    if (Y1 <= 300)
+        setY(Y1 + speed * deltaTime);
+}*/

@@ -1,12 +1,18 @@
 #include "Menu.h"
 
 Loader lod;
+bool selectPlayer;
 
 Menu::Menu(SDL_Renderer* renderer)
 {
     background = Background(lod.LoadTexture("Background", renderer));
     play = Button("Play", 260, 300);
     textsTile = Texts("8-bit ArcadeIn", 120);
+    textsExtra = Texts("8-bit ArcadeIn", 20);
+    player1 = Button("SinglePlayer", 135, 300);
+    player2 = Button("MultiPlayer", 140, 400);
+    back = Button("Back", 260, 500);
+    selectPlayer = false;
 }
 
 Menu::~Menu()
@@ -15,14 +21,39 @@ Menu::~Menu()
 
 int Menu::click(int x, int y)
 {
-    if (play.isPresed(x, y))
-        return 1;
+    if (!selectPlayer)
+    {
+        if (play.isPresed(x, y))
+        {
+            selectPlayer = true;
+        }
+    } else
+    {
+        if (player1.isPresed(x, y))
+            return 1;
+        player2.isPresed(x, y);
+        if (back.isPresed(x, y))
+            selectPlayer = false;
+    }
     return 0;
 }
 
 void Menu::hover(int x, int y)
 {
-    play.isHover(x, y);
+    if (!selectPlayer)
+    {
+        play.isHover(x, y);
+    } else
+    {
+        player1.isHover(x, y);
+        player2.isHover(x, y);
+        back.isHover(x, y);
+    }
+}
+
+void Menu::numPlayers()
+{
+
 }
 
 void Menu::update(double deltaTime)
@@ -34,7 +65,16 @@ void Menu::draw(SDL_Renderer* renderer)
 {
     background.draw(renderer);
     textsTile.drawText("The Game", 130, 100, renderer);
-    play.draw(renderer);
+    textsExtra.drawText("Copyright Katze090", 0, 780, renderer);
+    if (!selectPlayer)
+        play.draw(renderer);
+    else
+    {
+        player1.draw(renderer);
+        player2.draw(renderer);
+        back.draw(renderer);
+    }
+
 }
 
 Button::Button()

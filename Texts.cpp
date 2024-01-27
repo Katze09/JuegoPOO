@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/class.cc to edit this template
- */
-
-/* 
- * File:   Texts.cpp
- * Author: Katze
- * 
- * Created on 15 de enero de 2024, 09:28
- */
-
 #include "Texts.h"
 
 Texts::Texts()

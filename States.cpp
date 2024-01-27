@@ -26,7 +26,7 @@ States::States(SDL_Renderer* renderer)
     textures = loader.loadTextures(nameFile, renderer, 2);
 
     // Crear jugador en la posición inicial
-    player = new Player(textures, 310, 460);
+    player = new Player(textures, 310, 460, true);
     textures.clear(); // Limpiar texturas después de su uso
 
     // Inicializar el fondo del juego
@@ -40,8 +40,13 @@ States::States(SDL_Renderer* renderer)
     totalScore = delayLevel = delayPart = 0;
 
     // Cargar niveles de juego
-    for (level; level < 2; level++)
-        gameLevels[level] = loader.LoadLevel((level + 1), renderer, audioPlayer);
+    //for (level; level < 2; level++)
+    Level* levelLod;
+    while ((levelLod = loader.LoadLevel(level + 1, renderer, audioPlayer)) != nullptr)
+    {
+        gameLevels[level] = levelLod;
+        level++;
+    }
 
     level = 0;
     pastPart = false;
@@ -127,7 +132,7 @@ void States::update(double deltaTime)
     if (!player->endDeadAnimation())
     {
         player->update(deltaTime);
-
+        
         // Verificar colisiones del jugador con balas enemigas y obstáculos
         if (!player->isDead() && !player->isInmortal())
         {
@@ -153,7 +158,7 @@ void States::update(double deltaTime)
         // Actualizar nivel actual si no se está pasando de nivel
         if (!passingLevel)
         {
-            gameLevels[level]->update(bulletsPlayer, deltaTime);
+            gameLevels[level]->update(bulletsPlayer, player, deltaTime);
             checkPartFinish();
         }
 
@@ -164,9 +169,7 @@ void States::update(double deltaTime)
             delayLevel -= deltaTime * 15;
     }
     if (startCoolDown > 0)
-        startCoolDown -= deltaTime * 15;
-    if (startCoolDown > 0)
-        startCoolDown -= deltaTime * 15;
+        startCoolDown -= deltaTime * 25;
 }
 
 // Comprobar si se ha completado una parte del nivel
@@ -181,7 +184,6 @@ void States::checkPartFinish()
     {
         delayPart = 0;
         gameLevels[level]->numParts++;
-
         // Comprobar si se ha completado el nivel actual
         if (gameLevels[level]->numParts == gameLevels[level]->maxnumParts)
         {
@@ -220,11 +222,12 @@ void States::deadEvent(SDL_Renderer* renderer)
         textures = loader.loadTextures(nameFile, renderer, 2);
 
         // Crear jugador en la posición inicial
-        player = new Player(textures, 310, 460);
+        player = new Player(textures, 310, 460, true);
         Level* lev = loader.LoadLevel((level + 1), renderer, audioPlayer);
         lev->setScore(totalScore);
         gameLevels[level] = lev;
         continueLevel = false;
+        delayPart = 0;
     }
     textsTitle.drawText("You died", 200, 300, renderer);
     texts.drawText("Press space to try again", 110, 400, renderer);

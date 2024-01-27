@@ -24,8 +24,10 @@ public:
     bool isCollsionBorder();
     bool isDead();
     void reduceLife();
+    int getScore();
     virtual void draw(SDL_Renderer* renderer);
 protected:
+    int score;
     int life;
     float targetY;
     bool direction;

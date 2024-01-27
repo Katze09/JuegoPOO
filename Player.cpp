@@ -5,7 +5,7 @@ Player::Player() : Object()
 {
 }
 
-Player::Player(vector<SDL_Texture*> textures, float X1, float Y1)
+Player::Player(vector<SDL_Texture*> textures, float X1, float Y1, bool player1)
 : Object(textures, X1, Y1)
 {
     speed = 500;
@@ -16,7 +16,8 @@ Player::Player(vector<SDL_Texture*> textures, float X1, float Y1)
     bulletSpeed = 1000;
     coolDownShot = 2;
     normalSpeedCool = 2;
-    inmortal = false;
+    this->player1 = player1;
+    doubleScore = inmortal = false;
     activePowerUps[0] = false;
     activePowerUps[1] = false;
     timeLeftPowerUp[0] = 3;
@@ -63,21 +64,38 @@ int Player::isPlayerHitObstacle(vector<Obstacle*> obstacle)
 
 void Player::move(SDL_Keycode key)
 {
-    switch (key)
-    {
-        case SDLK_d:
-            right = true;
-            break;
-        case SDLK_a:
-            left = true;
-            break;
-        case SDLK_w:
-            up = true;
-            break;
-        case SDLK_s:
-            down = true;
-            break;
-    }
+    if(player1)
+        switch (key)
+        {
+            case SDLK_d:
+                right = true;
+                break;
+            case SDLK_a:
+                left = true;
+                break;
+            case SDLK_w:
+                up = true;
+                break;
+            case SDLK_s:
+                down = true;
+                break;
+        }
+    else
+        switch (key)
+        {
+            case SDLK_k:
+                right = true;
+                break;
+            case SDLK_h:
+                left = true;
+                break;
+            case SDLK_u:
+                up = true;
+                break;
+            case SDLK_j:
+                down = true;
+                break;
+        }
 }
 
 void Player::collisionBorder()
@@ -145,7 +163,7 @@ void Player::animationDead(double deltaTime)
 
 void Player::timeLetfPowerUps(double deltaTime)
 {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 3; i++)
         if (activePowerUps[i])
         {
             timeLeftPowerUp[i] -= 15 * deltaTime;
@@ -159,6 +177,9 @@ void Player::timeLetfPowerUps(double deltaTime)
                         break;
                     case 1:
                         inmortal = false;
+                        break;
+                    case 2:
+                        doubleScore = false;
                         break;
                 }
             }
@@ -205,6 +226,16 @@ bool Player::isInmortal()
 void Player::setInmortal(bool inmortal)
 {
     this->inmortal = inmortal;
+}
+
+bool Player::haveDoubleScore()
+{
+    return doubleScore;
+}
+
+void Player::setDoubleScore(bool doubleScore)
+{
+    this->doubleScore = doubleScore;
 }
 
 int Player::getBulletSpeed()

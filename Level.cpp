@@ -32,21 +32,30 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[2] = "Died";
     texturesEnemyMid = load.loadTextures(nameFile, renderer, 3);
 
+    nameFile[0] = "EnemyBoss";
+    nameFile[1] = "EnemyBossHit";
+    nameFile[2] = "Died";
+    texturesEnemyBoss = load.loadTextures(nameFile, renderer, 3);
+
     nameFile[0] = "Asteroid";
     nameFile[1] = "Died";
     texturesAsteroid = load.loadTextures(nameFile, renderer, 2);
 
     nameFile[0] = "PowerUpShot";
     texturesPowerUp[0] = load.loadTextures(nameFile, renderer, 1);
-    
+
     nameFile[0] = "PowerUpInmortal";
     texturesPowerUp[1] = load.loadTextures(nameFile, renderer, 1);
+
+    nameFile[0] = "PowerUpDouble";
+    texturesPowerUp[2] = load.loadTextures(nameFile, renderer, 1);
 
     numParts = 0;
     numEnemies = 0;
 
     // Crear el primer vector de enemigos
     enemies.push_back(std::vector<EnemyBase*>());
+    //enemies[numParts].push_back(new EnemyBoss(texturesEnemyBoss, 200, -300, 200, 50));
 
     // Establecer el reproductor de audio
     this->audioPlayer = audioPlayer;
@@ -152,7 +161,7 @@ void Level::setPowerUps(int prob)
 
 // Manejar eventos de balas de enemigos
 
-void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTime)
+void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, Player* player, double deltaTime)
 {
     for (int i = 0; i < enemies[numParts].size(); i++)
     {
@@ -171,6 +180,24 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
                 } else
                     // Crear otras balas láser
                     bulletsEnemy.push_back(new BulletEnemy(textureBullet[2], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
+            } else if (dynamic_cast<EnemyBoss*> (enemies[numParts][i]))
+            {
+                int posBulletX = 0;
+                int posBulletY = 200;
+                for (int j = 0; j < 5; j++)
+                {
+                    bulletsEnemy.push_back(new BulletEnemyDiagonal(
+                            textureBullet[0],
+                            enemies[numParts][i]->getX1() + posBulletX,
+                            enemies[numParts][i]->getY1() + posBulletY,
+                            false,
+                            enemies[numParts][i]->getBulletSpeed(),
+                            posBulletX, // Esto es para el parámetro targetX
+                            posBulletY - 1000 // Esto es para el parámetro targetY
+                            ));
+                    posBulletX += 50;
+                    //posBulletY += 10;
+                }
             } else if (dynamic_cast<EnemyMid*> (enemies[numParts][i]))
             {
                 // Manejar balas de enemigos medianos
@@ -218,15 +245,15 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, double delt
         // Borrar enemigos después de la animación de muerte
         if (enemies[numParts][i]->endDeadAnimation())
         {
+            score += (player->haveDoubleScore()) ? enemies[numParts][i]->getScore() * 2 : enemies[numParts][i]->getScore();
             enemies[numParts].erase(enemies[numParts].begin() + i);
-            score += 5;
         }
     }
 }
 
 // Manejar eventos de obstáculos (asteroides)
 
-void Level::obstaclesEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTime)
+void Level::obstaclesEvents(vector<BulletPlayer*> bulletsPlayer, Player* player, double deltaTime)
 {
     for (int i = 0; i < asteroids.size(); i++)
     {
@@ -244,7 +271,10 @@ void Level::obstaclesEvents(vector<BulletPlayer*> bulletsPlayer, double deltaTim
 
         // Borrar asteroides después de la animación de muerte
         if (asteroids[i]->endDeadAnimation())
+        {
+            score += (player->haveDoubleScore()) ? asteroids[i]->getScore() * 2 : asteroids[i]->getScore();
             asteroids.erase(asteroids.begin() + i);
+        }
     }
 }
 
@@ -270,17 +300,17 @@ void Level::createAsteroid()
 void Level::createPowerUp()
 {
     int ran = load.randomNumber(1, probSpawnPowerUp[numParts]);
-    int type = load.randomNumber(0, 2);
+    int type = load.randomNumber(0, 3);
     if (ran == 5)
         powerUps.push_back(new PowerUp(texturesPowerUp[type], type));
 }
 
 // Actualizar el nivel
 
-void Level::update(vector<BulletPlayer*> bulletsPlayer, double deltaTime)
+void Level::update(vector<BulletPlayer*> bulletsPlayer, Player* player, double deltaTime)
 {
-    bulletsEnemysEvents(bulletsPlayer, deltaTime);
-    obstaclesEvents(bulletsPlayer, deltaTime);
+    bulletsEnemysEvents(bulletsPlayer, player, deltaTime);
+    obstaclesEvents(bulletsPlayer, player, deltaTime);
     powerUpsEvents(deltaTime);
 
     // Actualizar posición de balas de enemigos y borrarlas si salen de la pantalla

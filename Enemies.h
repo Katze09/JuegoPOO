@@ -16,7 +16,9 @@ public:
     virtual bool shot(double deltaTime);
     bool isDead();
     int getBulletSpeed();
+    int getScore();
 protected:
+    int score;
     int bulletSpeed;
     int life;
     bool direction;
@@ -55,6 +57,15 @@ public:
 private:
     double hitTex;
     double moveTo;
+};
+
+class EnemyBoss : public EnemyMid
+{
+public:
+    EnemyBoss();
+    EnemyBoss(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed);
+    virtual ~EnemyBoss();
+    //void update(double deltaTime) override;
 };
 
 #endif /* ENEMIES_H */

@@ -66,11 +66,17 @@ Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPl
     string levelS = "Levels/Level" + to_string(level) + ".xml";
     cout << levelS << endl;
     if (doc.LoadFile(levelS.c_str()) != tinyxml2::XML_SUCCESS)
+    {
         std::cerr << "Error al cargar el archivo XML." << std::endl;
+        return nullptr;
+    }
 
     tinyxml2::XMLElement* root = doc.RootElement();
     if (!root)
+    {
         std::cerr << "Error: No se pudo obtener el elemento raíz." << std::endl;
+        return nullptr;
+    }
 
     int contParts = 0;
     // Iterar a través de los elementos hijos

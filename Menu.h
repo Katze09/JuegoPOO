@@ -35,13 +35,18 @@ public:
     Menu(SDL_Renderer* renderer);
     virtual ~Menu();
     int click(int x, int y);
+    void numPlayers();
     void hover(int x, int y);
     void update(double deltaTime);
     void draw(SDL_Renderer* renderer);
 private:
     Button play;
+    Button player1;
+    Button player2;
+    Button back;
     Background background;
     Texts textsTile;
+    Texts textsExtra;
 };
 
 #endif /* MENU_H */

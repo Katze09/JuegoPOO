@@ -50,6 +50,7 @@ Obstacle::Obstacle(vector<SDL_Texture*> textures) : Object(textures)
     intercept = Y1 - slope * X1;
 
     life = angleRotation = 0;
+    score = 5;
 }
 
 Obstacle::~Obstacle()
@@ -134,6 +135,11 @@ void Obstacle::animationDead(double deltaTime)
     }
 }
 
+int Obstacle::getScore()
+{
+    return score;
+}
+
 void Obstacle::draw(SDL_Renderer * renderer)
 {
     // Renderizar con rotación
@@ -181,6 +187,10 @@ PowerUp::PowerUp(vector<SDL_Texture*> textures, int type) : Obstacle(textures)
 PowerUp::PowerUp(vector<SDL_Texture*> textures, float X1, float Y1, int type) : Obstacle(textures, X1, Y1)
 {
     this->type = type;
+    X1HitBox = X1 - (WIDTH * 0.3);
+    X2HitBox = X2 + (WIDTH * 0.3);
+    Y1HitBox = Y1 - (HEIGHT * 0.3);
+    Y2HitBox = Y2 + (HEIGHT * 0.3);
 }
 
 PowerUp::~PowerUp()
@@ -206,6 +216,11 @@ void PowerUp::setPowerEffect(Player* player)
             player->setInmortal(true);
             player->activePowerUps[1] = true;
             player->timeLeftPowerUp[1] = 50;
+            break;
+        case 2:
+            player->setDoubleScore(true);
+            player->activePowerUps[2] = true;
+            player->timeLeftPowerUp[2] = 50;
             break;
     }
 }
