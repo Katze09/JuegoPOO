@@ -55,7 +55,7 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
 
     // Crear el primer vector de enemigos
     enemies.push_back(std::vector<EnemyBase*>());
-    //enemies[numParts].push_back(new EnemyBoss(texturesEnemyBoss, 200, -300, 200, 50));
+    //enemies[numParts].push_back(new EnemyBoss(texturesEnemyBoss, 200, -300, 50, 75));
 
     // Establecer el reproductor de audio
     this->audioPlayer = audioPlayer;
@@ -94,11 +94,11 @@ void Level::setEnemyBase(int cant, double y, int movetype, bool direction, int b
     if (direction)
     {
         x = 700;
-        aumento = 60;
+        aumento = 80;
     } else
     {
         x = -60;
-        aumento = -60;
+        aumento = -80;
     }
 
     // Crear enemigos de la base y agregarlos al vector
@@ -182,9 +182,17 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, Player* pla
                     bulletsEnemy.push_back(new BulletEnemy(textureBullet[2], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
             } else if (dynamic_cast<EnemyBoss*> (enemies[numParts][i]))
             {
-                int posBulletX = 0;
+                bulletsEnemy.push_back(new BulletEnemyDiagonal(
+                            textureBullet[0],
+                            enemies[numParts][i]->getX1() + 150,
+                            enemies[numParts][i]->getY1() + 200,
+                            false,
+                            enemies[numParts][i]->getBulletSpeed(),
+                            player->getX1()
+                            ));
+                /*int posBulletX = 0;
                 int posBulletY = 200;
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     bulletsEnemy.push_back(new BulletEnemyDiagonal(
                             textureBullet[0],
@@ -192,12 +200,11 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*> bulletsPlayer, Player* pla
                             enemies[numParts][i]->getY1() + posBulletY,
                             false,
                             enemies[numParts][i]->getBulletSpeed(),
-                            posBulletX, // Esto es para el parámetro targetX
-                            posBulletY - 1000 // Esto es para el parámetro targetY
+                            player->getX1()
                             ));
-                    posBulletX += 50;
+                    posBulletX += 20;
                     //posBulletY += 10;
-                }
+                }*/
             } else if (dynamic_cast<EnemyMid*> (enemies[numParts][i]))
             {
                 // Manejar balas de enemigos medianos

@@ -72,8 +72,8 @@ void States::bulletsPlayerEvents(double deltaTime)
     if (PlayerShot && cooldownShot <= 0 && !player->isDead())
     {
         // Crear balas si se presiona el espacio y el cooldown ha terminado
-        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 3, player->getY1() + 10, true, player->getBulletSpeed()));
-        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 37, player->getY1() + 10, true, player->getBulletSpeed()));
+        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 12, player->getY1() + 10, true, player->getBulletSpeed()));
+        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 47, player->getY1() + 10, true, player->getBulletSpeed()));
 
         // Establecer cooldown y reproducir sonido de disparo
         cooldownShot = player->getCoolDownShot();

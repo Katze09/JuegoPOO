@@ -50,7 +50,6 @@ Obstacle::Obstacle(vector<SDL_Texture*> textures) : Object(textures)
     intercept = Y1 - slope * X1;
 
     life = angleRotation = 0;
-    score = 5;
 }
 
 Obstacle::~Obstacle()

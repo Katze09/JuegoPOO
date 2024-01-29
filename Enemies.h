@@ -18,7 +18,7 @@ public:
     int getBulletSpeed();
     int getScore();
 protected:
-    int score;
+    const int score = 5;
     int bulletSpeed;
     int life;
     bool direction;
@@ -54,7 +54,8 @@ public:
     virtual ~EnemyMid();
     int isEnemyHit(vector<BulletPlayer*> bulletPlayer) override;
     void update(double deltaTime) override;
-private:
+protected:
+    const int score = 20;
     double hitTex;
     double moveTo;
 };
@@ -65,7 +66,7 @@ public:
     EnemyBoss();
     EnemyBoss(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed);
     virtual ~EnemyBoss();
-    //void update(double deltaTime) override;
+    void update(double deltaTime) override;
 };
 
 #endif /* ENEMIES_H */

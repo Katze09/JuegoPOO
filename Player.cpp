@@ -103,11 +103,11 @@ void Player::collisionBorder()
     if (X1 <= 0)
         Player::setX(0);
     if (X2 >= 700)
-        Player::setX(650);
+        Player::setX(630);
     if (Y1 < 0)
         Player::setY(0);
     if (Y2 >= 800)
-        Player::setY(750);
+        Player::setY(730);
 }
 
 void Player::stop(SDL_Keycode key)
