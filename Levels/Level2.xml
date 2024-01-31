@@ -65,8 +65,6 @@
 				<quantity>1</quantity>
 				<X>100</X>
 				<Y>-200</Y>
-				<MoveType>0</MoveType>
-				<direction>0</direction>
 				<moveTo>150</moveTo>
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyMid>
@@ -74,8 +72,6 @@
 				<quantity>1</quantity>
 				<X>500</X>
 				<Y>-200</Y>
-				<MoveType>0</MoveType>
-				<direction>0</direction>
 				<moveTo>150</moveTo>
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyMid>

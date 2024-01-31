@@ -28,6 +28,7 @@ public:
     void Play(int index, int volume);
 
 private:
+    Mix_Music* backgroundMusic;
     std::vector<Mix_Chunk*> audioData;
     int deviceId;
 };

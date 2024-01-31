@@ -30,12 +30,13 @@ class BulletEnemyDiagonal : public BulletEnemy
 {
 public:
     BulletEnemyDiagonal();
-    BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, bool direction, int speed, double targetX);
+    //BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, bool direction, int speed, double targetX);
     BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, bool direction, int speed, double targetX, double targetY);
     virtual ~BulletEnemyDiagonal();
     void update(double deltaTime);
     void draw(SDL_Renderer * renderer);
 private:
+    bool up = false;
     double slope;
     double intercept;
     double angleRotation;

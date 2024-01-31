@@ -72,18 +72,29 @@ void States::bulletsPlayerEvents(double deltaTime)
     if (PlayerShot && cooldownShot <= 0 && !player->isDead())
     {
         // Crear balas si se presiona el espacio y el cooldown ha terminado
-        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 12, player->getY1() + 10, true, player->getBulletSpeed()));
-        bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 47, player->getY1() + 10, true, player->getBulletSpeed()));
-
+        if (player->haveDoubleShot())
+        {
+            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 10, player->getY1() + 10, true, player->getBulletSpeed()));
+            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 30, player->getY1() + 10, true, player->getBulletSpeed()));
+            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 40, player->getY1() + 10, true, player->getBulletSpeed()));
+            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 60, player->getY1() + 10, true, player->getBulletSpeed()));
+            audioPlayer->Play(0, 100);
+            audioPlayer->Play(0, 100);
+        } else
+        {
+            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 12, player->getY1() + 10, true, player->getBulletSpeed()));
+            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 47, player->getY1() + 10, true, player->getBulletSpeed()));
+            audioPlayer->Play(0, 100);
+        }
         // Establecer cooldown y reproducir sonido de disparo
         cooldownShot = player->getCoolDownShot();
-        audioPlayer->Play(0, 100);
     }
 
     // Eliminar balas del vector cuando salen de la pantalla
     for (int i = 0; i < bulletsPlayer.size(); i++)
         if (bulletsPlayer[i]->getY1() <= -10)
-            bulletsPlayer.erase(bulletsPlayer.begin() + i);
+            bulletsToRemove.push_back(i);
+    //bulletsPlayer.erase(bulletsPlayer.begin() + i);
 
     // Actualizar movimiento de balas
     for (int i = 0; i < bulletsPlayer.size(); i++)
@@ -132,8 +143,9 @@ void States::update(double deltaTime)
     if (!player->endDeadAnimation())
     {
         player->update(deltaTime);
-        
+
         // Verificar colisiones del jugador con balas enemigas y obstáculos
+        
         if (!player->isDead() && !player->isInmortal())
         {
             if (player->isPlayerHit(gameLevels[level]->bulletsEnemy) > -1)
@@ -153,6 +165,11 @@ void States::update(double deltaTime)
             }
     }
     bulletsPlayerEvents(deltaTime);
+    for (int i = bulletsToRemove.size() - 1; i >= 0; --i)
+    {
+        bulletsPlayer.erase(bulletsPlayer.begin() + bulletsToRemove[i]);
+        bulletsToRemove.erase(bulletsToRemove.begin() + i);
+    }
     if (startCoolDown <= 0)
     {
         // Actualizar nivel actual si no se está pasando de nivel
@@ -161,7 +178,6 @@ void States::update(double deltaTime)
             gameLevels[level]->update(bulletsPlayer, player, deltaTime);
             checkPartFinish();
         }
-
         // Contar tiempo de retardo entre partes del nivel y niveles
         if (delayPart > 0)
             delayPart -= deltaTime * 15;

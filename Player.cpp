@@ -9,15 +9,14 @@ Player::Player(vector<SDL_Texture*> textures, float X1, float Y1, bool player1)
 : Object(textures, X1, Y1)
 {
     speed = 500;
-    X1HitBox = X1 + (WIDTH * 0.3);
-    X2HitBox = X2 - (WIDTH * 0.3);
-    Y1HitBox = Y1 + (HEIGHT * 0.3);
-    Y2HitBox = Y2 - (HEIGHT * 0.3);
+    hitBoxMultiplication = 0.2;
+    cout << "X1: " << X1 << " X2: "<< X2 << " Y1: " << Y1 << " Y2: " << Y2 << endl;
+    cout << "X1Hit: " << X1HitBox << " X2Hit: "<< X2HitBox << " Y1Hit: " << Y1HitBox << " Y2Hit: " << Y2HitBox << endl;
     bulletSpeed = 1000;
     coolDownShot = 2;
     normalSpeedCool = 2;
     this->player1 = player1;
-    doubleScore = inmortal = false;
+    doubleShot = inmortal = false;
     activePowerUps[0] = false;
     activePowerUps[1] = false;
     timeLeftPowerUp[0] = 3;
@@ -179,7 +178,7 @@ void Player::timeLetfPowerUps(double deltaTime)
                         inmortal = false;
                         break;
                     case 2:
-                        doubleScore = false;
+                        doubleShot = false;
                         break;
                 }
             }
@@ -228,14 +227,14 @@ void Player::setInmortal(bool inmortal)
     this->inmortal = inmortal;
 }
 
-bool Player::haveDoubleScore()
+bool Player::haveDoubleShot()
 {
-    return doubleScore;
+    return doubleShot;
 }
 
-void Player::setDoubleScore(bool doubleScore)
+void Player::setDoubleShot(bool doubleShot)
 {
-    this->doubleScore = doubleScore;
+    this->doubleShot = doubleShot;
 }
 
 int Player::getBulletSpeed()

@@ -10,6 +10,7 @@ Object::Object(vector<SDL_Texture*> textures)
     SDL_QueryTexture(textures[0], NULL, NULL, &WIDTH, &HEIGHT);
     indexTexture = 0;
     speedAnimations = 1;
+    hitBoxMultiplication = 0.1;
     dead = false;
     deadAnimationEnd = false;
 }
@@ -20,10 +21,11 @@ Object::Object(vector<SDL_Texture*> textures, float X1, float Y1) : X1(X1), Y1(Y
     SDL_QueryTexture(textures[0], NULL, NULL, &WIDTH, &HEIGHT);
     X2 = X1 + WIDTH;
     Y2 = Y1 + HEIGHT;
-    X1HitBox = X1 + (WIDTH * 0.1);
-    X2HitBox = X2 - (WIDTH * 0.1);
-    Y1HitBox = Y1 + (HEIGHT * 0.1);
-    Y2HitBox = Y2 - (HEIGHT * 0.1);
+    hitBoxMultiplication = 0.1;
+    X1HitBox = X1 + (WIDTH * hitBoxMultiplication);
+    X2HitBox = X2 - (WIDTH * hitBoxMultiplication);
+    Y1HitBox = Y1 + (HEIGHT * hitBoxMultiplication);
+    Y2HitBox = Y2 - (HEIGHT * hitBoxMultiplication);
     indexTexture = 0;
     speedAnimations = 1;
     dead = false;
@@ -130,16 +132,16 @@ void Object::setX(double X)
 {
     X1 = X;
     X2 = X1 + WIDTH;
-    X1HitBox = X1 + (WIDTH * 0.1);
-    X2HitBox = X2 - (WIDTH * 0.1);
+    X1HitBox = X1 + (WIDTH * hitBoxMultiplication);
+    X2HitBox = X2 - (WIDTH * hitBoxMultiplication);
 }
 
 void Object::setY(double Y)
 {
     Y1 = Y;
     Y2 = Y1 + HEIGHT;
-    Y1HitBox = Y1 + (HEIGHT * 0.1);
-    Y2HitBox = Y2 - (HEIGHT * 0.1);
+    Y1HitBox = Y1 + (HEIGHT * hitBoxMultiplication);
+    Y2HitBox = Y2 - (HEIGHT * hitBoxMultiplication);
 }
 
 void Object::setSpeed(double speed)

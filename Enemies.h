@@ -15,6 +15,7 @@ public:
     virtual int isEnemyHit(vector<BulletPlayer*> bulletPlayer);
     virtual bool shot(double deltaTime);
     bool isDead();
+    int getLife(){return life;}
     int getBulletSpeed();
     int getScore();
 protected:
@@ -66,7 +67,18 @@ public:
     EnemyBoss();
     EnemyBoss(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed);
     virtual ~EnemyBoss();
+    bool shot(double deltaTime);
     void update(double deltaTime) override;
+    bool isSecondPart(){return secondFase;}
+    bool isSecondPartP2(){return secondFaseP2;}
+    bool isThirdPart(){return thirdFase;}
+private:
+    const int score = 100;
+    bool secondFase;
+    bool secondFaseP2;
+    bool thirdFase;
+    double contSecondFaseShot;
+    
 };
 
 #endif /* ENEMIES_H */

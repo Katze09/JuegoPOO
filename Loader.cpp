@@ -38,7 +38,6 @@ int Loader::randomNumber(int i, int j)
     return rand() % j + i;
 }
 
-
 vector<SDL_Texture*> Loader::loadTextures(string nameFile[], SDL_Renderer* renderer, int sizeNames)
 {
     SDL_Texture* texture;
@@ -125,6 +124,16 @@ Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPl
                     int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
                     gameLevel->setEnemyMid(cant, x, y, moveTo, bulletSpeed);
                     std::cout << "      Cantidad: " << enemy->FirstChildElement("quantity")->GetText() << std::endl;
+                    std::cout << "      X: " << enemy->FirstChildElement("X")->GetText() << std::endl;
+                    std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
+                    std::cout << "      Mover a : " << enemy->FirstChildElement("moveTo")->GetText() << std::endl;
+                } else if (std::string(enemy->Name()) == "EnemyBoss")
+                {
+                    double x = atof(enemy->FirstChildElement("X")->GetText());
+                    double y = atof(enemy->FirstChildElement("Y")->GetText());
+                    double moveTo = atof(enemy->FirstChildElement("moveTo")->GetText());
+                    int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
+                    gameLevel->setEnemyBoss(x, y, moveTo, bulletSpeed);
                     std::cout << "      X: " << enemy->FirstChildElement("X")->GetText() << std::endl;
                     std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
                     std::cout << "      Mover a : " << enemy->FirstChildElement("moveTo")->GetText() << std::endl;

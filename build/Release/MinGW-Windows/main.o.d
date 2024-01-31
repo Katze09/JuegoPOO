@@ -30,7 +30,7 @@ build/Release/MinGW-Windows/main.o: main.cpp c:\sdl2\include\sdl.h \
  c:\sdl2\include\sdl_endian.h c:\sdl2\include\sdl_version.h \
  c:\sdl2\include\begin_code.h c:\sdl2\include\close_code.h tinyxml2.h \
  c:\sdl2_image\include\sdl_image.h c:\sdl2\include\sdl.h Background.h \
- Texts.h c:\sdl2_ttf\include\sdl_ttf.h
+ Texts.h c:\sdl2_ttf\include\sdl_ttf.h Menu.h
 
 c:\sdl2\include\sdl.h:
 
@@ -177,3 +177,5 @@ Background.h:
 Texts.h:
 
 c:\sdl2_ttf\include\sdl_ttf.h:
+
+Menu.h:

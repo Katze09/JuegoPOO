@@ -53,6 +53,7 @@ protected:
     double X2;
     double Y1;
     double Y2;
+    double hitBoxMultiplication;
     double X1HitBox;
     double X2HitBox;
     double Y1HitBox;

@@ -62,22 +62,15 @@ BulletEnemyDiagonal::BulletEnemyDiagonal() : BulletEnemy()
 {
 }
 
-BulletEnemyDiagonal::BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, bool direction, int speed, double targetX) : BulletEnemy(texture, X1, Y1, direction, speed)
-{
-    slope = static_cast<double> (1000 - Y1) / targetX - X1;
-    intercept = Y1 - slope * X1;
-    angleRotation = 0;
-    //angleRotation = atan(slope);
-    //angleRotation = (angleRotation * 180 / M_PI);
-}
-
 BulletEnemyDiagonal::BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, bool direction, int speed, double targetX, double targetY) : BulletEnemy(texture, X1, Y1, direction, speed)
 {
-    //int xObj = (direction) ? 0 : 700;
-    slope = static_cast<double> (targetY - Y1) / (targetX - X1);
-    intercept = Y1 - slope * X1;
+    slope = static_cast<double> (targetX - X1) / (targetY - Y1);
+    if (targetY < Y1)
+        up = true;
+    intercept = X1 - slope * Y1;
+    angleRotation = 0;
     angleRotation = atan(slope);
-    angleRotation = (angleRotation * 180 / M_PI);
+    angleRotation = -1 * (angleRotation * 180 / M_PI);
 }
 
 BulletEnemyDiagonal::~BulletEnemyDiagonal()
@@ -87,8 +80,15 @@ BulletEnemyDiagonal::~BulletEnemyDiagonal()
 
 void BulletEnemyDiagonal::update(double deltaTime)
 {
-    setX(X1 + (speed * deltaTime));
-    setY((slope * X1 + intercept) + (speed * deltaTime));
+    if (up)
+    {
+        setY(Y1 - (speed * deltaTime));
+        setX((slope * Y1 + intercept));
+    } else
+    {
+        setY(Y1 + (speed * deltaTime));
+        setX((slope * Y1 + intercept));
+    }
 }
 
 void BulletEnemyDiagonal::draw(SDL_Renderer * renderer)

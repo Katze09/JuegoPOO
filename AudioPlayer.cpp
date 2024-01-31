@@ -7,6 +7,8 @@ AudioPlayer::AudioPlayer() : deviceId(0)
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 4096) == -1)
         std::cerr << "Mix_OpenAudio Error: " << Mix_GetError() << std::endl;
     std::vector<std::string> audioFiles = {"Audio/Laser.wav", "Audio/Explosion.wav", "Audio/LaserEnemy.mp3", "Audio/LaserEnemyLarge.mp3"};
+    backgroundMusic = Mix_LoadMUS("Audio/AudioMusic.mp3");
+    Mix_PlayMusic(backgroundMusic, -1);
     for (const auto& file : audioFiles)
     {
         Mix_Chunk* sound = Mix_LoadWAV(file.c_str());
@@ -21,6 +23,7 @@ AudioPlayer::~AudioPlayer()
 {
     for (auto sound : audioData)
         Mix_FreeChunk(sound);
+    Mix_FreeMusic(backgroundMusic);
     Mix_CloseAudio();
     SDL_Quit();
 }
@@ -33,6 +36,6 @@ void AudioPlayer::Play(int index, int volume)
 
     // Establecer el volumen del canal de mezcla
     Mix_VolumeChunk(audioData[index], volume);
-    
+
     Mix_PlayChannel(-1, audioData[index], 0);
 }

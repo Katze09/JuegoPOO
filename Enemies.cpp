@@ -137,7 +137,7 @@ void EnemyBase::animationDead(double deltaTime)
         if (speedAnimations <= 0)
         {
             indexTexture++;
-            speedAnimations = 1;
+            speedAnimations = 2;
         }
         if (indexTexture == textures.size() - 1)
             deadAnimationEnd = true;
@@ -223,7 +223,7 @@ EnemyMid::EnemyMid() : EnemyBase()
 
 EnemyMid::EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed) : EnemyBase(textures, X1, Y1, false, 0, bulletSpeed)
 {
-    life = 20;
+    life = 35;
     hitTex = 0;
     this->moveTo = moveTo;
     //score = 20;
@@ -279,7 +279,11 @@ EnemyBoss::EnemyBoss() : EnemyMid()
 
 EnemyBoss::EnemyBoss(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed) : EnemyMid(textures, X1, Y1, moveTo, bulletSpeed)
 {
-    life = 500;
+    life = 800;
+    secondFase = false;
+    thirdFase = false;
+    secondFaseP2 = false;
+    contSecondFaseShot = 1;
 }
 
 EnemyBoss::~EnemyBoss()
@@ -294,4 +298,51 @@ void EnemyBoss::update(double deltaTime)
         indexTexture = 0;
     if (hitTex > 0)
         hitTex -= 15 * deltaTime;
+    if (secondFase || thirdFase)
+    {
+        if (direction)
+        {
+            setX(X1 + (speed * deltaTime));
+            if (X1 >= 450)
+                direction = false;
+        } else
+        {
+            setX(X1 - (speed * deltaTime));
+            if (X1 <= 0)
+                direction = true;
+        }
+    }
+    if ((life <= 650 && life >= 550) || (life <= 450 && life >= 350))
+        secondFase = true;
+    else
+        secondFase = false;
+    if (life < 550)
+        secondFaseP2 = true;
+    if (life <= 300 && !secondFase)
+    {
+        secondFaseP2 = false;
+        thirdFase = true;
+    }
+    animationDead(deltaTime);
+}
+
+bool EnemyBoss::shot(double deltaTime)
+{
+    coolDownShot -= 3 * deltaTime;
+    if (coolDownShot <= 0)
+    {
+        coolDownShot = 1.5;
+        if (secondFase)
+        {
+            coolDownShot = 0.2;
+        }
+        if (thirdFase && contSecondFaseShot >= 0)
+        {
+            contSecondFaseShot -= 15 * deltaTime;
+            coolDownShot = 0.4;
+        } else if (contSecondFaseShot <= 0)
+            contSecondFaseShot = 1.5;
+        return true;
+    }
+    return false;
 }

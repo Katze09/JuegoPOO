@@ -21,8 +21,8 @@ public:
     bool isDead();
     bool isInmortal();
     void setInmortal(bool inmortal);
-    bool haveDoubleScore();
-    void setDoubleScore(bool doubleScore);
+    bool haveDoubleShot();
+    void setDoubleShot(bool doubleShot);
     int getBulletSpeed();
     void setBulletSpeed(int bulletSpeed);
     int getCoolDownShot();
@@ -36,7 +36,7 @@ private:
     bool left;
     bool dead;
     bool inmortal;
-    bool doubleScore;
+    bool doubleShot;
     double normalSpeedCool;
     int bulletSpeed;
     int coolDownShot;

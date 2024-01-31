@@ -127,6 +127,14 @@ cd "${TOP}"
 makeDirectory "${NBTMPDIR}/juegopoo/bin"
 copyFileToTmpDir "${OUTPUT_PATH}.exe" "${NBTMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe" 0755
 
+cd "${TOP}"
+makeDirectory "${NBTMPDIR}/juegopoo/bin"
+copyFileToTmpDir "${OUTPUT_PATH}.exe" "${NBTMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe" 0755
+
+cd "${TOP}"
+makeDirectory "${NBTMPDIR}/juegopoo/bin"
+copyFileToTmpDir "${OUTPUT_PATH}.exe" "${NBTMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe" 0755
+
 
 # Generate tar file
 cd "${TOP}"

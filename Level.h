@@ -14,7 +14,7 @@ public:
     Level();
     Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer);
     virtual ~Level();
-    void update(vector<BulletPlayer*> bulletsPlayer, Player* player, double deltaTime);
+    void update(vector<BulletPlayer*>& bulletsPlayer, Player* player, double deltaTime);
     void draw(SDL_Renderer* renderer);
     int numParts;
     int maxnumParts;
@@ -26,6 +26,7 @@ public:
     void setEnemyBase(int cant, double y, int movetype, bool direction, int bulletSpeed);
     void setEnemyLaser(int cant, double y, int movetype, bool direction, double moveTo, int bulletSpeed);
     void setEnemyMid(int cant, double x, double y, double moveTo, int bulletSpeed);
+    void setEnemyBoss(double x, double y, double moveTo, int bulletSpeed);
     void setObstacles(int prob);
     void setPowerUps(int prob);
     int getScore();
@@ -36,12 +37,17 @@ private:
     void powerUpsEvents(double deltaTime);
     void createAsteroid();
     void createPowerUp();
+    void deleteFromArrays();
     vector<SDL_Texture*> texturesEnemyBase;
     vector<SDL_Texture*> texturesEnemyLaser;
     vector<SDL_Texture*> texturesEnemyMid;
     vector<SDL_Texture*> texturesAsteroid;
     vector<SDL_Texture*> texturesEnemyBoss;
     vector<SDL_Texture*> texturesPowerUp[3];
+    vector<int> bulletsToRemove;
+    vector<int> bulletsPlayerToRemove;
+    vector<int> asteroidsToRemove;
+    vector<int> enemiesToRemove;
     SDL_Texture* textureBullet[10];
     AudioPlayer* audioPlayer;
     int score;

@@ -48,6 +48,7 @@ private:
     int totalScore;
     double startCoolDown;
     std::vector<BulletPlayer*> bulletsPlayer;
+    vector<int> bulletsToRemove;
 };
 
 #endif /* STATES_H */

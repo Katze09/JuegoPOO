@@ -39,10 +39,6 @@ Obstacle::Obstacle(vector<SDL_Texture*> textures) : Object(textures)
         targetY = loaderAste.randomNumber(0, Y1);
     X2 = X1 + WIDTH;
     Y2 = Y1 + HEIGHT;
-    X1HitBox = X1 + (WIDTH * 0.1);
-    X2HitBox = X2 - (WIDTH * 0.1);
-    Y1HitBox = Y1 + (HEIGHT * 0.1);
-    Y2HitBox = Y2 - (HEIGHT * 0.1);
 
     // Establecer la pendiente y la intersección
     int xObj = (direction) ? 0 : 700;
@@ -186,10 +182,7 @@ PowerUp::PowerUp(vector<SDL_Texture*> textures, int type) : Obstacle(textures)
 PowerUp::PowerUp(vector<SDL_Texture*> textures, float X1, float Y1, int type) : Obstacle(textures, X1, Y1)
 {
     this->type = type;
-    X1HitBox = X1 - (WIDTH * 0.3);
-    X2HitBox = X2 + (WIDTH * 0.3);
-    Y1HitBox = Y1 - (HEIGHT * 0.3);
-    Y2HitBox = Y2 + (HEIGHT * 0.3);
+    hitBoxMultiplication = -1;
 }
 
 PowerUp::~PowerUp()
@@ -217,7 +210,7 @@ void PowerUp::setPowerEffect(Player* player)
             player->timeLeftPowerUp[1] = 50;
             break;
         case 2:
-            player->setDoubleScore(true);
+            player->setDoubleShot(true);
             player->activePowerUps[2] = true;
             player->timeLeftPowerUp[2] = 50;
             break;
