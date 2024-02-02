@@ -1,0 +1,112 @@
+﻿  AudioPlayer.cpp
+  Background.cpp
+  Bullets.cpp
+  Enemies.cpp
+C:\Users\Katze\Documents\C++POOGameVisual\Enemies.cpp(27,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Enemies.cpp(135,26): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Enemies.cpp(238,23): warning C4018: '<': no coinciden signed/unsigned
+  Level.cpp
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(110,73): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(110,70): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(138,75): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(138,72): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(150,71): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(150,68): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(155,69): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(155,66): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(174,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(185,139): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(185,105): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(190,139): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(190,105): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(197,157): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(197,120): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(198,157): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(198,120): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(201,210): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(201,157): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(201,120): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(202,210): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(202,157): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(202,120): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(209,156): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(209,120): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(210,157): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(210,120): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(218,157): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(218,120): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(219,157): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(219,120): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(221,145): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(221,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(222,145): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(222,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(223,144): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(223,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(224,145): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(224,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(236,152): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(236,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(247,152): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(247,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(255,139): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(255,104): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(256,140): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(256,104): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(285,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(289,29): warning C4018: '<=': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(311,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(341,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(343,38): warning C4018: '<=': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(351,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(370,32): warning C4018: '<=': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(376,32): warning C4018: '<=': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(382,34): warning C4018: '<=': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(391,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(394,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Level.cpp(398,23): warning C4018: '<': no coinciden signed/unsigned
+  Loader.cpp
+  main.cpp
+  Menu.cpp
+C:\Users\Katze\Documents\C++POOGameVisual\Menu.cpp(120,38): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Menu.cpp(120,34): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Menu.cpp(124,38): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Menu.cpp(124,34): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
+  Object.cpp
+C:\Users\Katze\Documents\C++POOGameVisual\Object.cpp(98,12): warning C4244: 'return': conversión de 'double' a 'int'; posible pérdida de datos
+  Obstacle.cpp
+C:\Users\Katze\Documents\C++POOGameVisual\Obstacle.cpp(23,38): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Obstacle.cpp(25,42): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Obstacle.cpp(37,43): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Obstacle.cpp(37,42): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Obstacle.cpp(39,46): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Obstacle.cpp(39,42): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\Obstacle.cpp(100,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Obstacle.cpp(121,26): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Obstacle.cpp(203,37): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
+  Player.cpp
+C:\Users\Katze\Documents\C++POOGameVisual\Player.cpp(38,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Player.cpp(52,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\Player.cpp(150,26): warning C4018: '<': no coinciden signed/unsigned
+  States.cpp
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(38,38): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(58,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(73,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(73,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(74,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(74,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(75,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(75,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(76,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(76,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(81,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(81,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(82,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(82,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(95,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(109,23): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Katze\Documents\C++POOGameVisual\States.cpp(165,27): warning C4018: '<': no coinciden signed/unsigned
+  Texts.cpp
+  tinyxml2.cpp
+  Generando código...
+  C++POOGameVisual.vcxproj -> C:\Users\Katze\Documents\C++POOGameVisual\Debug\C++POOGameVisual.exe
