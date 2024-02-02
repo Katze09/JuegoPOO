@@ -10,7 +10,8 @@
 
 using namespace std;
 
-class Level {
+class Level 
+{
 public:
     Level();
     Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer);
@@ -41,6 +42,10 @@ private:
     void createAsteroid();
     void createPowerUp();
     void deleteFromArrays();
+    void EnemyLaserEvent(EnemyLaser* laser, int i);
+    void EnemyBossEvent(EnemyBoss* boss, int i, Player* player);
+    void EnemyMidEvent(int i);
+    void EnemyBaseEvent(int i);
     vector<SDL_Texture*> texturesEnemyBase;
     vector<SDL_Texture*> texturesEnemyLaser;
     vector<SDL_Texture*> texturesEnemyMid;

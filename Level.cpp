@@ -177,84 +177,14 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
         if (enemies[numParts][i]->shot(deltaTime))
         {
             // Verificar si el enemigo es un láser
-            if (EnemyLaser * enemy = dynamic_cast<EnemyLaser*> (enemies[numParts][i]))
-            {
-                if (enemy->isFirstShot())
-                {
-                    // Crear bala láser inicial
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[1], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
-                    enemy->setFirstShot();
-                    audioPlayer->Play(3, 30);
-                } else
-                    // Crear otras balas láser
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[2], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
-            } else if (EnemyBoss * boss = dynamic_cast<EnemyBoss*> (enemies[numParts][i]))
-            {
-                if (!boss->isSecondPart())
-                {
-                    if (!boss->isSecondPartP2())
-                    {
-                        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() - 20, player->getY2()));
-                        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() + 20, player->getY2()));
-                    } else
-                    {
-                        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed() * 1.5, player->getX1() - 20, player->getY2()));
-                        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed() * 1.5, player->getX1() + 20, player->getY2()));
-                    }
-
-                    audioPlayer->Play(2, 20);
-
-                    if (boss->isThirdPart())
-                    {
-                        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 70, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() - 40, player->getY2()));
-                        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 190, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() + 40, player->getY2()));
-                        audioPlayer->Play(2, 20);
-                    }
-                } else
-                {
-                    audioPlayer->Play(2, 20);
-                    if (player->getY1() < 320)
-                    {
-                        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() - 20, player->getY2()));
-                        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() + 20, player->getY2()));
-                    }
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 70, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 190, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
-                }
-            } else if (dynamic_cast<EnemyMid*> (enemies[numParts][i]))
-            {
-                // Manejar balas de enemigos medianos
-                audioPlayer->Play(2, 20);
-                int posBulletX = 2;
-                int posBulletY = 70;
-
-                // Crear balas para enemigos medianos
-                for (int j = 0; j < 5; j++)
-                {
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, enemies[numParts][i]->getBulletSpeed()));
-                    posBulletX += 14;
-                    posBulletY += 10;
-                }
-
-                posBulletX += 14;
-                posBulletY -= 10;
-
-                // Crear más balas para enemigos medianos
-                for (int j = 0; j < 5; j++)
-                {
-                    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, enemies[numParts][i]->getBulletSpeed()));
-                    posBulletX += 14;
-                    posBulletY -= 10;
-                }
-            } else if (dynamic_cast<EnemyBase*> (enemies[numParts][i]))
-            {
-                // Manejar balas de enemigos de la base
-                audioPlayer->Play(2, 20);
-                bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 3, enemies[numParts][i]->getY1() + 10, false, enemies[numParts][i]->getBulletSpeed()));
-                bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 37, enemies[numParts][i]->getY1() + 10, false, enemies[numParts][i]->getBulletSpeed()));
-            }
+            if (EnemyLaser* laser = dynamic_cast<EnemyLaser*> (enemies[numParts][i]))
+                EnemyLaserEvent(laser, i);
+            else if (EnemyBoss* boss = dynamic_cast<EnemyBoss*> (enemies[numParts][i]))
+                EnemyBossEvent(boss, i , player);
+            else if (dynamic_cast<EnemyMid*> (enemies[numParts][i]))
+                EnemyMidEvent(i);
+            else if (dynamic_cast<EnemyBase*> (enemies[numParts][i]))
+                EnemyBaseEvent(i);
         }
 
         // Verificar colisión de balas de jugador con enemigos
@@ -389,6 +319,91 @@ void Level::deleteFromArrays()
             powerUps.erase(powerUps.begin() + powerUpsToRemove[i]);
         powerUpsToRemove.erase(powerUpsToRemove.begin() + i);
     }
+}
+
+void Level::EnemyLaserEvent(EnemyLaser* laser, int i)
+{
+    if (laser->isFirstShot())
+    {
+        bulletsEnemy.push_back(new BulletEnemy(textureBullet[1], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
+        laser->setFirstShot();
+        audioPlayer->Play(3, 30);
+    }
+    else
+        bulletsEnemy.push_back(new BulletEnemy(textureBullet[2], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
+}
+
+void Level::EnemyBossEvent(EnemyBoss* boss, int i, Player* player)
+{
+    if (!boss->isSecondPart())
+    {
+        if (!boss->isSecondPartP2())
+        {
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() - 20, player->getY2()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() + 20, player->getY2()));
+        }
+        else
+        {
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed() * 1.5, player->getX1() - 20, player->getY2()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed() * 1.5, player->getX1() + 20, player->getY2()));
+        }
+
+        audioPlayer->Play(2, 20);
+
+        if (boss->isThirdPart())
+        {
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 70, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() - 40, player->getY2()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 190, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() + 40, player->getY2()));
+            audioPlayer->Play(2, 20);
+        }
+    }
+    else
+    {
+        audioPlayer->Play(2, 20);
+        if (player->getY1() < 320)
+        {
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() - 20, player->getY2()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() + 20, player->getY2()));
+        }
+        bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
+        bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
+        bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 70, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
+        bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 190, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
+    }
+}
+
+void Level::EnemyMidEvent(int i) 
+{
+    // Manejar balas de enemigos medianos
+    audioPlayer->Play(2, 20);
+    int posBulletX = 2;
+    int posBulletY = 70;
+
+    // Crear balas para enemigos medianos
+    for (int j = 0; j < 5; j++)
+    {
+        bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, enemies[numParts][i]->getBulletSpeed()));
+        posBulletX += 14;
+        posBulletY += 10;
+    }
+
+    posBulletX += 14;
+    posBulletY -= 10;
+
+    // Crear más balas para enemigos medianos
+    for (int j = 0; j < 5; j++)
+    {
+        bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + posBulletX, enemies[numParts][i]->getY1() + posBulletY, false, enemies[numParts][i]->getBulletSpeed()));
+        posBulletX += 14;
+        posBulletY -= 10;
+    }
+}
+
+void Level::EnemyBaseEvent(int i)
+{
+    audioPlayer->Play(2, 20);
+    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 3, enemies[numParts][i]->getY1() + 10, false, enemies[numParts][i]->getBulletSpeed()));
+    bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 37, enemies[numParts][i]->getY1() + 10, false, enemies[numParts][i]->getBulletSpeed()));
 }
 
 void Level::draw(SDL_Renderer * renderer)

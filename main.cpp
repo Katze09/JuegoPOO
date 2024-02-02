@@ -6,7 +6,7 @@
 
 using namespace std;
 
-States* states;
+States* states;   
 Menu* menu;
 
 // Variables globales
@@ -16,7 +16,7 @@ bool startGame = false;
 int main(int argc, char** argv)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
-    SDL_Window* window = SDL_CreateWindow("Juego", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 700, 800, 0);
+    SDL_Window* window = SDL_CreateWindow("The Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 700, 800, 0);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     const int targetFPS = 60; // Reducido a 60 FPS para hacerlo más estándar
     const int frameDelay = 1000 / targetFPS;
