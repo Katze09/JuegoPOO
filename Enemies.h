@@ -16,6 +16,7 @@ public:
     virtual bool shot(double deltaTime);
     bool isDead();
     int getLife(){return life;}
+    void reduceLife() { life--; }
     int getBulletSpeed();
     int getScore();
 protected:
@@ -45,6 +46,20 @@ private:
     double laserSize;
     bool firstShot;
     double moveTo;
+};
+
+class EnemyKamikaze : public EnemyBase
+{
+public:
+    EnemyKamikaze();
+    EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1);
+    EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1, double speed);
+    virtual ~EnemyKamikaze();
+    void update(double deltaTime, double targetX, double targetY);
+    void shot() {} 
+    void draw(SDL_Renderer* renderer) override;
+private:
+    double angleRotation = 0;
 };
 
 class EnemyMid : public EnemyBase

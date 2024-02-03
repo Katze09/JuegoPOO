@@ -1,87 +1,23 @@
-﻿  Level.cpp
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(110,73): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(110,70): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(138,75): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(138,72): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(150,71): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(150,68): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(155,69): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(155,66): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(298,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(304,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(310,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(316,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(329,127): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(329,93): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(335,127): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(335,93): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(344,145): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(344,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(345,145): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(345,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(349,198): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(349,145): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(349,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(350,198): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(350,145): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(350,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(357,144): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(357,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(358,145): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(358,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(367,145): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(367,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(368,145): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(368,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(370,133): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(370,96): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(371,133): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(371,96): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(372,132): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(372,96): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(373,133): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(373,96): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(387,140): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(387,96): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(398,140): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(398,96): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(407,127): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(407,92): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(408,128): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(408,92): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Level.cpp(425,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-  Loader.cpp
-  Menu.cpp
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Menu.cpp(120,38): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Menu.cpp(120,34): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Menu.cpp(124,38): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Menu.cpp(124,34): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-  Obstacle.cpp
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Obstacle.cpp(23,38): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Obstacle.cpp(25,42): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Obstacle.cpp(37,43): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Obstacle.cpp(37,42): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Obstacle.cpp(39,46): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Obstacle.cpp(39,42): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Obstacle.cpp(122,44): warning C4267: '=': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Obstacle.cpp(203,37): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-  Player.cpp
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\Player.cpp(151,44): warning C4267: '=': conversión de 'size_t' a 'int'; posible pérdida de datos
+﻿  main.cpp
   States.cpp
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(38,38): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(73,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(73,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(74,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(74,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(40,38): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
 C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(75,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
 C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(75,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
 C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(76,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
 C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(76,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(81,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(81,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(82,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(82,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(90,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-  main.cpp
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(77,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(77,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(78,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(78,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(83,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(83,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(84,106): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(84,84): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(102,123): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(102,90): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(102,81): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(102,78): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(102,75): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\States.cpp(108,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
   Generando código...
   C++POOGameVisual.vcxproj -> C:\Users\Katze\Documents\JuegoC++Git\JuegoPOO\x64\Debug\C++POOGameVisual.exe

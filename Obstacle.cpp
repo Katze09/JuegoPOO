@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/class.cc to edit this template
- */
-
-/* 
- * File:   Obstacle.cpp
- * Author: Katze
- * 
- * Created on 11 de enero de 2024, 23:49
- */
-
 #include "Obstacle.h"
 
 Loader loaderAste;
@@ -213,6 +201,11 @@ void PowerUp::setPowerEffect(Player* player)
             player->setDoubleShot(true);
             player->activePowerUps[2] = true;
             player->timeLeftPowerUp[2] = 50;
+            break;
+        case 3:
+            player->setDoublePoints(true);
+            player->activePowerUps[3] = true;
+            player->timeLeftPowerUp[3] = 50;
             break;
     }
 }

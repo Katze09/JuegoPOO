@@ -9,8 +9,6 @@ Level::Level()
 {
 }
 
-// Constructor de Level con parámetros para el renderizador y el reproductor de audio
-
 Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
 {
     // Arreglos de nombres de archivos y texturas para las balas
@@ -23,6 +21,8 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[0] = "EnemyBase";
     nameFile[1] = "Died";
     texturesEnemyBase = load.loadTextures(nameFile, renderer, 2);
+
+    texturesEnemyKamikaze = load.loadTextures(nameFile, renderer, 2);
 
     nameFile[0] = "EnemyLaser";
     texturesEnemyLaser = load.loadTextures(nameFile, renderer, 2);
@@ -50,16 +50,17 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[0] = "PowerUpDouble";
     texturesPowerUp[2] = load.loadTextures(nameFile, renderer, 1);
 
+    nameFile[0] = "PowerUpDoubleP";
+    texturesPowerUp[3] = load.loadTextures(nameFile, renderer, 1);
+
     numParts = 0;
     numEnemies = 0;
 
-    // Crear el primer vector de enemigos
     enemies.push_back(std::vector<EnemyBase*>());
     //enemies[numParts].push_back(new EnemyBoss(texturesEnemyBoss, 200, -300, 50, 550));
+    //enemies[numParts].push_back(new EnemyKamikaze(texturesEnemyKamikaze, 0, 0));
 
-    // Establecer el reproductor de audio
     this->audioPlayer = audioPlayer;
-    // Inicializar la puntuación
     score = 0;
 }
 
@@ -79,8 +80,6 @@ Level::~Level()
 
 }
 
-// Establecer el número máximo de partes
-
 void Level::setMaxNumParts(int numParts)
 {
     this->maxnumParts = numParts;
@@ -93,7 +92,6 @@ void Level::setEnemyBase(int cant, double y, int movetype, bool direction, int b
     int x;
     int aumento;
 
-    // Determinar posición inicial y aumento según la dirección
     if (direction)
     {
         x = 700;
@@ -141,6 +139,24 @@ void Level::setEnemyLaser(int cant, double y, int movetype, bool direction, doub
     }
 }
 
+void Level::setEnemyKamikaze(int cant, double x, double y)
+{
+    for (int i = 0; i < cant; i++)
+    {
+        enemies[numParts].push_back(new EnemyKamikaze(texturesEnemyKamikaze, x, y));
+        x -= 60;
+    }
+}
+
+void Level::setEnemyKamikaze(int cant, double x, double y, double speed)
+{
+    for (int i = 0; i < cant; i++)
+    {
+        enemies[numParts].push_back(new EnemyKamikaze(texturesEnemyKamikaze, x, y, speed));
+        x -= 60;
+    }
+}
+
 // Establecer enemigos medianos
 
 void Level::setEnemyMid(int cant, double x, double y, double moveTo, int bulletSpeed)
@@ -183,6 +199,7 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
                 EnemyBossEvent(boss, i , player);
             else if (dynamic_cast<EnemyMid*> (enemies[numParts][i]))
                 EnemyMidEvent(i);
+            else if (dynamic_cast<EnemyKamikaze*> (enemies[numParts][i])) {}
             else if (dynamic_cast<EnemyBase*> (enemies[numParts][i]))
                 EnemyBaseEvent(i);
         }
@@ -193,17 +210,16 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
             ind = enemies[numParts][i]->isEnemyHit(bulletsPlayer);
         if (ind >= 0)
             bulletsPlayerToRemove.push_back(ind);
-        //bulletsPlayer.erase(bulletsPlayer.begin() + ind);
-
-        // Actualizar posición y animación de enemigos
-        enemies[numParts][i]->update(deltaTime);
+        if(EnemyKamikaze* kamikaze = dynamic_cast<EnemyKamikaze*> (enemies[numParts][i]))
+            kamikaze->update(deltaTime, player->getX1(), player->getY1());
+        else
+            enemies[numParts][i]->update(deltaTime);
 
         // Borrar enemigos después de la animación de muerte
         if (enemies[numParts][i]->endDeadAnimation())
         {
-            score += enemies[numParts][i]->getScore();
+            score += (player->haveDoublePoints()) ? enemies[numParts][i]->getScore() * 2 : enemies[numParts][i]->getScore();
             enemiesToRemove.push_back(i);
-            //enemies[numParts].erase(enemies[numParts].begin() + i);
         }
     }
 }
@@ -222,14 +238,13 @@ void Level::obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player
         // Actualizar posición y animación de asteroides
         asteroids[i]->update(deltaTime);
 
-        // Borrar asteroides que colisionan con el borde
         if (asteroids[i]->isCollsionBorder())
             asteroidsToRemove.push_back(i);
 
         // Borrar asteroides después de la animación de muerte
         if (asteroids[i]->endDeadAnimation())
         {
-            score += asteroids[i]->getScore();
+            score += (player->haveDoublePoints()) ? asteroids[i]->getScore() * 2 : asteroids[i]->getScore();
             asteroidsToRemove.push_back(i);
         }
     }
@@ -241,7 +256,6 @@ void Level::powerUpsEvents(double deltaTime)
     {
         if (powerUps[i]->isCollsionBorder())
             powerUpsToRemove.push_back(i);
-            //powerUps.erase(powerUps.begin() + i);
         powerUps[i]->update(deltaTime);
     }
 }
@@ -258,7 +272,7 @@ void Level::createAsteroid()
 void Level::createPowerUp()
 {
     int ran = load.randomNumber(1, probSpawnPowerUp[numParts]);
-    int type = load.randomNumber(0, 3);
+    int type = load.randomNumber(0, 4);
     if (ran == 5)
         powerUps.push_back(new PowerUp(texturesPowerUp[type], type));
 }
@@ -291,8 +305,7 @@ void Level::update(vector<BulletPlayer*>& bulletsPlayer, Player* player, double 
     createPowerUp();
 }
 
-// Dibujar el nivel en el renderizador
-
+//Eliminar del Vector Objetos no necesarios
 void Level::deleteFromArrays()
 {
     for (int i = bulletsToRemove.size() - 1; i >= 0; --i)

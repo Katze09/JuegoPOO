@@ -92,15 +92,6 @@ void EnemyBase::update(double deltaTime)
                 angle = 0.0;
             break;
     }
-    /*if (direction)
-    {
-        setX(X1 - (speed * deltaTime));
-        collisionBorder();
-    } else
-    {
-        setX(X1 + (speed * deltaTime));
-        collisionBorder();
-    }*/
     animationDead(deltaTime);
 }
 
@@ -215,6 +206,53 @@ bool EnemyLaser::isFirstShot()
 void EnemyLaser::setFirstShot()
 {
     firstShot = false;
+}
+
+EnemyKamikaze::EnemyKamikaze() : EnemyBase()
+{
+}
+
+EnemyKamikaze::EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1) : EnemyBase(textures, X1, Y1, false, 0, 0)
+{
+    
+}
+
+EnemyKamikaze::EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1, double speed) : EnemyBase(textures, X1, Y1, false, 0, 0)
+{
+    this->speed = speed;
+}
+
+EnemyKamikaze::~EnemyKamikaze()
+{
+}
+
+void EnemyKamikaze::update(double deltaTime, double targetX, double targetY)
+{
+    double dx = targetX - X1;
+    double dy = targetY - Y1;
+    // Calcular la distancia total al objetivo
+    double distance = sqrt(dx * dx + dy * dy);
+    if (distance > 0)
+    {
+        dx /= distance;
+        dy /= distance;
+    }
+    // Calcular el desplazamiento en cada eje
+    double deltaX = dx * speed * deltaTime;
+    double deltaY = dy * speed * deltaTime;
+    double angleInRadians = atan2(deltaY, deltaX);
+    angleRotation = (angleInRadians * (180.0 / M_PI) - 90);
+    // Asignar las nuevas coordenadas
+    setX(X1 + deltaX);
+    setY(Y1 + deltaY);
+    animationDead(deltaTime);
+}
+
+
+void EnemyKamikaze::draw(SDL_Renderer* renderer)
+{
+    SDL_Rect destinationRect = { static_cast<int> (X1), static_cast<int> (Y1), WIDTH, HEIGHT };
+    SDL_RenderCopyEx(renderer, textures[indexTexture], NULL, &destinationRect, angleRotation, NULL, SDL_FLIP_NONE);
 }
 
 EnemyMid::EnemyMid() : EnemyBase()

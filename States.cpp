@@ -26,6 +26,8 @@ States::States(SDL_Renderer* renderer)
     nameFile[2] = "Died";
     textures = loader.loadTextures(nameFile, renderer, 3);
 
+    specialAttackTexture = loader.LoadTexture("SpecialAttack", renderer);
+
     player = new Player(textures, 310, 460, true);
     textures.clear(); // Limpiar texturas después de su uso
 
@@ -86,6 +88,22 @@ void States::bulletsPlayerEvents(double deltaTime)
         cooldownShot = player->getCoolDownShot();
     }
 
+    if (player->haveSpecialAttackShot() && !player->isDead())
+    {
+        int numShot = 50;
+        for (int i = 0; i < numShot; ++i)
+        {
+            double radius = 100;
+            double angle = (2 * M_PI / numShot) * i;  // Ángulo equidistante
+            double x = player->getX1() + (radius * cos(angle) + 30);
+            double y = player->getY1() + (radius * sin(angle) + 30);
+            double targetX = player->getX1() + 2 * radius * cos(angle);
+            double targetY = player->getY1() + 2 * radius * sin(angle);
+            bulletsPlayer.push_back(new BulletPlayerSpecial(spriteBullet, x, y, targetX, targetY, player->getBulletSpeed()/1.5));
+        }
+        player->setSpecialAttackShot(false);
+    }
+
     // Eliminar balas del vector cuando salen de la pantalla
     for (int i = bulletsPlayer.size() - 1; i >= 0; --i)
         if (bulletsPlayer[i]->getY1() <= -10)
@@ -129,6 +147,13 @@ void States::draw(SDL_Renderer* renderer)
     {
         winEvent(renderer);
     }
+    int x = 30;
+    for (int i = 0; i < player->getNumSpecialAttack(); i++)
+    {
+        SDL_Rect destRect = { x, 730, 50, 50 };
+        SDL_RenderCopy(renderer, specialAttackTexture, NULL, &destRect);
+        x += 60;
+    }
     texts.drawText("Score " + to_string(gameLevels[level]->getScore()), 10, 10, renderer);
     texts.drawText("Level " + to_string(level + 1), 535, 10, renderer);
     texts.drawText("Deaths " + to_string(deaths), 265, 10, renderer);
@@ -158,6 +183,13 @@ void States::update(double deltaTime)
             if (ind > -1)
             {
                 gameLevels[level]->asteroids[ind]->reduceLife();
+                audioPlayer->Play(1, 128);
+                deaths++;
+            }
+            ind = player->isPlayerHitEnemy(gameLevels[level]->enemies[gameLevels[level]->numParts]);
+            if (ind > -1)
+            {
+                gameLevels[level]->enemies[gameLevels[level]->numParts][ind]->reduceLife();
                 audioPlayer->Play(1, 128);
                 deaths++;
             }
@@ -229,6 +261,8 @@ void States::passLevel(SDL_Renderer* renderer)
         {
             passingLevel = false;
             level++;
+            if (player->getNumSpecialAttack() < 3)
+                player->increaseNumSpecialAttack();
             gameLevels[level]->setScore(gameLevels[level - 1]->getScore());
             totalScore = gameLevels[level]->getScore();
         }
@@ -246,13 +280,16 @@ void States::deadEvent(SDL_Renderer* renderer)
         textures = loader.loadTextures(nameFile, renderer, 3);
 
         // Crear jugador en la posición inicial
-        player = new Player(textures, 310, 460, true);
+        Player* newPlay = new Player(textures, 310, 460, true);
+        newPlay->setNumSpecialAttack(player->getNumSpecialAttack());
+        player = newPlay;
         Level* lev = loader.LoadLevel((level + 1), renderer, audioPlayer);
         lev->setScore(totalScore);
         gameLevels[level] = lev;
         continueLevel = false;
         delayPart = 0;
     }
+    
     textsTitle.drawText("You died", 200, 300, renderer);
     texts.drawText("Press space to try again", 80, 400, renderer);
 }
@@ -269,11 +306,20 @@ void States::updateInput(SDL_Keycode key)
 {
     // Mover jugador y activar disparo al presionar teclas
     player->move(key);
-    if (key == SDLK_SPACE)
+    switch (key)
     {
-        PlayerShot = true;
-        if (player->endDeadAnimation())
-            continueLevel = true;
+        case SDLK_SPACE:
+            PlayerShot = true;
+            if (player->endDeadAnimation())
+                continueLevel = true;
+            break;
+        case SDLK_e:
+            if (player->getNumSpecialAttack() > 0)
+            {
+                player->setSpecialAttackShot(true);
+                player->reduceNumSpecialAttack();
+            }
+            break;
     }
 }
 

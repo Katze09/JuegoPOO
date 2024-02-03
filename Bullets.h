@@ -18,6 +18,22 @@ protected:
     void animationDead(double deltaTime);
 };
 
+class BulletPlayerSpecial : public BulletPlayer
+{
+public:
+    BulletPlayerSpecial();
+    BulletPlayerSpecial(SDL_Texture* texture, float X1, float Y1, float targetX, float targetY, int speed);
+    virtual ~BulletPlayerSpecial();
+    void update(double deltaTime) override;
+    void draw(SDL_Renderer* renderer) override;
+private:
+    double dx;
+    double dy;
+    double deltaX;
+    double deltaY;
+    double angleRotation;
+};
+
 class BulletEnemy : public BulletPlayer
 {
 public:

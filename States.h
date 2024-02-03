@@ -45,6 +45,7 @@ private:
     Player* player2;
     Background background;
     vector<SDL_Texture*> textures;
+    SDL_Texture* specialAttackTexture;
     double delayPart;
     double delayLevel;
     bool pastPart;

@@ -115,7 +115,24 @@ Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPl
                     std::cout << "      Tipo de movimiento: " << enemy->FirstChildElement("MoveType")->GetText() << std::endl;
                     std::cout << "      Dirección: " << enemy->FirstChildElement("direction")->GetText() << std::endl;
                     std::cout << "      Mover a : " << enemy->FirstChildElement("moveTo")->GetText() << std::endl;
-                } else if (std::string(enemy->Name()) == "EnemyMid")
+                }
+                else if (string(enemy->Name()) == "EnemyKamikaze")
+                {
+                    int cant = stoi(enemy->FirstChildElement("quantity")->GetText());
+                    double x = atof(enemy->FirstChildElement("X")->GetText());
+                    double y = atof(enemy->FirstChildElement("Y")->GetText());
+                    double speed = 0;
+                    tinyxml2::XMLElement* speedE = enemy->FirstChildElement("speed");
+                    if (speedE)
+                        speed = atof(speedE->GetText());
+                    if(speed > 0)
+                        gameLevel->setEnemyKamikaze(cant, x, y, speed);
+                    else
+                        gameLevel->setEnemyKamikaze(cant, x, y);
+                    std::cout << "      Cantidad: " << enemy->FirstChildElement("quantity")->GetText() << std::endl;
+                    std::cout << "      X: " << enemy->FirstChildElement("X")->GetText() << std::endl;
+                    std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
+                }else if (std::string(enemy->Name()) == "EnemyMid")
                 {
                     int cant = stoi(enemy->FirstChildElement("quantity")->GetText());
                     double x = atof(enemy->FirstChildElement("X")->GetText());

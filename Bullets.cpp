@@ -40,6 +40,49 @@ void BulletPlayer::animationDead(double deltaTime)
 
 }
 
+BulletPlayerSpecial::BulletPlayerSpecial() : BulletPlayer()
+{
+}
+
+BulletPlayerSpecial::BulletPlayerSpecial(SDL_Texture* texture, float X1, float Y1, float targetX, float targetY, int speed) : BulletPlayer(texture, X1, Y1, false, speed)
+{
+    dx = targetX - X1;
+    dy = targetY - Y1;
+    // Calcular la distancia total al objetivo
+    double distance = sqrt(dx * dx + dy * dy);
+    if (distance > 0)
+    {
+        dx /= distance;
+        dy /= distance;
+    }
+    // Calcular el desplazamiento en cada eje
+    deltaX = dx * speed * deltaTime;
+    deltaY = dy * speed * deltaTime;
+    double angleInRadians = atan2(deltaY, deltaX);
+    angleRotation = (angleInRadians * (180.0 / M_PI));
+    // Asignar las nuevas coordenadas
+}
+
+BulletPlayerSpecial::~BulletPlayerSpecial()
+{
+}
+
+void BulletPlayerSpecial::update(double deltaTime)
+{
+    deltaX = dx * speed * deltaTime;
+    deltaY = dy * speed * deltaTime;
+    double angleInRadians = atan2(deltaY, deltaX);
+    angleRotation = (angleInRadians * (180.0 / M_PI) - -90);
+    setX(X1 + deltaX);
+    setY(Y1 + deltaY);
+}
+
+void BulletPlayerSpecial::draw(SDL_Renderer* renderer)
+{
+    SDL_Rect destinationRect = { static_cast<int> (X1), static_cast<int> (Y1), WIDTH, HEIGHT };
+    SDL_RenderCopyEx(renderer, textures[indexTexture], NULL, &destinationRect, angleRotation, NULL, SDL_FLIP_NONE);
+}
+
 //
 //Clase Bullet Enemy
 //
@@ -50,7 +93,7 @@ BulletEnemy::BulletEnemy() : BulletPlayer()
 
 BulletEnemy::BulletEnemy(SDL_Texture* texture, float X1, float Y1, bool direction, int speed) : BulletPlayer(texture, X1, Y1, direction, speed)
 {
-    //this->speed = speed;
+
 }
 
 BulletEnemy::~BulletEnemy()

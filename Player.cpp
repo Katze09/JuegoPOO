@@ -17,10 +17,6 @@ Player::Player(vector<SDL_Texture*> textures, float X1, float Y1, bool player1)
     normalSpeedCool = 2;
     this->player1 = player1;
     doubleShot = inmortal = false;
-    activePowerUps[0] = false;
-    activePowerUps[1] = false;
-    timeLeftPowerUp[0] = 3;
-    timeLeftPowerUp[1] = 3;
     up = false;
     down = false;
     right = false;
@@ -41,7 +37,6 @@ int Player::isPlayerHit(vector<BulletEnemy*> bulletsEnemy)
         {
             dead = true;
             speedAnimations = 1;
-            //isDead();
             return i;
         }
     return -1;
@@ -55,7 +50,19 @@ int Player::isPlayerHitObstacle(vector<Obstacle*> obstacle)
         {
             dead = true;
             speedAnimations = 1;
-            //isDead();
+            return i;
+        }
+    return -1;
+}
+
+int Player::isPlayerHitEnemy(vector<EnemyBase*> enemy)
+{
+    for (int i = 0; i < enemy.size(); i++)
+        if (enemy[i]->getX1HitBox() < X2HitBox && enemy[i]->getX2HitBox() > X1HitBox &&
+            enemy[i]->getY1HitBox() < Y2HitBox && enemy[i]->getY2HitBox() > Y1HitBox)
+        {
+            dead = true;
+            speedAnimations = 1;
             return i;
         }
     return -1;
@@ -161,7 +168,7 @@ void Player::animationDead(double deltaTime)
 
 void Player::timeLetfPowerUps(double deltaTime)
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 4; i++)
         if (activePowerUps[i])
         {
             timeLeftPowerUp[i] -= 15 * deltaTime;
@@ -178,6 +185,9 @@ void Player::timeLetfPowerUps(double deltaTime)
                         break;
                     case 2:
                         doubleShot = false;
+                        break;
+                    case 3:
+                        doublePoints = false;
                         break;
                 }
             }
@@ -209,51 +219,6 @@ void Player::update(double deltaTime)
     collisionBorder();
     animationBase(deltaTime);
     animationDead(deltaTime);
-}
-
-bool Player::isDead()
-{
-    return dead;
-}
-
-bool Player::isInmortal()
-{
-    return inmortal;
-}
-
-void Player::setInmortal(bool inmortal)
-{
-    this->inmortal = inmortal;
-}
-
-bool Player::haveDoubleShot()
-{
-    return doubleShot;
-}
-
-void Player::setDoubleShot(bool doubleShot)
-{
-    this->doubleShot = doubleShot;
-}
-
-int Player::getBulletSpeed()
-{
-    return bulletSpeed;
-}
-
-void Player::setBulletSpeed(int bulletSpeed)
-{
-    this->bulletSpeed = bulletSpeed;
-}
-
-int Player::getCoolDownShot()
-{
-    return coolDownShot;
-}
-
-void Player::setCoolDownShot(int coolDownShot)
-{
-    this->coolDownShot = coolDownShot;
 }
 
 void Player::draw(SDL_Renderer* renderer)

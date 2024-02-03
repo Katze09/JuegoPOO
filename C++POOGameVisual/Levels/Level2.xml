@@ -15,6 +15,21 @@
 				<direction>1</direction>
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyBase>
+			<EnemyKamikaze>
+				<quantity>2</quantity>
+				<X>0</X>
+				<Y>0</Y>
+			</EnemyKamikaze>
+			<EnemyKamikaze>
+				<quantity>1</quantity>
+				<X>300</X>
+				<Y>0</Y>
+			</EnemyKamikaze>
+			<EnemyKamikaze>
+				<quantity>2</quantity>
+				<X>700</X>
+				<Y>0</Y>
+			</EnemyKamikaze>
 			<Obstacles>
 				<SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
 				<SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>
@@ -107,6 +122,16 @@
 				<moveTo>650</moveTo>
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyLaser>
+			<EnemyKamikaze>
+				<quantity>2</quantity>
+				<X>0</X>
+				<Y>0</Y>
+			</EnemyKamikaze>
+			<EnemyKamikaze>
+				<quantity>2</quantity>
+				<X>700</X>
+				<Y>0</Y>
+			</EnemyKamikaze>
 			<Obstacles>
 				<SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
 				<SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>

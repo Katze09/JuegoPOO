@@ -39,6 +39,11 @@
 				<moveTo>500</moveTo>
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyLaser>
+			<EnemyKamikaze>
+				<quantity>2</quantity>
+				<X>700</X>
+				<Y>0</Y>
+			</EnemyKamikaze>
 			<Obstacles>
 				<SpawnProbability>150</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
 				<SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>
