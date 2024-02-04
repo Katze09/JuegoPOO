@@ -16,7 +16,7 @@ public:
     Level();
     Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer);
     virtual ~Level();
-    void update(vector<BulletPlayer*>& bulletsPlayer, Player* player, double deltaTime);
+    void update(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, double deltaTime);
     void draw(SDL_Renderer* renderer);
     int numParts;
     int maxnumParts;
@@ -38,8 +38,8 @@ public:
     int getScore();
     void setScore(int score);
 private:
-    void bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player, double deltaTime);
-    void obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player, double deltaTime);
+    void bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, double deltaTime);
+    void obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, double deltaTime);
     void powerUpsEvents(double deltaTime);
     void createAsteroid();
     void createPowerUp();

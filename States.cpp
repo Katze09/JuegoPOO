@@ -28,13 +28,13 @@ States::States(SDL_Renderer* renderer)
 
     specialAttackTexture = loader.LoadTexture("SpecialAttack", renderer);
 
-    player = new Player(textures, 310, 460, true);
+    player[0] = new Player(textures, 310, 460);
     textures.clear(); // Limpiar texturas después de su uso
 
     background = Background(loader.LoadTexture("Background", renderer));
 
-    cooldownShot = 0;
-    passingLevel = PlayerShot = false;
+    cooldownShot[0] = cooldownShot[1] = 0;
+    passingLevel = PlayerShot[0] = PlayerShot[1] = false;
     level = 0;
     startCoolDown = 80;
     deaths = totalScore = delayLevel = delayPart = 0;
@@ -52,58 +52,76 @@ States::States(SDL_Renderer* renderer)
     continueLevel = false;
     win = false;
 }
-
+ 
 States::~States()
 {
     delete audioPlayer; // Liberar memoria para el reproductor de audio
-    delete player; // Liberar memoria para el jugador
+    for (int i = 0; i < 2; ++i)
+        delete player[i];
     for (int i = 0; i < bulletsPlayer.size(); ++i)
         delete bulletsPlayer[i];
     for (int i = 0; i < 2; ++i)
         delete gameLevels[i];
 }
 
+void States::setPlayer2(SDL_Renderer* renderer)
+{
+    string nameFile[10];
+    nameFile[0] = "Player2";
+    nameFile[1] = "Shield";
+    nameFile[2] = "Died";
+    numPlayers++;
+    player[1] = new Player2(loader.loadTextures(nameFile, renderer, 3), 400, 460);
+}
+
 // Manejar eventos relacionados con las balas del jugador
 
 void States::bulletsPlayerEvents(double deltaTime)
 {
-    if (PlayerShot && cooldownShot <= 0 && !player->isDead())
+    for (int p = 0; p < numPlayers; p++)
     {
-        // Crear balas si se presiona el espacio y el cooldown ha terminado
-        if (player->haveDoubleShot())
+        if (PlayerShot[p] && cooldownShot[p] <= 0 && !player[p]->isDead())
         {
-            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 10, player->getY1() + 10, true, player->getBulletSpeed()));
-            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 30, player->getY1() + 10, true, player->getBulletSpeed()));
-            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 40, player->getY1() + 10, true, player->getBulletSpeed()));
-            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 60, player->getY1() + 10, true, player->getBulletSpeed()));
-            audioPlayer->Play(0, 100);
-            audioPlayer->Play(0, 100);
-        } else
-        {
-            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 12, player->getY1() + 10, true, player->getBulletSpeed()));
-            bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player->getX1() + 47, player->getY1() + 10, true, player->getBulletSpeed()));
-            audioPlayer->Play(0, 100);
+            // Crear balas si se presiona el espacio y el cooldown ha terminado
+            if (player[p]->haveDoubleShot())
+            {
+                bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 10, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
+                bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 30, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
+                bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 40, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
+                bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 60, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
+                audioPlayer->Play(0, 100);
+                audioPlayer->Play(0, 100);
+            }
+            else
+            {
+                bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 12, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
+                bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 47, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
+                audioPlayer->Play(0, 100);
+            }
+            // Establecer cooldown y reproducir sonido de disparo
+            cooldownShot[p] = player[p]->getCoolDownShot();
         }
-        // Establecer cooldown y reproducir sonido de disparo
-        cooldownShot = player->getCoolDownShot();
-    }
 
-    if (player->haveSpecialAttackShot() && !player->isDead())
-    {
-        int numShot = 50;
-        for (int i = 0; i < numShot; ++i)
+        if (player[p]->haveSpecialAttackShot() && !player[p]->isDead())
         {
-            double radius = 100;
-            double angle = (2 * M_PI / numShot) * i;  // Ángulo equidistante
-            double x = player->getX1() + (radius * cos(angle) + 30);
-            double y = player->getY1() + (radius * sin(angle) + 30);
-            double targetX = player->getX1() + 2 * radius * cos(angle);
-            double targetY = player->getY1() + 2 * radius * sin(angle);
-            bulletsPlayer.push_back(new BulletPlayerSpecial(spriteBullet, x, y, targetX, targetY, player->getBulletSpeed()/1.5));
+            int numShot = 50;
+            for (int i = 0; i < numShot; ++i)
+            {
+                double radius = 100;
+                double angle = (2 * M_PI / numShot) * i;  // Ángulo equidistante
+                double x = player[p]->getX1() + (radius * cos(angle) + 30);
+                double y = player[p]->getY1() + (radius * sin(angle) + 30);
+                double targetX = player[p]->getX1() + 2 * radius * cos(angle);
+                double targetY = player[p]->getY1() + 2 * radius * sin(angle);
+                bulletsPlayer.push_back(new BulletPlayerSpecial(spriteBullet, x, y, targetX, targetY, player[p]->getBulletSpeed() / 1.5));
+                audioPlayer->Play(0, 100);
+            }
+            player[p]->setSpecialAttackShot(false);
         }
-        player->setSpecialAttackShot(false);
+        // Contar cooldown
+        if (cooldownShot[p] > 0)
+            cooldownShot[p] -= 15 * deltaTime;
     }
-
     // Eliminar balas del vector cuando salen de la pantalla
     for (int i = bulletsPlayer.size() - 1; i >= 0; --i)
         if (bulletsPlayer[i]->getY1() <= -10)
@@ -112,10 +130,6 @@ void States::bulletsPlayerEvents(double deltaTime)
     // Actualizar movimiento de balas
     for (int i = 0; i < bulletsPlayer.size(); i++)
         bulletsPlayer[i]->update(deltaTime);
-
-    // Contar cooldown
-    if (cooldownShot > 0)
-        cooldownShot -= 15 * deltaTime;
 }
 
 // Dibujar elementos del juego en el renderizador
@@ -139,21 +153,30 @@ void States::draw(SDL_Renderer* renderer)
         else if (startCoolDown < 30)
             textsTitle.drawText("Start", 250, 300, renderer);
     }
-    if (!player->endDeadAnimation())
-        player->draw(renderer);
-    else
+    for (int p = 0; p < numPlayers; p++)
+    {
+        if (!player[p]->endDeadAnimation())
+            player[p]->draw(renderer);
+        if (win)
+        {
+            winEvent(renderer);
+        }
+        int x = 30;
+        if (p == 1)
+            x = 500;
+        for (int i = 0; i < player[p]->getNumSpecialAttack(); i++)
+        {
+            SDL_Rect destRect = { x, 730, 50, 50 };
+            SDL_RenderCopy(renderer, specialAttackTexture, NULL, &destRect);
+            x += 60;
+        }
+    }
+    if (numPlayers > 1)
+    {
+        if (player[0]->isDead() && player[1]->isDead())
+            deadEvent(renderer);
+    }else if(player[0]->isDead())
         deadEvent(renderer);
-    if(win)
-    {
-        winEvent(renderer);
-    }
-    int x = 30;
-    for (int i = 0; i < player->getNumSpecialAttack(); i++)
-    {
-        SDL_Rect destRect = { x, 730, 50, 50 };
-        SDL_RenderCopy(renderer, specialAttackTexture, NULL, &destRect);
-        x += 60;
-    }
     texts.drawText("Score " + to_string(gameLevels[level]->getScore()), 10, 10, renderer);
     texts.drawText("Level " + to_string(level + 1), 535, 10, renderer);
     texts.drawText("Deaths " + to_string(deaths), 265, 10, renderer);
@@ -165,57 +188,56 @@ void States::update(double deltaTime)
 {
     // Actualizar fondo y jugador
     background.update(deltaTime);
-    if (!player->endDeadAnimation())
+    for (int p = 0; p < numPlayers; p++)
     {
-        player->update(deltaTime);
-
-        // Verificar colisiones del jugador con balas enemigas y obstáculos
-        if (!player->isDead() && !player->isInmortal())
+        if (!player[p]->endDeadAnimation())
         {
-            int ind = player->isPlayerHit(gameLevels[level]->bulletsEnemy);
-            if (ind > -1)
+            player[p]->update(deltaTime);
+
+            // Verificar colisiones del jugador con balas enemigas y obstáculos
+            if (!player[p]->isDead() && !player[p]->isInmortal())
             {
-                gameLevels[level]->bulletsToRemove.push_back(ind);
-                audioPlayer->Play(1, 128);
-                deaths++;
+                int ind = player[p]->isPlayerHit(gameLevels[level]->bulletsEnemy);
+                if (ind > -1)
+                {
+                    gameLevels[level]->bulletsToRemove.push_back(ind);
+                    audioPlayer->Play(1, 128);
+                    deaths++;
+                }
+                ind = player[p]->isPlayerHitObstacle(gameLevels[level]->asteroids);
+                if (ind > -1)
+                {
+                    gameLevels[level]->asteroids[ind]->reduceLife();
+                    audioPlayer->Play(1, 128);
+                    deaths++;
+                }
+                ind = player[p]->isPlayerHitEnemy(gameLevels[level]->enemies[gameLevels[level]->numParts]);
+                if (ind > -1)
+                {
+                    gameLevels[level]->enemies[gameLevels[level]->numParts][ind]->reduceLife();
+                    audioPlayer->Play(1, 128);
+                    deaths++;
+                }
             }
-            ind = player->isPlayerHitObstacle(gameLevels[level]->asteroids);
-            if (ind > -1)
-            {
-                gameLevels[level]->asteroids[ind]->reduceLife();
-                audioPlayer->Play(1, 128);
-                deaths++;
-            }
-            ind = player->isPlayerHitEnemy(gameLevels[level]->enemies[gameLevels[level]->numParts]);
-            if (ind > -1)
-            {
-                gameLevels[level]->enemies[gameLevels[level]->numParts][ind]->reduceLife();
-                audioPlayer->Play(1, 128);
-                deaths++;
-            }
+            for (int i = 0; i < gameLevels[level]->powerUps.size(); i++)
+                if (gameLevels[level]->powerUps[i]->isCollisionPlayer(player[p]))
+                {
+                    gameLevels[level]->powerUps[i]->setPowerEffect(player[p]);
+                    gameLevels[level]->powerUpsToRemove.push_back(i);
+                }
         }
-        for (int i = 0; i < gameLevels[level]->powerUps.size(); i++)
-            if (gameLevels[level]->powerUps[i]->isCollisionPlayer(player))
-            {
-                gameLevels[level]->powerUps[i]->setPowerEffect(player);
-                gameLevels[level]->powerUpsToRemove.push_back(i);
-            }
     }
     bulletsPlayerEvents(deltaTime);
     if (startCoolDown <= 0)
-    {
-        // Actualizar nivel actual si no se está pasando de nivel
         if (!passingLevel)
         {
-            gameLevels[level]->update(bulletsPlayer, player, deltaTime);
+            gameLevels[level]->update(bulletsPlayer, player, numPlayers, deltaTime);
             checkPartFinish();
         }
-        // Contar tiempo de retardo entre partes del nivel y niveles
-        if (delayPart > 0)
-            delayPart -= deltaTime * 15;
-        if (delayLevel > 0)
-            delayLevel -= deltaTime * 15;
-    }
+    if (delayPart > 0)
+        delayPart -= deltaTime * 15;
+    if (delayLevel > 0)
+        delayLevel -= deltaTime * 15;
     if (startCoolDown > 0)
         startCoolDown -= deltaTime * 25;
 }
@@ -237,6 +259,26 @@ void States::checkPartFinish()
         {
             passingLevel = true;
             delayLevel = 50;
+            for (int p = 0; p < numPlayers; p++)
+            {
+                if (player[p]->getNumSpecialAttack() < 3 && !player[p]->isDead())
+                    player[p]->increaseNumSpecialAttack();
+                if (player[p]->isDead())
+                {
+                    if (p == 0)
+                    {
+                        Player* newPlay = new Player(player[0]->getTextures(), 310, 460);
+                        newPlay->setNumSpecialAttack(player[0]->getNumSpecialAttack());
+                        player[p] = newPlay;
+                    }
+                    else
+                    {
+                        Player* newPlay = new Player2(player[1]->getTextures(), 400, 460);
+                        newPlay->setNumSpecialAttack(player[1]->getNumSpecialAttack());
+                        player[p] = newPlay;
+                    }
+                }
+            }
         }
         pastPart = false;
     }
@@ -261,8 +303,6 @@ void States::passLevel(SDL_Renderer* renderer)
         {
             passingLevel = false;
             level++;
-            if (player->getNumSpecialAttack() < 3)
-                player->increaseNumSpecialAttack();
             gameLevels[level]->setScore(gameLevels[level - 1]->getScore());
             totalScore = gameLevels[level]->getScore();
         }
@@ -280,9 +320,19 @@ void States::deadEvent(SDL_Renderer* renderer)
         textures = loader.loadTextures(nameFile, renderer, 3);
 
         // Crear jugador en la posición inicial
-        Player* newPlay = new Player(textures, 310, 460, true);
-        newPlay->setNumSpecialAttack(player->getNumSpecialAttack());
-        player = newPlay;
+        Player* newPlay = new Player(textures, 310, 460);
+        newPlay->setNumSpecialAttack(player[0]->getNumSpecialAttack());
+        player[0] = newPlay;
+        if (numPlayers > 1)
+        {
+            nameFile[0] = "Player2";
+            nameFile[1] = "Shield";
+            nameFile[2] = "Died";
+            textures = loader.loadTextures(nameFile, renderer, 3);
+            Player* newPlay2 = new Player2(textures, 400, 460);
+            newPlay2->setNumSpecialAttack(player[1]->getNumSpecialAttack());
+            player[1] = newPlay2;
+        }
         Level* lev = loader.LoadLevel((level + 1), renderer, audioPlayer);
         lev->setScore(totalScore);
         gameLevels[level] = lev;
@@ -305,21 +355,38 @@ void States::winEvent(SDL_Renderer* renderer)
 void States::updateInput(SDL_Keycode key)
 {
     // Mover jugador y activar disparo al presionar teclas
-    player->move(key);
+    player[0]->move(key);
     switch (key)
     {
         case SDLK_SPACE:
-            PlayerShot = true;
-            if (player->endDeadAnimation())
+            PlayerShot[0] = true;
+            if (player[0]->endDeadAnimation())
                 continueLevel = true;
             break;
         case SDLK_e:
-            if (player->getNumSpecialAttack() > 0)
+            if (player[0]->getNumSpecialAttack() > 0)
             {
-                player->setSpecialAttackShot(true);
-                player->reduceNumSpecialAttack();
+                player[0]->setSpecialAttackShot(true);
+                player[0]->reduceNumSpecialAttack();
             }
             break;
+    }
+    if (numPlayers > 1)
+    {
+        player[1]->move(key);
+        switch (key)
+        {
+        case SDLK_RSHIFT:
+            PlayerShot[1] = true;
+            break;
+        case SDLK_i:
+                if (player[1]->getNumSpecialAttack() > 0)
+                {
+                    player[1]->setSpecialAttackShot(true);
+                    player[1]->reduceNumSpecialAttack();
+                }
+            break;
+        }
     }
 }
 
@@ -329,7 +396,13 @@ void States::inputUp(SDL_Keycode key)
 {
     // Desactivar disparo al soltar la tecla de espacio
     if (key == SDLK_SPACE)
-        PlayerShot = false;
+        PlayerShot[0] = false;
     else
-        player->stop(key);
+        player[0]->stop(key);
+    if(numPlayers > 1)
+        if (key == SDLK_RSHIFT)
+            PlayerShot[1] = false;
+        else
+            player[1]->stop(key);
+
 }

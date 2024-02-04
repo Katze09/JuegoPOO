@@ -17,6 +17,7 @@ public:
     Object(vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Object();
 
+    vector<SDL_Texture*> getTextures() { return textures; }
     SDL_Texture* getTexture(int index);
     double getX1();
     double getX2();

@@ -21,6 +21,7 @@ public:
     virtual ~States();
     void draw(SDL_Renderer* renderer);
     void update(double deltaTime);
+    void setPlayer2(SDL_Renderer* renderer);
     void updateInput(SDL_Keycode key);
     void inputUp(SDL_Keycode key);
 private:
@@ -28,8 +29,8 @@ private:
     SDL_Texture* spriteBullet;
     Texts texts;
     Texts textsTitle;
-    double cooldownShot;
-    bool PlayerShot;
+    double cooldownShot[2];
+    bool PlayerShot[2];
     bool win;
     void bulletsPlayerEvents(double deltaTime);
     void checkPartFinish();
@@ -41,8 +42,9 @@ private:
     int maxLevel;
     bool continueLevel;
     AudioPlayer* audioPlayer;
-    Player* player;
-    Player* player2;
+    Player* player[2];
+    int numPlayers = 1;
+    //Player2* player2;
     Background background;
     vector<SDL_Texture*> textures;
     SDL_Texture* specialAttackTexture;

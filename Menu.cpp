@@ -31,7 +31,8 @@ int Menu::click(int x, int y)
     {
         if (player1.isPresed(x, y))
             return 1;
-        player2.isPresed(x, y);
+        if (player2.isPresed(x, y))
+            return 2;
         if (back.isPresed(x, y))
             selectPlayer = false;
     }

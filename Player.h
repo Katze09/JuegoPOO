@@ -12,15 +12,15 @@ using namespace std;
 class Player : public Object {
 public:
     Player();
-    Player(vector<SDL_Texture*> textures, float X1, float Y1, bool player1);
+    Player(vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Player();
     void update(double deltaTime);
     void draw(SDL_Renderer* renderer);
     int isPlayerHit(vector<BulletEnemy*> bulletsEnemy);
     int isPlayerHitObstacle(vector<Obstacle*> asteroids);
     int isPlayerHitEnemy(vector<EnemyBase*> enemy);
-    void move(SDL_Keycode key);
-    void stop(SDL_Keycode key);
+    virtual void move(SDL_Keycode key);
+    virtual void stop(SDL_Keycode key);
     bool isDead(){return dead;}
     bool isInmortal(){return inmortal;}
     void setInmortal(bool inmortal){this->inmortal = inmortal;}
@@ -40,7 +40,7 @@ public:
     bool haveSpecialAttackShot() { return specialAttackShot; }
     bool activePowerUps[4] = {false,false,false,false};
     double timeLeftPowerUp[4] = {3,3,3,3};
-private:
+protected:
     bool up;
     bool down;
     bool right;
@@ -52,13 +52,22 @@ private:
     double normalSpeedCool;
     int bulletSpeed;
     int coolDownShot;
-    bool player1;
     int specialAttack = 3;
     bool specialAttackShot = false;
     void collisionBorder();
     void timeLetfPowerUps(double deltaTime);
     void animationBase(double deltaTime);
     void animationDead(double deltaTime);
+};
+
+class Player2 : public Player
+{
+public:
+    Player2();
+    Player2(vector<SDL_Texture*> textures, float X1, float Y1);
+    virtual ~Player2();
+    void move(SDL_Keycode key) override;
+    void stop(SDL_Keycode key) override;
 };
 
 #endif // PLAYER_H

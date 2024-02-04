@@ -5,17 +5,13 @@ Player::Player() : Object()
 {
 }
 
-Player::Player(vector<SDL_Texture*> textures, float X1, float Y1, bool player1)
-: Object(textures, X1, Y1)
+Player::Player(vector<SDL_Texture*> textures, float X1, float Y1) : Object(textures, X1, Y1)
 {
     speed = 500;
     hitBoxMultiplication = 0.2;
-    cout << "X1: " << X1 << " X2: " << X2 << " Y1: " << Y1 << " Y2: " << Y2 << endl;
-    cout << "X1Hit: " << X1HitBox << " X2Hit: " << X2HitBox << " Y1Hit: " << Y1HitBox << " Y2Hit: " << Y2HitBox << endl;
     bulletSpeed = 1000;
     coolDownShot = 2;
     normalSpeedCool = 2;
-    this->player1 = player1;
     doubleShot = inmortal = false;
     up = false;
     down = false;
@@ -70,37 +66,21 @@ int Player::isPlayerHitEnemy(vector<EnemyBase*> enemy)
 
 void Player::move(SDL_Keycode key)
 {
-    if (player1)
-        switch (key)
-        {
-            case SDLK_d:
-                right = true;
-                break;
-            case SDLK_a:
-                left = true;
-                break;
-            case SDLK_w:
-                up = true;
-                break;
-            case SDLK_s:
-                down = true;
-                break;
-        } else
-        switch (key)
-        {
-            case SDLK_k:
-                right = true;
-                break;
-            case SDLK_h:
-                left = true;
-                break;
-            case SDLK_u:
-                up = true;
-                break;
-            case SDLK_j:
-                down = true;
-                break;
-        }
+    switch (key)
+    {
+    case SDLK_d:
+        right = true;
+        break;
+    case SDLK_a:
+        left = true;
+        break;
+    case SDLK_w:
+        up = true;
+        break;
+    case SDLK_s:
+        down = true;
+        break;
+    } 
 }
 
 void Player::collisionBorder()
@@ -229,5 +209,57 @@ void Player::draw(SDL_Renderer* renderer)
     {
         destRect = {static_cast<int> (X1 - 10), static_cast<int> (Y1 - 10), 90, 90};
         SDL_RenderCopy(renderer, textures[3], NULL, &destRect);
+    }
+}
+
+Player2::Player2() : Player()
+{
+}
+
+Player2::Player2(vector<SDL_Texture*> textures, float X1, float Y1) : Player(textures, X1, Y1)
+{
+    
+}
+
+Player2::~Player2()
+{
+    // Destructor de Player
+}
+
+void Player2::move(SDL_Keycode key)
+{
+    switch (key)
+    {
+        case SDLK_k:
+            right = true;
+            break;
+        case SDLK_h:
+            left = true;
+            break;
+        case SDLK_u:
+            up = true;
+            break;
+        case SDLK_j:
+            down = true;
+            break;
+    }
+}
+
+void Player2::stop(SDL_Keycode key)
+{
+    switch (key)
+    {
+        case SDLK_k:
+            right = false;
+            break;
+        case SDLK_h:
+            left = false;
+            break;
+        case SDLK_u:
+            up = false;
+            break;
+        case SDLK_j:
+            down = false;
+            break;
     }
 }

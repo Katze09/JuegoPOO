@@ -58,6 +58,7 @@ public:
     void update(double deltaTime, double targetX, double targetY);
     void shot() {} 
     void draw(SDL_Renderer* renderer) override;
+    int playerIndex = -1;
 private:
     double angleRotation = 0;
 };
