@@ -196,6 +196,7 @@ void PowerUp::setPowerEffect(Player* player)
             player->setInmortal(true);
             player->activePowerUps[1] = true;
             player->timeLeftPowerUp[1] = 50;
+            player->flashingShield = true;
             break;
         case 2:
             player->setDoubleShot(true);

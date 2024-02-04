@@ -26,7 +26,7 @@ public:
     virtual ~BulletPlayerSpecial();
     void update(double deltaTime) override;
     void draw(SDL_Renderer* renderer) override;
-private:
+protected:
     double dx;
     double dy;
     double deltaX;
@@ -46,15 +46,15 @@ class BulletEnemyDiagonal : public BulletEnemy
 {
 public:
     BulletEnemyDiagonal();
-    //BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, bool direction, int speed, double targetX);
-    BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, bool direction, int speed, double targetX, double targetY);
+    BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, float targetX, float targetY, int speed);
     virtual ~BulletEnemyDiagonal();
     void update(double deltaTime);
     void draw(SDL_Renderer * renderer);
 private:
-    bool up = false;
-    double slope;
-    double intercept;
+    double dx;
+    double dy;
+    double deltaX;
+    double deltaY;
     double angleRotation;
 };
 

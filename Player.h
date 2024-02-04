@@ -40,6 +40,7 @@ public:
     bool haveSpecialAttackShot() { return specialAttackShot; }
     bool activePowerUps[4] = {false,false,false,false};
     double timeLeftPowerUp[4] = {3,3,3,3};
+    bool flashingShield = true;
 protected:
     bool up;
     bool down;
@@ -54,6 +55,7 @@ protected:
     int coolDownShot;
     int specialAttack = 3;
     bool specialAttackShot = false;
+    double flashingDelay = 0;
     void collisionBorder();
     void timeLetfPowerUps(double deltaTime);
     void animationBase(double deltaTime);

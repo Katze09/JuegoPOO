@@ -208,6 +208,31 @@ void EnemyLaser::setFirstShot()
     firstShot = false;
 }
 
+EnemyStar::EnemyStar() : EnemyLaser()
+{
+}
+
+EnemyStar::EnemyStar(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo, int bulletSpeed)
+    : EnemyLaser(textures, X1, Y1, direction, movimentType, moveTo, bulletSpeed)
+{
+    coolDownShot = 4;
+}
+
+EnemyStar::~EnemyStar()
+{
+}
+
+bool EnemyStar::shot(double deltaTime)
+{
+    coolDownShot -= 3 * deltaTime;
+    if (coolDownShot <= 0)
+    {
+        coolDownShot = 6;
+        return true;
+    }
+    return false;
+}
+
 EnemyKamikaze::EnemyKamikaze() : EnemyBase()
 {
 }

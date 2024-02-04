@@ -195,6 +195,13 @@ void Player::update(double deltaTime)
         setY(Y1 + (speed * deltaTime));
     if (!right && !left && !up && !down)
         normalSpeedCool = 2;
+    if (flashingDelay > 0)
+        flashingDelay -= deltaTime * 15;
+    if (timeLeftPowerUp[1] < 15 && inmortal && flashingDelay <= 0)
+    {
+        flashingDelay = 2.5;
+        flashingShield = !flashingShield;
+    }
     timeLetfPowerUps(deltaTime);
     collisionBorder();
     animationBase(deltaTime);
@@ -205,7 +212,7 @@ void Player::draw(SDL_Renderer* renderer)
 {
     SDL_Rect destRect = {static_cast<int> (X1), static_cast<int> (Y1), WIDTH, HEIGHT};
     SDL_RenderCopy(renderer, textures[indexTexture], NULL, &destRect);
-    if (inmortal)
+    if (inmortal && flashingShield)
     {
         destRect = {static_cast<int> (X1 - 10), static_cast<int> (Y1 - 10), 90, 90};
         SDL_RenderCopy(renderer, textures[3], NULL, &destRect);

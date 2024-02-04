@@ -27,6 +27,9 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[0] = "EnemyLaser";
     texturesEnemyLaser = load.loadTextures(nameFile, renderer, 2);
 
+    nameFile[0] = "EnemyStar";
+    texturesEnemyStar = load.loadTextures(nameFile, renderer, 2);
+
     nameFile[0] = "EnemyMid";
     nameFile[1] = "EnemyMidHit";
     nameFile[2] = "Died";
@@ -57,6 +60,7 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     numEnemies = 0;
 
     enemies.push_back(std::vector<EnemyBase*>());
+    //enemies[numParts].push_back(new EnemyStar(texturesEnemyStar, 780, 400, true, 0, 400, 700));
     //enemies[numParts].push_back(new EnemyBoss(texturesEnemyBoss, 200, -300, 50, 550));
 
     this->audioPlayer = audioPlayer;
@@ -191,14 +195,14 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
         // Verificar si el enemigo disparó y manejar el tipo de bala
         if (enemies[numParts][i]->shot(deltaTime))
         {
-            // Verificar si el enemigo es un láser
-            if (EnemyLaser* laser = dynamic_cast<EnemyLaser*> (enemies[numParts][i]))
+            if (EnemyStar* star = dynamic_cast<EnemyStar*> (enemies[numParts][i]))
+                EnemyStarEvent(star, i);
+            else if (EnemyLaser* laser = dynamic_cast<EnemyLaser*> (enemies[numParts][i]))
                 EnemyLaserEvent(laser, i);
             else if (EnemyBoss* boss = dynamic_cast<EnemyBoss*> (enemies[numParts][i]))
                 EnemyBossEvent(boss, i , player[load.randomNumber(0, numPlayers)]);
             else if (dynamic_cast<EnemyMid*> (enemies[numParts][i]))
                 EnemyMidEvent(i);
-            else if (dynamic_cast<EnemyKamikaze*> (enemies[numParts][i])) {}
             else if (dynamic_cast<EnemyBase*> (enemies[numParts][i]))
                 EnemyBaseEvent(i);
         }
@@ -213,7 +217,7 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
         {
             if (kamikaze->playerIndex < 0)
                 kamikaze->playerIndex = load.randomNumber(0, numPlayers);
-            if (player[kamikaze->playerIndex]->isDead())
+            if (player[kamikaze->playerIndex]->isDead() && numPlayers > 1)
                 if (kamikaze->playerIndex == 1)
                     kamikaze->playerIndex--;
                 else if (kamikaze->playerIndex == 0)
@@ -355,27 +359,43 @@ void Level::EnemyLaserEvent(EnemyLaser* laser, int i)
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[2], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
 }
 
+void Level::EnemyStarEvent(EnemyStar* star, int i)
+{
+    int numShot = 20;
+    for (int i = 0; i < numShot; ++i)
+    {
+        double radius = 100;
+        double angle = (2 * M_PI / numShot) * i;  // Ángulo equidistante
+        double x = (star->getX1() + 30) + (radius * cos(angle)/2);
+        double y = (star->getY1() + 25) + (radius * sin(angle)/2);
+        double targetX = star->getX1() + 2 * radius * cos(angle);
+        double targetY = star->getY1() + 2 * radius * sin(angle);
+        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], x, y, targetX, targetY, star->getBulletSpeed() / 1.5));
+        audioPlayer->Play(2, 20);
+    }
+}
+
 void Level::EnemyBossEvent(EnemyBoss* boss, int i, Player* player)
 {
     if (!boss->isSecondPart())
     {
         if (!boss->isSecondPartP2())
         {
-            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() - 20, player->getY2()));
-            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() + 20, player->getY2()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, player->getX1() - 20, player->getY2(), enemies[numParts][i]->getBulletSpeed()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, player->getX1() + 20, player->getY2(), enemies[numParts][i]->getBulletSpeed()));
         }
         else
         {
-            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed() * 1.5, player->getX1() - 20, player->getY2()));
-            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed() * 1.5, player->getX1() + 20, player->getY2()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, player->getX1() - 20, player->getY2(), enemies[numParts][i]->getBulletSpeed() * 1.5));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, player->getX1() + 20, player->getY2(), enemies[numParts][i]->getBulletSpeed() * 1.5));
         }
 
         audioPlayer->Play(2, 20);
 
         if (boss->isThirdPart())
         {
-            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 70, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() - 40, player->getY2()));
-            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 190, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() + 40, player->getY2()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 70, enemies[numParts][i]->getY1() + 200, player->getX1() - 40, player->getY2(), enemies[numParts][i]->getBulletSpeed()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 190, enemies[numParts][i]->getY1() + 200, player->getX1() + 40, player->getY2(), enemies[numParts][i]->getBulletSpeed()));
             audioPlayer->Play(2, 20);
         }
     }
@@ -384,8 +404,8 @@ void Level::EnemyBossEvent(EnemyBoss* boss, int i, Player* player)
         audioPlayer->Play(2, 20);
         if (player->getY1() < 320)
         {
-            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() - 20, player->getY2()));
-            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed(), player->getX1() + 20, player->getY2()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, player->getX1() - 20, player->getY2(), enemies[numParts][i]->getBulletSpeed()));
+            bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, player->getX1() + 20, player->getY2(), enemies[numParts][i]->getBulletSpeed()));
         }
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));

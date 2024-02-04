@@ -44,7 +44,6 @@ private:
     AudioPlayer* audioPlayer;
     Player* player[2];
     int numPlayers = 1;
-    //Player2* player2;
     Background background;
     vector<SDL_Texture*> textures;
     SDL_Texture* specialAttackTexture;

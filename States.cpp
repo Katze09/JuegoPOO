@@ -109,8 +109,8 @@ void States::bulletsPlayerEvents(double deltaTime)
             {
                 double radius = 100;
                 double angle = (2 * M_PI / numShot) * i;  // Ángulo equidistante
-                double x = player[p]->getX1() + (radius * cos(angle) + 30);
-                double y = player[p]->getY1() + (radius * sin(angle) + 30);
+                double x = (player[p]->getX1() + 30) + (radius * cos(angle)/2);
+                double y = (player[p]->getY1() + 25) + (radius * sin(angle)/2);
                 double targetX = player[p]->getX1() + 2 * radius * cos(angle);
                 double targetY = player[p]->getY1() + 2 * radius * sin(angle);
                 bulletsPlayer.push_back(new BulletPlayerSpecial(spriteBullet, x, y, targetX, targetY, player[p]->getBulletSpeed() / 1.5));
@@ -313,23 +313,12 @@ void States::deadEvent(SDL_Renderer* renderer)
 {
     if (continueLevel)
     {
-        string nameFile[10];
-        nameFile[0] = "Player";
-        nameFile[1] = "Shield";
-        nameFile[2] = "Died";
-        textures = loader.loadTextures(nameFile, renderer, 3);
-
-        // Crear jugador en la posición inicial
-        Player* newPlay = new Player(textures, 310, 460);
+        Player* newPlay = new Player(player[0]->getTextures(), 310, 460);
         newPlay->setNumSpecialAttack(player[0]->getNumSpecialAttack());
         player[0] = newPlay;
         if (numPlayers > 1)
         {
-            nameFile[0] = "Player2";
-            nameFile[1] = "Shield";
-            nameFile[2] = "Died";
-            textures = loader.loadTextures(nameFile, renderer, 3);
-            Player* newPlay2 = new Player2(textures, 400, 460);
+            Player* newPlay2 = new Player2(player[1]->getTextures(), 400, 460);
             newPlay2->setNumSpecialAttack(player[1]->getNumSpecialAttack());
             player[1] = newPlay2;
         }

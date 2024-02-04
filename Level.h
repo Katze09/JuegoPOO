@@ -46,10 +46,12 @@ private:
     void deleteFromArrays();
     void EnemyLaserEvent(EnemyLaser* laser, int i);
     void EnemyBossEvent(EnemyBoss* boss, int i, Player* player);
+    void EnemyStarEvent(EnemyStar* star, int i);
     void EnemyMidEvent(int i);
     void EnemyBaseEvent(int i);
     vector<SDL_Texture*> texturesEnemyBase;
     vector<SDL_Texture*> texturesEnemyLaser;
+    vector<SDL_Texture*> texturesEnemyStar;
     vector<SDL_Texture*> texturesEnemyMid;
     vector<SDL_Texture*> texturesAsteroid;
     vector<SDL_Texture*> texturesEnemyBoss;

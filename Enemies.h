@@ -48,6 +48,15 @@ private:
     double moveTo;
 };
 
+class EnemyStar : public EnemyLaser
+{
+public:
+    EnemyStar();
+    EnemyStar(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo, int bulletSpeed);
+    virtual ~EnemyStar();
+    bool shot(double deltaTime) override;
+};
+
 class EnemyKamikaze : public EnemyBase
 {
 public:
@@ -56,7 +65,7 @@ public:
     EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1, double speed);
     virtual ~EnemyKamikaze();
     void update(double deltaTime, double targetX, double targetY);
-    void shot() {} 
+    bool shot(double deltaTime) { return false; }
     void draw(SDL_Renderer* renderer) override;
     int playerIndex = -1;
 private:

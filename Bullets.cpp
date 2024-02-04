@@ -105,15 +105,22 @@ BulletEnemyDiagonal::BulletEnemyDiagonal() : BulletEnemy()
 {
 }
 
-BulletEnemyDiagonal::BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, bool direction, int speed, double targetX, double targetY) : BulletEnemy(texture, X1, Y1, direction, speed)
+BulletEnemyDiagonal::BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, float targetX, float targetY, int speed) : BulletEnemy(texture, X1, Y1, false, speed)
 {
-    slope = static_cast<double> (targetX - X1) / (targetY - Y1);
-    if (targetY < Y1)
-        up = true;
-    intercept = X1 - slope * Y1;
-    angleRotation = 0;
-    angleRotation = atan(slope);
-    angleRotation = -1 * (angleRotation * 180 / M_PI);
+    dx = targetX - X1;
+    dy = targetY - Y1;
+    // Calcular la distancia total al objetivo
+    double distance = sqrt(dx * dx + dy * dy);
+    if (distance > 0)
+    {
+        dx /= distance;
+        dy /= distance;
+    }
+    // Calcular el desplazamiento en cada eje
+    deltaX = dx * speed * deltaTime;
+    deltaY = dy * speed * deltaTime;
+    double angleInRadians = atan2(deltaY, deltaX);
+    angleRotation = (angleInRadians * (180.0 / M_PI));
 }
 
 BulletEnemyDiagonal::~BulletEnemyDiagonal()
@@ -123,15 +130,12 @@ BulletEnemyDiagonal::~BulletEnemyDiagonal()
 
 void BulletEnemyDiagonal::update(double deltaTime)
 {
-    if (up)
-    {
-        setY(Y1 - (speed * deltaTime));
-        setX((slope * Y1 + intercept));
-    } else
-    {
-        setY(Y1 + (speed * deltaTime));
-        setX((slope * Y1 + intercept));
-    }
+    deltaX = dx * speed * deltaTime;
+    deltaY = dy * speed * deltaTime;
+    double angleInRadians = atan2(deltaY, deltaX);
+    angleRotation = (angleInRadians * (180.0 / M_PI) - -270);
+    setX(X1 + deltaX);
+    setY(Y1 + deltaY);
 }
 
 void BulletEnemyDiagonal::draw(SDL_Renderer * renderer)
