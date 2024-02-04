@@ -10,12 +10,12 @@ public:
     BulletPlayer();
     BulletPlayer(SDL_Texture* texture, float X1, float Y1, bool direction, int speed);
     virtual ~BulletPlayer();
-    void update(double deltaTime);
+    void update(float deltaTime);
 protected:
     int speed;
     bool direction;
-    void animationBase(double deltaTime);
-    void animationDead(double deltaTime);
+    void animationBase(float deltaTime);
+    void animationDead(float deltaTime);
 };
 
 class BulletPlayerSpecial : public BulletPlayer
@@ -24,14 +24,14 @@ public:
     BulletPlayerSpecial();
     BulletPlayerSpecial(SDL_Texture* texture, float X1, float Y1, float targetX, float targetY, int speed);
     virtual ~BulletPlayerSpecial();
-    void update(double deltaTime) override;
+    void update(float deltaTime) override;
     void draw(SDL_Renderer* renderer) override;
 protected:
-    double dx;
-    double dy;
-    double deltaX;
-    double deltaY;
-    double angleRotation;
+    float dx;
+    float dy;
+    float deltaX;
+    float deltaY;
+    float angleRotation;
 };
 
 class BulletEnemy : public BulletPlayer
@@ -48,14 +48,14 @@ public:
     BulletEnemyDiagonal();
     BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y1, float targetX, float targetY, int speed);
     virtual ~BulletEnemyDiagonal();
-    void update(double deltaTime);
+    void update(float deltaTime);
     void draw(SDL_Renderer * renderer);
 private:
-    double dx;
-    double dy;
-    double deltaX;
-    double deltaY;
-    double angleRotation;
+    float dx;
+    float dy;
+    float deltaX;
+    float deltaY;
+    float angleRotation;
 };
 
 #endif /* BULLETPLAYER_H */

@@ -11,7 +11,7 @@ Obstacle::Obstacle(vector<SDL_Texture*> textures, float X1, float Y1) : Object(t
     targetY = loaderAste.randomNumber(50, 700);
     while (Y1 >= targetY && Y1 <= targetY + 100)
         targetY = loaderAste.randomNumber(50, 700);
-    slope = static_cast<double> (targetY - Y1) / (X1 - 100);
+    slope = static_cast<float> (targetY - Y1) / (X1 - 100);
     intercept = Y1 - slope * X1;
     life = angleRotation = 0;
 }
@@ -30,7 +30,7 @@ Obstacle::Obstacle(vector<SDL_Texture*> textures) : Object(textures)
 
     // Establecer la pendiente y la intersección
     int xObj = (direction) ? 0 : 700;
-    slope = static_cast<double> (targetY - Y1) / (xObj - X1);
+    slope = static_cast<float> (targetY - Y1) / (xObj - X1);
     intercept = Y1 - slope * X1;
 
     life = angleRotation = 0;
@@ -40,7 +40,7 @@ Obstacle::~Obstacle()
 {
 }
 
-void Obstacle::update(double deltaTime)
+void Obstacle::update(float deltaTime)
 {
     // Actualizar la posición X e Y basada en la pendiente y velocidad
     setX(X1 + (speed * (15 * deltaTime)));
@@ -96,12 +96,12 @@ int Obstacle::isObstacleHit(vector<BulletPlayer*> bulletPlayer)
     return -1;
 }
 
-void Obstacle::animationBase(double deltaTime)
+void Obstacle::animationBase(float deltaTime)
 {
     //SDL_Rect destinationRect = {100, 100, 200, 150}; // Posición y tamaño del rectángulo de destino
 }
 
-void Obstacle::animationDead(double deltaTime)
+void Obstacle::animationDead(float deltaTime)
 {
     if (dead && !deadAnimationEnd)
     {
@@ -199,12 +199,12 @@ void PowerUp::setPowerEffect(Player* player)
             player->flashingShield = true;
             break;
         case 2:
-            player->setDoubleShot(true);
+            player->setfloatShot(true);
             player->activePowerUps[2] = true;
             player->timeLeftPowerUp[2] = 50;
             break;
         case 3:
-            player->setDoublePoints(true);
+            player->setfloatPoints(true);
             player->activePowerUps[3] = true;
             player->timeLeftPowerUp[3] = 50;
             break;

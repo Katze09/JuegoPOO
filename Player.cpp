@@ -12,7 +12,7 @@ Player::Player(vector<SDL_Texture*> textures, float X1, float Y1) : Object(textu
     bulletSpeed = 1000;
     coolDownShot = 2;
     normalSpeedCool = 2;
-    doubleShot = inmortal = false;
+    floatShot = inmortal = false;
     up = false;
     down = false;
     right = false;
@@ -114,7 +114,7 @@ void Player::stop(SDL_Keycode key)
     }
 }
 
-void Player::animationBase(double deltaTime)
+void Player::animationBase(float deltaTime)
 {
     if (!dead)
     {
@@ -129,7 +129,7 @@ void Player::animationBase(double deltaTime)
     }
 }
 
-void Player::animationDead(double deltaTime)
+void Player::animationDead(float deltaTime)
 {
     if (dead && !deadAnimationEnd)
     {
@@ -146,7 +146,7 @@ void Player::animationDead(double deltaTime)
     }
 }
 
-void Player::timeLetfPowerUps(double deltaTime)
+void Player::timeLetfPowerUps(float deltaTime)
 {
     for (int i = 0; i < 4; i++)
         if (activePowerUps[i])
@@ -164,27 +164,27 @@ void Player::timeLetfPowerUps(double deltaTime)
                         inmortal = false;
                         break;
                     case 2:
-                        doubleShot = false;
+                        floatShot = false;
                         break;
                     case 3:
-                        doublePoints = false;
+                        floatPoints = false;
                         break;
                 }
             }
         }
 }
 
-void Player::update(double deltaTime)
+void Player::update(float deltaTime)
 {
     this->deltaTime = deltaTime;
-    double speedScale = 1.0;
+    float speedScale = 1.0;
     if (normalSpeedCool >= 0)
     {
         // Utilizar una función cuadrática para suavizar la transición
         speedScale = 1.0 - (normalSpeedCool / (2.0));
         normalSpeedCool -= deltaTime * 15;
     }
-    double speed = this->speed * speedScale;
+    float speed = this->speed * speedScale;
     if (right)
         setX(X1 + (speed * deltaTime));
     if (left)

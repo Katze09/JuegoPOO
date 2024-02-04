@@ -18,7 +18,7 @@ Background::~Background()
 {
 }
 
-void Background::update(double deltaTime)
+void Background::update(float deltaTime)
 {
     Y1 += speed; //* deltaTime;
     Y2 += speed; //* deltaTime;

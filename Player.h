@@ -14,7 +14,7 @@ public:
     Player();
     Player(vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Player();
-    void update(double deltaTime);
+    void update(float deltaTime);
     void draw(SDL_Renderer* renderer);
     int isPlayerHit(vector<BulletEnemy*> bulletsEnemy);
     int isPlayerHitObstacle(vector<Obstacle*> asteroids);
@@ -24,14 +24,14 @@ public:
     bool isDead(){return dead;}
     bool isInmortal(){return inmortal;}
     void setInmortal(bool inmortal){this->inmortal = inmortal;}
-    bool haveDoubleShot(){return doubleShot;}
-    void setDoubleShot(bool doubleShot){this->doubleShot = doubleShot;}
+    bool havefloatShot(){return floatShot;}
+    void setfloatShot(bool floatShot){this->floatShot = floatShot;}
     int getBulletSpeed(){return bulletSpeed;}
     void setBulletSpeed(int bulletSpeed){this->bulletSpeed = bulletSpeed;}
     int getCoolDownShot(){return coolDownShot;}
     void setCoolDownShot(int coolDownShot){this->coolDownShot = coolDownShot;}
-    bool haveDoublePoints() { return doublePoints; }
-    void setDoublePoints(bool doublePoints) { this->doublePoints = doublePoints; }
+    bool havefloatPoints() { return floatPoints; }
+    void setfloatPoints(bool floatPoints) { this->floatPoints = floatPoints; }
     int getNumSpecialAttack() { return specialAttack; }
     void reduceNumSpecialAttack() { specialAttack--; }
     void increaseNumSpecialAttack() { specialAttack++; }
@@ -39,7 +39,7 @@ public:
     void setSpecialAttackShot(bool specialAttackShot) { this->specialAttackShot = specialAttackShot; }
     bool haveSpecialAttackShot() { return specialAttackShot; }
     bool activePowerUps[4] = {false,false,false,false};
-    double timeLeftPowerUp[4] = {3,3,3,3};
+    float timeLeftPowerUp[4] = {3,3,3,3};
     bool flashingShield = true;
 protected:
     bool up;
@@ -48,18 +48,18 @@ protected:
     bool left;
     bool dead;
     bool inmortal;
-    bool doubleShot;
-    bool doublePoints;
-    double normalSpeedCool;
+    bool floatShot;
+    bool floatPoints;
+    float normalSpeedCool;
     int bulletSpeed;
     int coolDownShot;
     int specialAttack = 3;
     bool specialAttackShot = false;
-    double flashingDelay = 0;
+    float flashingDelay = 0;
     void collisionBorder();
-    void timeLetfPowerUps(double deltaTime);
-    void animationBase(double deltaTime);
-    void animationDead(double deltaTime);
+    void timeLetfPowerUps(float deltaTime);
+    void animationBase(float deltaTime);
+    void animationDead(float deltaTime);
 };
 
 class Player2 : public Player

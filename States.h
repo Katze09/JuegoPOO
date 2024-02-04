@@ -20,7 +20,7 @@ public:
     States(SDL_Renderer* renderer);
     virtual ~States();
     void draw(SDL_Renderer* renderer);
-    void update(double deltaTime);
+    void update(float deltaTime);
     void setPlayer2(SDL_Renderer* renderer);
     void updateInput(SDL_Keycode key);
     void inputUp(SDL_Keycode key);
@@ -29,10 +29,10 @@ private:
     SDL_Texture* spriteBullet;
     Texts texts;
     Texts textsTitle;
-    double cooldownShot[2];
+    float cooldownShot[2];
     bool PlayerShot[2];
     bool win;
-    void bulletsPlayerEvents(double deltaTime);
+    void bulletsPlayerEvents(float deltaTime);
     void checkPartFinish();
     void passLevel(SDL_Renderer* renderer);
     void deadEvent(SDL_Renderer* renderer);
@@ -47,12 +47,12 @@ private:
     Background background;
     vector<SDL_Texture*> textures;
     SDL_Texture* specialAttackTexture;
-    double delayPart;
-    double delayLevel;
+    float delayPart;
+    float delayLevel;
     bool pastPart;
     int totalScore;
     int deaths;
-    double startCoolDown;
+    float startCoolDown;
     std::vector<BulletPlayer*> bulletsPlayer;
 };
 

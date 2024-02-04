@@ -76,14 +76,14 @@ void States::setPlayer2(SDL_Renderer* renderer)
 
 // Manejar eventos relacionados con las balas del jugador
 
-void States::bulletsPlayerEvents(double deltaTime)
+void States::bulletsPlayerEvents(float deltaTime)
 {
     for (int p = 0; p < numPlayers; p++)
     {
         if (PlayerShot[p] && cooldownShot[p] <= 0 && !player[p]->isDead())
         {
             // Crear balas si se presiona el espacio y el cooldown ha terminado
-            if (player[p]->haveDoubleShot())
+            if (player[p]->havefloatShot())
             {
                 bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 10, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
                 bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 30, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
@@ -107,12 +107,12 @@ void States::bulletsPlayerEvents(double deltaTime)
             int numShot = 50;
             for (int i = 0; i < numShot; ++i)
             {
-                double radius = 100;
-                double angle = (2 * M_PI / numShot) * i;  // Ángulo equidistante
-                double x = (player[p]->getX1() + 30) + (radius * cos(angle)/2);
-                double y = (player[p]->getY1() + 25) + (radius * sin(angle)/2);
-                double targetX = player[p]->getX1() + 2 * radius * cos(angle);
-                double targetY = player[p]->getY1() + 2 * radius * sin(angle);
+                float radius = 100;
+                float angle = (2 * M_PI / numShot) * i;  // Ángulo equidistante
+                float x = (player[p]->getX1() + 30) + (radius * cos(angle)/2);
+                float y = (player[p]->getY1() + 25) + (radius * sin(angle)/2);
+                float targetX = player[p]->getX1() + 2 * radius * cos(angle);
+                float targetY = player[p]->getY1() + 2 * radius * sin(angle);
                 bulletsPlayer.push_back(new BulletPlayerSpecial(spriteBullet, x, y, targetX, targetY, player[p]->getBulletSpeed() / 1.5));
                 audioPlayer->Play(0, 100);
             }
@@ -184,7 +184,7 @@ void States::draw(SDL_Renderer* renderer)
 
 // Actualizar elementos del juego
 
-void States::update(double deltaTime)
+void States::update(float deltaTime)
 {
     // Actualizar fondo y jugador
     background.update(deltaTime);

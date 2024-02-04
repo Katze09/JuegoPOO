@@ -57,7 +57,7 @@ void Menu::numPlayers()
 
 }
 
-void Menu::update(double deltaTime)
+void Menu::update(float deltaTime)
 {
     background.update(deltaTime);
 }
@@ -82,7 +82,7 @@ Button::Button()
 {
 }
 
-Button::Button(string showText, double x, double y)
+Button::Button(string showText, float x, float y)
 {
     texts = Texts("VerminVibes1989", 80);
     this->showText = showText;
@@ -111,7 +111,7 @@ void Button::isHover(int x, int y)
         hover = false;
 }
 
-void Button::update(double deltaTime)
+void Button::update(float deltaTime)
 {
 }
 

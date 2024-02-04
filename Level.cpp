@@ -50,10 +50,10 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[0] = "PowerUpInmortal";
     texturesPowerUp[1] = load.loadTextures(nameFile, renderer, 1);
 
-    nameFile[0] = "PowerUpDouble";
+    nameFile[0] = "PowerUpfloat";
     texturesPowerUp[2] = load.loadTextures(nameFile, renderer, 1);
 
-    nameFile[0] = "PowerUpDoubleP";
+    nameFile[0] = "PowerUpfloatP";
     texturesPowerUp[3] = load.loadTextures(nameFile, renderer, 1);
 
     numParts = 0;
@@ -90,7 +90,7 @@ void Level::setMaxNumParts(int numParts)
 
 // Establecer enemigos de la base
 
-void Level::setEnemyBase(int cant, double y, int movetype, bool direction, int bulletSpeed)
+void Level::setEnemyBase(int cant, float y, int movetype, bool direction, int bulletSpeed)
 {
     int x;
     int aumento;
@@ -117,7 +117,7 @@ void Level::setEnemyBase(int cant, double y, int movetype, bool direction, int b
 
 // Establecer enemigos láser
 
-void Level::setEnemyLaser(int cant, double y, int movetype, bool direction, double moveTo, int bulletSpeed)
+void Level::setEnemyLaser(int cant, float y, int movetype, bool direction, float moveTo, int bulletSpeed)
 {
     int x;
     int aumento;
@@ -142,7 +142,7 @@ void Level::setEnemyLaser(int cant, double y, int movetype, bool direction, doub
     }
 }
 
-void Level::setEnemyKamikaze(int cant, double x, double y)
+void Level::setEnemyKamikaze(int cant, float x, float y)
 {
     for (int i = 0; i < cant; i++)
     {
@@ -151,7 +151,7 @@ void Level::setEnemyKamikaze(int cant, double x, double y)
     }
 }
 
-void Level::setEnemyKamikaze(int cant, double x, double y, double speed)
+void Level::setEnemyKamikaze(int cant, float x, float y, float speed)
 {
     for (int i = 0; i < cant; i++)
     {
@@ -162,14 +162,14 @@ void Level::setEnemyKamikaze(int cant, double x, double y, double speed)
 
 // Establecer enemigos medianos
 
-void Level::setEnemyMid(int cant, double x, double y, double moveTo, int bulletSpeed)
+void Level::setEnemyMid(int cant, float x, float y, float moveTo, int bulletSpeed)
 {
     // Crear enemigos medianos y agregarlos al vector
     for (int i = 0; i < cant; i++)
         enemies[numParts].push_back(new EnemyMid(texturesEnemyMid, x, y, moveTo, bulletSpeed));
 }
 
-void Level::setEnemyBoss(double x, double y, double moveTo, int bulletSpeed)
+void Level::setEnemyBoss(float x, float y, float moveTo, int bulletSpeed)
 {
     enemies[numParts].push_back(new EnemyBoss(texturesEnemyBoss, x, y, moveTo, bulletSpeed));
 }
@@ -188,7 +188,7 @@ void Level::setPowerUps(int prob)
 
 // Manejar eventos de balas de enemigos
 
-void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, double deltaTime)
+void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, float deltaTime)
 {
     for (int i = 0; i < enemies[numParts].size(); i++)
     {
@@ -230,7 +230,7 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
         if (enemies[numParts][i]->endDeadAnimation())
         {
             for (int p = 0; p < numPlayers; p++)
-                score += (player[p]->haveDoublePoints()) ? enemies[numParts][i]->getScore() * 2 : enemies[numParts][i]->getScore();
+                score += (player[p]->havefloatPoints()) ? enemies[numParts][i]->getScore() * 2 : enemies[numParts][i]->getScore();
             enemiesToRemove.push_back(i);
         }
     }
@@ -238,7 +238,7 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
 
 // Manejar eventos de obstáculos (asteroides)
 
-void Level::obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, double deltaTime)
+void Level::obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, float deltaTime)
 {
     for (int i = 0; i < asteroids.size(); i++)
     {
@@ -257,13 +257,13 @@ void Level::obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player
         if (asteroids[i]->endDeadAnimation())
         {
             for (int p = 0; p < numPlayers; p++)
-                score += (player[p]->haveDoublePoints()) ? asteroids[i]->getScore() * 2 : asteroids[i]->getScore();
+                score += (player[p]->havefloatPoints()) ? asteroids[i]->getScore() * 2 : asteroids[i]->getScore();
             asteroidsToRemove.push_back(i);
         }
     }
 }
 
-void Level::powerUpsEvents(double deltaTime)
+void Level::powerUpsEvents(float deltaTime)
 {
     for (int i = 0; i < powerUps.size(); i++)
     {
@@ -292,7 +292,7 @@ void Level::createPowerUp()
 
 // Actualizar el nivel
 
-void Level::update(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, double deltaTime)
+void Level::update(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, float deltaTime)
 {
     bulletsEnemysEvents(bulletsPlayer, player, numPlayers, deltaTime);
     for (int i = 0; i < bulletsPlayerToRemove.size(); i++)
@@ -364,12 +364,12 @@ void Level::EnemyStarEvent(EnemyStar* star, int i)
     int numShot = 20;
     for (int i = 0; i < numShot; ++i)
     {
-        double radius = 100;
-        double angle = (2 * M_PI / numShot) * i;  // Ángulo equidistante
-        double x = (star->getX1() + 30) + (radius * cos(angle)/2);
-        double y = (star->getY1() + 25) + (radius * sin(angle)/2);
-        double targetX = star->getX1() + 2 * radius * cos(angle);
-        double targetY = star->getY1() + 2 * radius * sin(angle);
+        float radius = 100;
+        float angle = (2 * M_PI / numShot) * i;  // Ángulo equidistante
+        float x = (star->getX1() + 30) + (radius * cos(angle)/2);
+        float y = (star->getY1() + 25) + (radius * sin(angle)/2);
+        float targetX = star->getX1() + 2 * radius * cos(angle);
+        float targetY = star->getY1() + 2 * radius * sin(angle);
         bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], x, y, targetX, targetY, star->getBulletSpeed() / 1.5));
         audioPlayer->Play(2, 20);
     }

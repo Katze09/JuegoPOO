@@ -10,7 +10,7 @@ States* states;
 Menu* menu;
 
 // Variables globales
-double deltaTime;
+float deltaTime;
 bool startGame = false;
 
 int main(int argc, char** argv)
@@ -85,7 +85,7 @@ int main(int argc, char** argv)
         SDL_RenderClear(renderer);
 
         auto frameEnd = chrono::high_resolution_clock::now();
-        deltaTime = chrono::duration<double>(frameEnd - lastFrameTime).count();
+        deltaTime = chrono::duration<float>(frameEnd - lastFrameTime).count();
         lastFrameTime = frameEnd;
 
         // Dormir el hilo para alcanzar el objetivo de 60 FPS

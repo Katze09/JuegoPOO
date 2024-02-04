@@ -12,7 +12,7 @@ public:
     Background();
     Background(SDL_Texture* texture);
     virtual ~Background();
-    void update(double deltaTime);
+    void update(float deltaTime);
     void draw(SDL_Renderer* renderer);
 private:
     SDL_Texture* texture;

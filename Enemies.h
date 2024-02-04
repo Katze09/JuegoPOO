@@ -11,9 +11,9 @@ public:
     EnemyBase();
     EnemyBase(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, int bulletSpeed);
     virtual ~EnemyBase();
-    void update(double deltaTime);
+    void update(float deltaTime);
     virtual int isEnemyHit(vector<BulletPlayer*> bulletPlayer);
-    virtual bool shot(double deltaTime);
+    virtual bool shot(float deltaTime);
     bool isDead();
     int getLife(){return life;}
     void reduceLife() { life--; }
@@ -25,36 +25,36 @@ protected:
     int life;
     bool direction;
     int movimentType;
-    double coolDownShot;
-    double angle;
+    float coolDownShot;
+    float angle;
     void collisionBorder();
-    void animationBase(double deltaTime);
-    void animationDead(double deltaTime);
+    void animationBase(float deltaTime);
+    void animationDead(float deltaTime);
 };
 
 class EnemyLaser : public EnemyBase 
 {
 public:
     EnemyLaser();
-    EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo, int bulletSpeed);
+    EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, float moveTo, int bulletSpeed);
     virtual ~EnemyLaser();
-    bool shot(double deltaTime) override;
-    void update(double deltaTime) override;
+    bool shot(float deltaTime) override;
+    void update(float deltaTime) override;
     bool isFirstShot();
     void setFirstShot();
 private:
-    double laserSize;
+    float laserSize;
     bool firstShot;
-    double moveTo;
+    float moveTo;
 };
 
 class EnemyStar : public EnemyLaser
 {
 public:
     EnemyStar();
-    EnemyStar(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo, int bulletSpeed);
+    EnemyStar(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, float moveTo, int bulletSpeed);
     virtual ~EnemyStar();
-    bool shot(double deltaTime) override;
+    bool shot(float deltaTime) override;
 };
 
 class EnemyKamikaze : public EnemyBase
@@ -62,38 +62,38 @@ class EnemyKamikaze : public EnemyBase
 public:
     EnemyKamikaze();
     EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1);
-    EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1, double speed);
+    EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1, float speed);
     virtual ~EnemyKamikaze();
-    void update(double deltaTime, double targetX, double targetY);
-    bool shot(double deltaTime) { return false; }
+    void update(float deltaTime, float targetX, float targetY);
+    bool shot(float deltaTime) { return false; }
     void draw(SDL_Renderer* renderer) override;
     int playerIndex = -1;
 private:
-    double angleRotation = 0;
+    float angleRotation = 0;
 };
 
 class EnemyMid : public EnemyBase
 {
 public:
     EnemyMid();
-    EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed);
+    EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed);
     virtual ~EnemyMid();
     int isEnemyHit(vector<BulletPlayer*> bulletPlayer) override;
-    void update(double deltaTime) override;
+    void update(float deltaTime) override;
 protected:
     const int score = 20;
-    double hitTex;
-    double moveTo;
+    float hitTex;
+    float moveTo;
 };
 
 class EnemyBoss : public EnemyMid
 {
 public:
     EnemyBoss();
-    EnemyBoss(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed);
+    EnemyBoss(vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed);
     virtual ~EnemyBoss();
-    bool shot(double deltaTime);
-    void update(double deltaTime) override;
+    bool shot(float deltaTime);
+    void update(float deltaTime) override;
     bool isSecondPart(){return secondFase;}
     bool isSecondPartP2(){return secondFaseP2;}
     bool isThirdPart(){return thirdFase;}
@@ -102,7 +102,7 @@ private:
     bool secondFase;
     bool secondFaseP2;
     bool thirdFase;
-    double contSecondFaseShot;
+    float contSecondFaseShot;
     
 };
 

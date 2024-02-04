@@ -16,7 +16,7 @@ public:
     Level();
     Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer);
     virtual ~Level();
-    void update(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, double deltaTime);
+    void update(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, float deltaTime);
     void draw(SDL_Renderer* renderer);
     int numParts;
     int maxnumParts;
@@ -27,20 +27,20 @@ public:
     vector<int> bulletsToRemove;
     vector<int> powerUpsToRemove;
     void setMaxNumParts(int numParts);
-    void setEnemyBase(int cant, double y, int movetype, bool direction, int bulletSpeed);
-    void setEnemyLaser(int cant, double y, int movetype, bool direction, double moveTo, int bulletSpeed);
-    void setEnemyKamikaze(int cant, double x, double y);
-    void setEnemyKamikaze(int cant, double x, double y, double speed);
-    void setEnemyMid(int cant, double x, double y, double moveTo, int bulletSpeed);
-    void setEnemyBoss(double x, double y, double moveTo, int bulletSpeed);
+    void setEnemyBase(int cant, float y, int movetype, bool direction, int bulletSpeed);
+    void setEnemyLaser(int cant, float y, int movetype, bool direction, float moveTo, int bulletSpeed);
+    void setEnemyKamikaze(int cant, float x, float y);
+    void setEnemyKamikaze(int cant, float x, float y, float speed);
+    void setEnemyMid(int cant, float x, float y, float moveTo, int bulletSpeed);
+    void setEnemyBoss(float x, float y, float moveTo, int bulletSpeed);
     void setObstacles(int prob);
     void setPowerUps(int prob);
     int getScore();
     void setScore(int score);
 private:
-    void bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, double deltaTime);
-    void obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, double deltaTime);
-    void powerUpsEvents(double deltaTime);
+    void bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, float deltaTime);
+    void obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, float deltaTime);
+    void powerUpsEvents(float deltaTime);
     void createAsteroid();
     void createPowerUp();
     void deleteFromArrays();

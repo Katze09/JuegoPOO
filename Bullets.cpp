@@ -15,7 +15,7 @@ BulletPlayer::~BulletPlayer()
     //Destructor
 }
 
-void BulletPlayer::update(double deltaTime)
+void BulletPlayer::update(float deltaTime)
 {
     if (direction)
         BulletPlayer::setY(Y1 - (speed * deltaTime));
@@ -23,7 +23,7 @@ void BulletPlayer::update(double deltaTime)
         BulletPlayer::setY(Y1 + (speed * deltaTime));
 }
 
-void BulletPlayer::animationBase(double deltaTime)
+void BulletPlayer::animationBase(float deltaTime)
 {
     /*speedAnimations -= speedAnimations * deltaTime;
     if(speedAnimations <= 0)
@@ -35,7 +35,7 @@ void BulletPlayer::animationBase(double deltaTime)
         indexTexture = 0;*/
 }
 
-void BulletPlayer::animationDead(double deltaTime)
+void BulletPlayer::animationDead(float deltaTime)
 {
 
 }
@@ -49,7 +49,7 @@ BulletPlayerSpecial::BulletPlayerSpecial(SDL_Texture* texture, float X1, float Y
     dx = targetX - X1;
     dy = targetY - Y1;
     // Calcular la distancia total al objetivo
-    double distance = sqrt(dx * dx + dy * dy);
+    float distance = sqrt(dx * dx + dy * dy);
     if (distance > 0)
     {
         dx /= distance;
@@ -58,7 +58,7 @@ BulletPlayerSpecial::BulletPlayerSpecial(SDL_Texture* texture, float X1, float Y
     // Calcular el desplazamiento en cada eje
     deltaX = dx * speed * deltaTime;
     deltaY = dy * speed * deltaTime;
-    double angleInRadians = atan2(deltaY, deltaX);
+    float angleInRadians = atan2(deltaY, deltaX);
     angleRotation = (angleInRadians * (180.0 / M_PI));
     // Asignar las nuevas coordenadas
 }
@@ -67,11 +67,11 @@ BulletPlayerSpecial::~BulletPlayerSpecial()
 {
 }
 
-void BulletPlayerSpecial::update(double deltaTime)
+void BulletPlayerSpecial::update(float deltaTime)
 {
     deltaX = dx * speed * deltaTime;
     deltaY = dy * speed * deltaTime;
-    double angleInRadians = atan2(deltaY, deltaX);
+    float angleInRadians = atan2(deltaY, deltaX);
     angleRotation = (angleInRadians * (180.0 / M_PI) - -90);
     setX(X1 + deltaX);
     setY(Y1 + deltaY);
@@ -110,7 +110,7 @@ BulletEnemyDiagonal::BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y
     dx = targetX - X1;
     dy = targetY - Y1;
     // Calcular la distancia total al objetivo
-    double distance = sqrt(dx * dx + dy * dy);
+    float distance = sqrt(dx * dx + dy * dy);
     if (distance > 0)
     {
         dx /= distance;
@@ -119,7 +119,7 @@ BulletEnemyDiagonal::BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y
     // Calcular el desplazamiento en cada eje
     deltaX = dx * speed * deltaTime;
     deltaY = dy * speed * deltaTime;
-    double angleInRadians = atan2(deltaY, deltaX);
+    float angleInRadians = atan2(deltaY, deltaX);
     angleRotation = (angleInRadians * (180.0 / M_PI));
 }
 
@@ -128,11 +128,11 @@ BulletEnemyDiagonal::~BulletEnemyDiagonal()
 
 }
 
-void BulletEnemyDiagonal::update(double deltaTime)
+void BulletEnemyDiagonal::update(float deltaTime)
 {
     deltaX = dx * speed * deltaTime;
     deltaY = dy * speed * deltaTime;
-    double angleInRadians = atan2(deltaY, deltaX);
+    float angleInRadians = atan2(deltaY, deltaX);
     angleRotation = (angleInRadians * (180.0 / M_PI) - -270);
     setX(X1 + deltaX);
     setY(Y1 + deltaY);

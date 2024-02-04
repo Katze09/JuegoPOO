@@ -62,7 +62,7 @@ void EnemyBase::collisionBorder()
     }
 }
 
-void EnemyBase::update(double deltaTime)
+void EnemyBase::update(float deltaTime)
 {
     switch (movimentType)
     {
@@ -95,7 +95,7 @@ void EnemyBase::update(double deltaTime)
     animationDead(deltaTime);
 }
 
-bool EnemyBase::shot(double deltaTime)
+bool EnemyBase::shot(float deltaTime)
 {
     coolDownShot -= 3 * deltaTime;
     if (coolDownShot <= 0)
@@ -106,7 +106,7 @@ bool EnemyBase::shot(double deltaTime)
     return false;
 }
 
-void EnemyBase::animationBase(double deltaTime)
+void EnemyBase::animationBase(float deltaTime)
 {
     /*speedAnimations -= speedAnimations * deltaTime;
     if(speedAnimations <= 0)
@@ -118,7 +118,7 @@ void EnemyBase::animationBase(double deltaTime)
         indexTexture = 0;*/
 }
 
-void EnemyBase::animationDead(double deltaTime)
+void EnemyBase::animationDead(float deltaTime)
 {
     if (dead && !deadAnimationEnd)
     {
@@ -153,7 +153,7 @@ EnemyLaser::EnemyLaser() : EnemyBase()
 {
 }
 
-EnemyLaser::EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo, int bulletSpeed) : EnemyBase(textures, X1, Y1, direction, movimentType, bulletSpeed)
+EnemyLaser::EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, float moveTo, int bulletSpeed) : EnemyBase(textures, X1, Y1, direction, movimentType, bulletSpeed)
 {
     this->moveTo = moveTo;
     firstShot = true;
@@ -164,7 +164,7 @@ EnemyLaser::~EnemyLaser()
 {
 }
 
-bool EnemyLaser::shot(double deltaTime)
+bool EnemyLaser::shot(float deltaTime)
 {
     if (laserSize >= 150)
     {
@@ -182,7 +182,7 @@ bool EnemyLaser::shot(double deltaTime)
     return false;
 }
 
-void EnemyLaser::update(double deltaTime)
+void EnemyLaser::update(float deltaTime)
 {
     if (direction)
     {
@@ -212,7 +212,7 @@ EnemyStar::EnemyStar() : EnemyLaser()
 {
 }
 
-EnemyStar::EnemyStar(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, double moveTo, int bulletSpeed)
+EnemyStar::EnemyStar(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, float moveTo, int bulletSpeed)
     : EnemyLaser(textures, X1, Y1, direction, movimentType, moveTo, bulletSpeed)
 {
     coolDownShot = 4;
@@ -222,7 +222,7 @@ EnemyStar::~EnemyStar()
 {
 }
 
-bool EnemyStar::shot(double deltaTime)
+bool EnemyStar::shot(float deltaTime)
 {
     coolDownShot -= 3 * deltaTime;
     if (coolDownShot <= 0)
@@ -242,7 +242,7 @@ EnemyKamikaze::EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1) 
     
 }
 
-EnemyKamikaze::EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1, double speed) : EnemyBase(textures, X1, Y1, false, 0, 0)
+EnemyKamikaze::EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1, float speed) : EnemyBase(textures, X1, Y1, false, 0, 0)
 {
     this->speed = speed;
 }
@@ -251,21 +251,21 @@ EnemyKamikaze::~EnemyKamikaze()
 {
 }
 
-void EnemyKamikaze::update(double deltaTime, double targetX, double targetY)
+void EnemyKamikaze::update(float deltaTime, float targetX, float targetY)
 {
-    double dx = targetX - X1;
-    double dy = targetY - Y1;
+    float dx = targetX - X1;
+    float dy = targetY - Y1;
     // Calcular la distancia total al objetivo
-    double distance = sqrt(dx * dx + dy * dy);
+    float distance = sqrt(dx * dx + dy * dy);
     if (distance > 0)
     {
         dx /= distance;
         dy /= distance;
     }
     // Calcular el desplazamiento en cada eje
-    double deltaX = dx * speed * deltaTime;
-    double deltaY = dy * speed * deltaTime;
-    double angleInRadians = atan2(deltaY, deltaX);
+    float deltaX = dx * speed * deltaTime;
+    float deltaY = dy * speed * deltaTime;
+    float angleInRadians = atan2(deltaY, deltaX);
     angleRotation = (angleInRadians * (180.0 / M_PI) - 90);
     // Asignar las nuevas coordenadas
     setX(X1 + deltaX);
@@ -284,7 +284,7 @@ EnemyMid::EnemyMid() : EnemyBase()
 {
 }
 
-EnemyMid::EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed) : EnemyBase(textures, X1, Y1, false, 0, bulletSpeed)
+EnemyMid::EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed) : EnemyBase(textures, X1, Y1, false, 0, bulletSpeed)
 {
     life = 35;
     hitTex = 0;
@@ -311,7 +311,7 @@ int EnemyMid::isEnemyHit(vector<BulletPlayer*> bulletPlayer)
     return -1;
 }
 
-void EnemyMid::update(double deltaTime)
+void EnemyMid::update(float deltaTime)
 {
     if (Y1 <= moveTo)
         setY(Y1 + (speed * deltaTime));
@@ -340,7 +340,7 @@ EnemyBoss::EnemyBoss() : EnemyMid()
 {
 }
 
-EnemyBoss::EnemyBoss(vector<SDL_Texture*> textures, float X1, float Y1, double moveTo, int bulletSpeed) : EnemyMid(textures, X1, Y1, moveTo, bulletSpeed)
+EnemyBoss::EnemyBoss(vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed) : EnemyMid(textures, X1, Y1, moveTo, bulletSpeed)
 {
     life = 800;
     secondFase = false;
@@ -353,7 +353,7 @@ EnemyBoss::~EnemyBoss()
 {
 }
 
-void EnemyBoss::update(double deltaTime)
+void EnemyBoss::update(float deltaTime)
 {
     if (Y1 <= moveTo)
         setY(Y1 + (speed * deltaTime));
@@ -389,7 +389,7 @@ void EnemyBoss::update(double deltaTime)
     animationDead(deltaTime);
 }
 
-bool EnemyBoss::shot(double deltaTime)
+bool EnemyBoss::shot(float deltaTime)
 {
     coolDownShot -= 3 * deltaTime;
     if (coolDownShot <= 0)

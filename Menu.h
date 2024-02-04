@@ -14,19 +14,19 @@ using namespace std;
 class Button {
 public:
     Button();
-    Button(string showText, double x, double y);
+    Button(string showText, float x, float y);
     virtual ~Button();
     bool isPresed(int x, int y);
     void isHover(int x, int y);
-    void update(double deltaTime);
+    void update(float deltaTime);
     void draw(SDL_Renderer* renderer);
 protected:
     bool hover;
     string showText;
-    double X1;
-    double X2;
-    double Y1;
-    double Y2;
+    float X1;
+    float X2;
+    float Y1;
+    float Y2;
     Texts texts;
 };
 
@@ -37,7 +37,7 @@ public:
     int click(int x, int y);
     void numPlayers();
     void hover(int x, int y);
-    void update(double deltaTime);
+    void update(float deltaTime);
     void draw(SDL_Renderer* renderer);
 private:
     Button play;

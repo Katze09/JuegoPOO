@@ -17,9 +17,9 @@ public:
     Obstacle(vector<SDL_Texture*> textures);
     Obstacle(vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Obstacle();
-    void update(double deltaTime);\
-    void animationBase(double deltaTime);
-    void animationDead(double deltaTime);
+    void update(float deltaTime);\
+    void animationBase(float deltaTime);
+    void animationDead(float deltaTime);
     int isObstacleHit(vector<BulletPlayer*> bulletPlayer);
     bool isCollsionBorder();
     bool isDead();
@@ -31,8 +31,8 @@ protected:
     int life;
     float targetY;
     bool direction;
-    double slope;
-    double intercept;
+    float slope;
+    float intercept;
     int angleRotation;
 };
 
