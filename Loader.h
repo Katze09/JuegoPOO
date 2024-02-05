@@ -5,6 +5,7 @@
 #include <string>
 #include <tchar.h>
 #include <sdl.h>
+#include <random>
 #include "Level.h"
 #include <chrono>
 #include "Level.h"

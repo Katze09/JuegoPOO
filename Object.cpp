@@ -149,11 +149,6 @@ void Object::setSpeed(float speed)
     this->speed = speed;
 }
 
-void Object::setDead()
-{
-    dead = false;
-}
-
 void Object::draw(SDL_Renderer* renderer)
 {
     SDL_Rect destRect = {static_cast<int> (X1), static_cast<int> (Y1), WIDTH, HEIGHT};

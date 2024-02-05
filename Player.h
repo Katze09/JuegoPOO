@@ -38,6 +38,7 @@ public:
     void setNumSpecialAttack(int specialAttack) { this->specialAttack = specialAttack; }
     void setSpecialAttackShot(bool specialAttackShot) { this->specialAttackShot = specialAttackShot; }
     bool haveSpecialAttackShot() { return specialAttackShot; }
+    void kill(){ dead = true; speedAnimations = 1; }
     bool activePowerUps[4] = {false,false,false,false};
     float timeLeftPowerUp[4] = {3,3,3,3};
     bool flashingShield = true;

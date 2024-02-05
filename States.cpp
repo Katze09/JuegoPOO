@@ -48,6 +48,8 @@ States::States(SDL_Renderer* renderer)
     }
     maxLevel = level - 1;
     level = 0;
+    //level = 3;
+    //gameLevels[level]->numParts = 2;
     pastPart = false;
     continueLevel = false;
     win = false;
@@ -228,6 +230,16 @@ void States::update(float deltaTime)
         }
     }
     bulletsPlayerEvents(deltaTime);
+    if (numPlayers > 1 && !player[0]->isDead())
+    {
+        if (player[0]->getX1HitBox() < player[1]->getX2HitBox() && player[0]->getX2HitBox() > player[1]->getX1HitBox() &&
+            player[0]->getY1HitBox() < player[1]->getY2HitBox() && player[0]->getY2HitBox() > player[1]->getY1HitBox())
+        {
+            player[0]->kill();
+            player[1]->kill();
+            audioPlayer->Play(1, 128); audioPlayer->Play(1, 128);
+        }
+    }
     if (startCoolDown <= 0)
         if (!passingLevel)
         {
@@ -339,11 +351,9 @@ void States::winEvent(SDL_Renderer* renderer)
     textsTitle.drawText("You Won!!", 190, 350, renderer);
     texts.drawText("Press space to continue", 100, 400, renderer);
 }
-// Actualizar entrada del jugador
 
 void States::updateInput(SDL_Keycode key)
 {
-    // Mover jugador y activar disparo al presionar teclas
     player[0]->move(key);
     switch (key)
     {

@@ -82,8 +82,23 @@ public:
     void update(float deltaTime) override;
 protected:
     const int score = 20;
+    bool move = true;
     float hitTex;
     float moveTo;
+};
+
+class EnemyMidGuide : public EnemyMid
+{
+public:
+    EnemyMidGuide();
+    EnemyMidGuide(vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed);
+    virtual ~EnemyMidGuide();
+    void setAngleRotation(float targetX, float targetY);
+    bool shot(float deltaTime) override;
+    void draw(SDL_Renderer* renderer) override;
+    int playerIndex = -1;
+private:
+    float angleRotation = 0;
 };
 
 class EnemyBoss : public EnemyMid

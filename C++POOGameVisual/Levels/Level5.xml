@@ -1,0 +1,16 @@
+<Level>
+    <part1>
+        <Enemys>
+            <EnemyBoss>
+                <X>200</X>
+                <Y>-200</Y>
+                <moveTo>50</moveTo>
+                <bulletSpeed>700</bulletSpeed>
+            </EnemyBoss>
+            <Obstacles>
+                    <SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
+                    <SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>
+                </Obstacles>
+        </Enemys>
+    </part1>
+</Level>

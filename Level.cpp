@@ -16,6 +16,7 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     textureBullet[0] = load.LoadTexture("BulletEnemy", renderer);
     textureBullet[1] = load.LoadTexture("Laser1", renderer);
     textureBullet[2] = load.LoadTexture("Laser2", renderer);
+    textureBullet[3] = load.LoadTexture("BulletEnemyBig", renderer);
 
     // Arreglos de nombres de archivos y texturas para diferentes tipos de enemigos
     nameFile[0] = "EnemyBase";
@@ -34,6 +35,11 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[1] = "EnemyMidHit";
     nameFile[2] = "Died";
     texturesEnemyMid = load.loadTextures(nameFile, renderer, 3);
+    
+    nameFile[0] = "EnemyMidGuide";
+    nameFile[1] = "EnemyMidGuideHit";
+    nameFile[2] = "Died";
+    texturesEnemyMidGuide = load.loadTextures(nameFile, renderer, 3);
 
     nameFile[0] = "EnemyBoss";
     nameFile[1] = "EnemyBossHit";
@@ -50,16 +56,17 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[0] = "PowerUpInmortal";
     texturesPowerUp[1] = load.loadTextures(nameFile, renderer, 1);
 
-    nameFile[0] = "PowerUpfloat";
+    nameFile[0] = "PowerUpDouble";
     texturesPowerUp[2] = load.loadTextures(nameFile, renderer, 1);
 
-    nameFile[0] = "PowerUpfloatP";
+    nameFile[0] = "PowerUpDoubleP";
     texturesPowerUp[3] = load.loadTextures(nameFile, renderer, 1);
 
     numParts = 0;
     numEnemies = 0;
 
     enemies.push_back(std::vector<EnemyBase*>());
+    //setEnemyMidGuide(400, -100, 150, 700);
     //enemies[numParts].push_back(new EnemyStar(texturesEnemyStar, 780, 400, true, 0, 400, 700));
     //enemies[numParts].push_back(new EnemyBoss(texturesEnemyBoss, 200, -300, 50, 550));
 
@@ -142,6 +149,16 @@ void Level::setEnemyLaser(int cant, float y, int movetype, bool direction, float
     }
 }
 
+void Level::setEnemyStar(float y, int movetype, bool direction, float moveTo, int bulletSpeed)
+{
+    float x;
+    if (direction)
+        x = 720;
+    else
+        x = -80;
+    enemies[numParts].push_back(new EnemyStar(texturesEnemyStar, x,y, direction, movetype, moveTo, bulletSpeed));
+}
+
 void Level::setEnemyKamikaze(int cant, float x, float y)
 {
     for (int i = 0; i < cant; i++)
@@ -162,11 +179,14 @@ void Level::setEnemyKamikaze(int cant, float x, float y, float speed)
 
 // Establecer enemigos medianos
 
-void Level::setEnemyMid(int cant, float x, float y, float moveTo, int bulletSpeed)
+void Level::setEnemyMid(float x, float y, float moveTo, int bulletSpeed)
 {
-    // Crear enemigos medianos y agregarlos al vector
-    for (int i = 0; i < cant; i++)
-        enemies[numParts].push_back(new EnemyMid(texturesEnemyMid, x, y, moveTo, bulletSpeed));
+    enemies[numParts].push_back(new EnemyMid(texturesEnemyMid, x, y, moveTo, bulletSpeed));
+}
+
+void Level::setEnemyMidGuide(float x, float y, float moveTo, int bulletSpeed)
+{
+    enemies[numParts].push_back(new EnemyMidGuide(texturesEnemyMidGuide, x, y, moveTo, bulletSpeed));
 }
 
 void Level::setEnemyBoss(float x, float y, float moveTo, int bulletSpeed)
@@ -192,6 +212,17 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
 {
     for (int i = 0; i < enemies[numParts].size(); i++)
     {
+        if (EnemyMidGuide* midGuide = dynamic_cast<EnemyMidGuide*> (enemies[numParts][i]))
+        {
+            if (midGuide->playerIndex < 0)
+                midGuide->playerIndex = load.randomNumber(0, numPlayers);
+            if (player[midGuide->playerIndex]->isDead() && numPlayers > 1)
+                if (midGuide->playerIndex == 1)
+                    midGuide->playerIndex--;
+                else if (midGuide->playerIndex == 0)
+                    midGuide->playerIndex++;
+            midGuide->setAngleRotation(player[midGuide->playerIndex]->getX1(), player[midGuide->playerIndex]->getY1());
+        }
         // Verificar si el enemigo disparó y manejar el tipo de bala
         if (enemies[numParts][i]->shot(deltaTime))
         {
@@ -201,6 +232,8 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
                 EnemyLaserEvent(laser, i);
             else if (EnemyBoss* boss = dynamic_cast<EnemyBoss*> (enemies[numParts][i]))
                 EnemyBossEvent(boss, i , player[load.randomNumber(0, numPlayers)]);
+            else if(EnemyMidGuide* midGuide = dynamic_cast<EnemyMidGuide*> (enemies[numParts][i]))
+                EnemyMidGuideEvent(i, player[midGuide->playerIndex]);
             else if (dynamic_cast<EnemyMid*> (enemies[numParts][i]))
                 EnemyMidEvent(i);
             else if (dynamic_cast<EnemyBase*> (enemies[numParts][i]))
@@ -275,11 +308,21 @@ void Level::powerUpsEvents(float deltaTime)
 
 // Crear asteroides con una cierta probabilidad
 
-void Level::createAsteroid()
+void Level::createAsteroid(Player* player[], int numPlayers)
 {
-    int ran = load.randomNumber(1, probSpawn[numParts]);
-    if (ran == 5)
-        asteroids.push_back(new Asteroid(texturesAsteroid));
+    int x1 = 400;
+    int x2 = 400;
+    if (numPlayers > 1)
+    {
+        x1 = player[1]->getX1();
+        x2 = player[1]->getX2();
+    }
+    if (player[0]->getX1() > 50 && player[0]->getX2() < 650 && x1 > 50 && x2 < 650)
+    {
+        int ran = load.randomNumber(1, probSpawn[numParts]);
+        if (ran == 5)
+            asteroids.push_back(new Asteroid(texturesAsteroid));
+    }
 }
 
 void Level::createPowerUp()
@@ -314,7 +357,7 @@ void Level::update(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int n
     deleteFromArrays();
 
     // Crear asteroides con cierta probabilidad
-    createAsteroid();
+    createAsteroid(player, numPlayers);
     createPowerUp();
 }
 
@@ -412,6 +455,15 @@ void Level::EnemyBossEvent(EnemyBoss* boss, int i, Player* player)
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 70, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 190, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
     }
+}
+
+void Level::EnemyMidGuideEvent(int i, Player* player)
+{
+    audioPlayer->Play(2, 20); audioPlayer->Play(2, 20);
+    audioPlayer->Play(2, 20); audioPlayer->Play(2, 20);
+    BulletEnemyDiagonal* diagonal = new BulletEnemyDiagonal(textureBullet[3], enemies[numParts][i]->getX1() + 30, enemies[numParts][i]->getY1() + 80, player->getX1(), player->getY1(), enemies[numParts][i]->getBulletSpeed());
+    diagonal->activeRotation();
+    bulletsEnemy.push_back(diagonal);
 }
 
 void Level::EnemyMidEvent(int i) 

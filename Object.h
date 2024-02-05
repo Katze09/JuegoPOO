@@ -40,7 +40,6 @@ public:
     void setY(float Y);
     void setSpeed(float speed);
     void setSpeedAnimations(float speedAnimations);
-    void setDead();
     
     
     virtual void animationBase(float deltaTime) = 0;

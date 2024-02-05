@@ -132,8 +132,17 @@ void BulletEnemyDiagonal::update(float deltaTime)
 {
     deltaX = dx * speed * deltaTime;
     deltaY = dy * speed * deltaTime;
-    float angleInRadians = atan2(deltaY, deltaX);
-    angleRotation = (angleInRadians * (180.0 / M_PI) - -270);
+    if (!rotation)
+    {
+        float angleInRadians = atan2(deltaY, deltaX);
+        angleRotation = (angleInRadians * (180.0 / M_PI) - -270);
+    }
+    else
+    {
+        if (angleRotation >= 360)
+            angleRotation = 0;
+        angleRotation += 3;
+    }
     setX(X1 + deltaX);
     setY(Y1 + deltaY);
 }

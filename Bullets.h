@@ -50,12 +50,14 @@ public:
     virtual ~BulletEnemyDiagonal();
     void update(float deltaTime);
     void draw(SDL_Renderer * renderer);
+    void activeRotation() { rotation = true; }
 private:
+    bool rotation = false;
     float dx;
     float dy;
     float deltaX;
     float deltaY;
-    float angleRotation;
+    float angleRotation = 0;
 };
 
 #endif /* BULLETPLAYER_H */

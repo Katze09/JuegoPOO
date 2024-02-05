@@ -21,7 +21,8 @@ bool comp = true;
 
 int Loader::randomNumber(int i, int j)
 {
-    /*auto now = std::chrono::system_clock::now();
+    j--;
+    auto now = std::chrono::system_clock::now();
     auto seed = 0;
     if (comp)
         seed = static_cast<int> (std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count());
@@ -34,8 +35,7 @@ int Loader::randomNumber(int i, int j)
     seed += rd();
     std::default_random_engine generator(seed);
     std::uniform_int_distribution<int> distribution(i, j);
-    return distribution(generator);*/
-    return rand() % j + i;
+    return distribution(generator);
 }
 
 vector<SDL_Texture*> Loader::loadTextures(string nameFile[], SDL_Renderer* renderer, int sizeNames)
@@ -97,10 +97,6 @@ Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPl
                     int direction = stoi(enemy->FirstChildElement("direction")->GetText());
                     int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
                     gameLevel->setEnemyBase(cant, y, movetype, direction, bulletSpeed);
-                    std::cout << "      Cantidad: " << enemy->FirstChildElement("quantity")->GetText() << std::endl;
-                    std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
-                    std::cout << "      Tipo de movimiento: " << enemy->FirstChildElement("MoveType")->GetText() << std::endl;
-                    std::cout << "      Dirección: " << enemy->FirstChildElement("direction")->GetText() << std::endl;
                 } else if (std::string(enemy->Name()) == "EnemyLaser")
                 {
                     int cant = stoi(enemy->FirstChildElement("quantity")->GetText());
@@ -110,11 +106,6 @@ Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPl
                     float moveTo = atof(enemy->FirstChildElement("moveTo")->GetText());
                     int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
                     gameLevel->setEnemyLaser(cant, y, movetype, direction, moveTo, bulletSpeed);
-                    std::cout << "      Cantidad: " << enemy->FirstChildElement("quantity")->GetText() << std::endl;
-                    std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
-                    std::cout << "      Tipo de movimiento: " << enemy->FirstChildElement("MoveType")->GetText() << std::endl;
-                    std::cout << "      Dirección: " << enemy->FirstChildElement("direction")->GetText() << std::endl;
-                    std::cout << "      Mover a : " << enemy->FirstChildElement("moveTo")->GetText() << std::endl;
                 }
                 else if (string(enemy->Name()) == "EnemyKamikaze")
                 {
@@ -129,37 +120,43 @@ Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPl
                         gameLevel->setEnemyKamikaze(cant, x, y, speed);
                     else
                         gameLevel->setEnemyKamikaze(cant, x, y);
-                    std::cout << "      Cantidad: " << enemy->FirstChildElement("quantity")->GetText() << std::endl;
-                    std::cout << "      X: " << enemy->FirstChildElement("X")->GetText() << std::endl;
-                    std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
-                }else if (std::string(enemy->Name()) == "EnemyMid")
+                }
+                else if (string(enemy->Name()) == "EnemyStar")
                 {
-                    int cant = stoi(enemy->FirstChildElement("quantity")->GetText());
+                    float y = atof(enemy->FirstChildElement("Y")->GetText());
+                    int movetype = stoi(enemy->FirstChildElement("MoveType")->GetText());
+                    int direction = stoi(enemy->FirstChildElement("direction")->GetText());
+                    float moveTo = atof(enemy->FirstChildElement("moveTo")->GetText());
+                    int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
+                    gameLevel->setEnemyStar(y, movetype, direction, moveTo, bulletSpeed);
+                }
+                else if (std::string(enemy->Name()) == "EnemyMid")
+                {
                     float x = atof(enemy->FirstChildElement("X")->GetText());
                     float y = atof(enemy->FirstChildElement("Y")->GetText());
                     float moveTo = atof(enemy->FirstChildElement("moveTo")->GetText());
                     int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
-                    gameLevel->setEnemyMid(cant, x, y, moveTo, bulletSpeed);
-                    std::cout << "      Cantidad: " << enemy->FirstChildElement("quantity")->GetText() << std::endl;
-                    std::cout << "      X: " << enemy->FirstChildElement("X")->GetText() << std::endl;
-                    std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
-                    std::cout << "      Mover a : " << enemy->FirstChildElement("moveTo")->GetText() << std::endl;
-                } else if (std::string(enemy->Name()) == "EnemyBoss")
+                    gameLevel->setEnemyMid(x, y, moveTo, bulletSpeed);
+                }
+                else if (std::string(enemy->Name()) == "EnemyMidGuide")
+                {
+                    float x = atof(enemy->FirstChildElement("X")->GetText());
+                    float y = atof(enemy->FirstChildElement("Y")->GetText());
+                    float moveTo = atof(enemy->FirstChildElement("moveTo")->GetText());
+                    int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
+                    gameLevel->setEnemyMidGuide(x, y, moveTo, bulletSpeed);
+                }
+                else if (std::string(enemy->Name()) == "EnemyBoss")
                 {
                     float x = atof(enemy->FirstChildElement("X")->GetText());
                     float y = atof(enemy->FirstChildElement("Y")->GetText());
                     float moveTo = atof(enemy->FirstChildElement("moveTo")->GetText());
                     int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
                     gameLevel->setEnemyBoss(x, y, moveTo, bulletSpeed);
-                    std::cout << "      X: " << enemy->FirstChildElement("X")->GetText() << std::endl;
-                    std::cout << "      Y: " << enemy->FirstChildElement("Y")->GetText() << std::endl;
-                    std::cout << "      Mover a : " << enemy->FirstChildElement("moveTo")->GetText() << std::endl;
                 } else if (std::string(enemy->Name()) == "Obstacles")
                 {
                     gameLevel->setObstacles(stoi(enemy->FirstChildElement("SpawnProbability")->GetText()));
                     gameLevel->setPowerUps(stoi(enemy->FirstChildElement("SpawnProbabilityPowerUp")->GetText()));
-                    std::cout << "      Probabilidad de spawn: " << enemy->FirstChildElement("SpawnProbability")->GetText() << std::endl;
-                    std::cout << "      Probabilidad de spawn PowerUp: " << enemy->FirstChildElement("SpawnProbabilityPowerUp")->GetText() << std::endl;
                 }
             }
         }

@@ -146,7 +146,7 @@ int EnemyBase::getScore()
 }
 
 //
-// Class enemy2
+// Class enemyLaser
 //
 
 EnemyLaser::EnemyLaser() : EnemyBase()
@@ -208,6 +208,10 @@ void EnemyLaser::setFirstShot()
     firstShot = false;
 }
 
+//
+// Class enemyStar
+//
+
 EnemyStar::EnemyStar() : EnemyLaser()
 {
 }
@@ -232,6 +236,10 @@ bool EnemyStar::shot(float deltaTime)
     }
     return false;
 }
+
+//
+// Class enemyKamikaze
+//
 
 EnemyKamikaze::EnemyKamikaze() : EnemyBase()
 {
@@ -280,6 +288,53 @@ void EnemyKamikaze::draw(SDL_Renderer* renderer)
     SDL_RenderCopyEx(renderer, textures[indexTexture], NULL, &destinationRect, angleRotation, NULL, SDL_FLIP_NONE);
 }
 
+//
+// Class EnemyMidGuide
+//
+
+EnemyMidGuide::EnemyMidGuide() : EnemyMid()
+{
+}
+
+EnemyMidGuide::EnemyMidGuide(vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed)
+    : EnemyMid(textures, X1, Y1, moveTo, bulletSpeed)
+{
+    life = 20;
+    move = false;
+}
+
+EnemyMidGuide::~EnemyMidGuide()
+{
+}
+
+void EnemyMidGuide::setAngleRotation(float targetX, float targetY)
+{
+    float angleInRadians = atan2(targetY, targetX);
+    angleRotation = (angleInRadians * (180.0 / M_PI) - 55);
+}
+
+
+bool EnemyMidGuide::shot(float deltaTime)
+{
+    coolDownShot -= 3 * deltaTime;
+    if (coolDownShot <= 0)
+    {
+        coolDownShot = 6;
+        return true;
+    }
+    return false;
+}
+
+void EnemyMidGuide::draw(SDL_Renderer* renderer)
+{
+    SDL_Rect destinationRect = { static_cast<int> (X1), static_cast<int> (Y1), WIDTH, HEIGHT };
+    SDL_RenderCopyEx(renderer, textures[indexTexture], NULL, &destinationRect, angleRotation, NULL, SDL_FLIP_NONE);
+}
+
+//
+// Class EnemyMid
+//
+
 EnemyMid::EnemyMid() : EnemyBase()
 {
 }
@@ -317,17 +372,18 @@ void EnemyMid::update(float deltaTime)
         setY(Y1 + (speed * deltaTime));
     else
     {
-        if (direction)
-        {
-            setX(X1 + (speed * deltaTime));
-            if (X1 >= 520)
-                direction = false;
-        } else
-        {
-            setX(X1 - (speed * deltaTime));
-            if (X1 <= 0)
-                direction = true;
-        }
+        if(move)
+            if (direction)
+            {
+                setX(X1 + (speed * deltaTime));
+                if (X1 >= 520)
+                    direction = false;
+            } else
+            {
+                setX(X1 - (speed * deltaTime));
+                if (X1 <= 0)
+                    direction = true;
+            }
     }
     if (indexTexture == 1 && hitTex <= 0)
         indexTexture = 0;
@@ -335,6 +391,10 @@ void EnemyMid::update(float deltaTime)
         hitTex -= 15 * deltaTime;
     animationDead(deltaTime);
 }
+
+//
+// Class EnemyBoss
+//
 
 EnemyBoss::EnemyBoss() : EnemyMid()
 {

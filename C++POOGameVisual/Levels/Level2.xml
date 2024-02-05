@@ -77,14 +77,12 @@
 	<part3>
 		<Enemys>
 			<EnemyMid>
-				<quantity>1</quantity>
 				<X>100</X>
 				<Y>-200</Y>
 				<moveTo>150</moveTo>
 				<bulletSpeed>700</bulletSpeed>
 			</EnemyMid>
 			<EnemyMid>
-				<quantity>1</quantity>
 				<X>500</X>
 				<Y>-200</Y>
 				<moveTo>150</moveTo>
