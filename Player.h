@@ -24,14 +24,14 @@ public:
     bool isDead(){return dead;}
     bool isInmortal(){return inmortal;}
     void setInmortal(bool inmortal){this->inmortal = inmortal;}
-    bool havefloatShot(){return floatShot;}
-    void setfloatShot(bool floatShot){this->floatShot = floatShot;}
+    bool haveDoubleShot(){return doubleShot;}
+    void setDoubleShot(bool floatShot){this->doubleShot = floatShot;}
     int getBulletSpeed(){return bulletSpeed;}
     void setBulletSpeed(int bulletSpeed){this->bulletSpeed = bulletSpeed;}
     int getCoolDownShot(){return coolDownShot;}
     void setCoolDownShot(int coolDownShot){this->coolDownShot = coolDownShot;}
-    bool havefloatPoints() { return floatPoints; }
-    void setfloatPoints(bool floatPoints) { this->floatPoints = floatPoints; }
+    bool haveDoublePoints() { return doublePoints; }
+    void setDoublePoints(bool floatPoints) { this->doublePoints = doublePoints; }
     int getNumSpecialAttack() { return specialAttack; }
     void reduceNumSpecialAttack() { specialAttack--; }
     void increaseNumSpecialAttack() { specialAttack++; }
@@ -49,8 +49,8 @@ protected:
     bool left;
     bool dead;
     bool inmortal;
-    bool floatShot;
-    bool floatPoints;
+    bool doubleShot;
+    bool doublePoints;
     float normalSpeedCool;
     int bulletSpeed;
     int coolDownShot;

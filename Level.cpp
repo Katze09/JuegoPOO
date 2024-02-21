@@ -263,7 +263,7 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
         if (enemies[numParts][i]->endDeadAnimation())
         {
             for (int p = 0; p < numPlayers; p++)
-                score += (player[p]->havefloatPoints()) ? enemies[numParts][i]->getScore() * 2 : enemies[numParts][i]->getScore();
+                score += (player[p]->haveDoublePoints()) ? enemies[numParts][i]->getScore() * 2 : enemies[numParts][i]->getScore();
             enemiesToRemove.push_back(i);
         }
     }
@@ -290,7 +290,7 @@ void Level::obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player
         if (asteroids[i]->endDeadAnimation())
         {
             for (int p = 0; p < numPlayers; p++)
-                score += (player[p]->havefloatPoints()) ? asteroids[i]->getScore() * 2 : asteroids[i]->getScore();
+                score += (player[p]->haveDoublePoints()) ? asteroids[i]->getScore() * 2 : asteroids[i]->getScore();
             asteroidsToRemove.push_back(i);
         }
     }

@@ -199,12 +199,12 @@ void PowerUp::setPowerEffect(Player* player)
             player->flashingShield = true;
             break;
         case 2:
-            player->setfloatShot(true);
+            player->setDoubleShot(true);
             player->activePowerUps[2] = true;
             player->timeLeftPowerUp[2] = 50;
             break;
         case 3:
-            player->setfloatPoints(true);
+            player->setDoublePoints(true);
             player->activePowerUps[3] = true;
             player->timeLeftPowerUp[3] = 50;
             break;

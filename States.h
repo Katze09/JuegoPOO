@@ -11,6 +11,7 @@
 #include "Texts.h"
 #include "AudioPlayer.h"
 #include "Level.h"
+#include "Menu.h"
 
 using namespace std;
 
@@ -24,6 +25,8 @@ public:
     void setPlayer2(SDL_Renderer* renderer);
     void updateInput(SDL_Keycode key);
     void inputUp(SDL_Keycode key);
+    void mouseClick(int x, int y);
+    void mouseMove(int x, int y);
 private:
     Level* gameLevels[10];
     SDL_Texture* spriteBullet;
@@ -32,6 +35,8 @@ private:
     float cooldownShot[2];
     bool PlayerShot[2];
     bool win;
+    Shop shop;
+    bool shopTime;
     void bulletsPlayerEvents(float deltaTime);
     void checkPartFinish();
     void passLevel(SDL_Renderer* renderer);

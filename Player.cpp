@@ -12,7 +12,7 @@ Player::Player(vector<SDL_Texture*> textures, float X1, float Y1) : Object(textu
     bulletSpeed = 1000;
     coolDownShot = 2;
     normalSpeedCool = 2;
-    floatShot = inmortal = false;
+    doubleShot = inmortal = false;
     up = false;
     down = false;
     right = false;
@@ -164,10 +164,10 @@ void Player::timeLetfPowerUps(float deltaTime)
                         inmortal = false;
                         break;
                     case 2:
-                        floatShot = false;
+                        doubleShot = false;
                         break;
                     case 3:
-                        floatPoints = false;
+                        doublePoints = false;
                         break;
                 }
             }

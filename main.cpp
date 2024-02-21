@@ -51,20 +51,26 @@ int main(int argc, char** argv)
             case SDL_MOUSEBUTTONDOWN:
                 if (event.button.button == SDL_BUTTON_LEFT)
                 {
-                    int click = menu->click(event.button.x, event.button.y);
-                    switch (click)
+                    states->mouseClick(event.button.x, event.button.y);
+                    if (!startGame)
                     {
-                    case 1:
-                        startGame = true;
-                        break;
-                    case 2:
-                        startGame = true;
-                        states->setPlayer2(renderer);
+                        int click = menu->click(event.button.x, event.button.y);
+                        switch (click)
+                        {
+                        case 1:
+                            startGame = true;
+                            break;
+                        case 2:
+                            startGame = true;
+                            states->setPlayer2(renderer);
+                        }
                     }
                 }
                 break;
             case SDL_MOUSEMOTION:
-                menu->hover(event.motion.x, event.motion.y);
+                if(!startGame)
+                    menu->hover(event.motion.x, event.motion.y);
+                states->mouseMove(event.motion.x, event.motion.y);
                 break;
             }
         }
