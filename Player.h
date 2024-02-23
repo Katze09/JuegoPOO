@@ -38,6 +38,16 @@ public:
     void setNumSpecialAttack(int specialAttack) { this->specialAttack = specialAttack; }
     void setSpecialAttackShot(bool specialAttackShot) { this->specialAttackShot = specialAttackShot; }
     bool haveSpecialAttackShot() { return specialAttackShot; }
+    bool haveItemDoubleShot() { return doubleShotItem; }
+    bool haveItemDoublePoints() { return doublePointsItem; }
+    bool haveItemPowerShopItem() { return powerUpShotItem; }
+    void setItemDoubleShot(bool doubleShotItem) { this->doubleShotItem = doubleShotItem; }
+    void setItemDoublePoints(bool doublePointsItem) { this->doublePointsItem = doublePointsItem; }
+    void setItemPowerShopItem(bool powerUpShotItem) { this->powerUpShotItem = powerUpShotItem; coolDownShot = 2; }
+    void setItemEffect(int type);
+    int getNumItemShield() { return itemShield; }
+    void reduceNumItemShield() { itemShield--; }
+    void setNumItemShield(int itemShield) { this->itemShield = itemShield; }
     void kill(){ dead = true; speedAnimations = 1; }
     bool activePowerUps[4] = {false,false,false,false};
     float timeLeftPowerUp[4] = {3,3,3,3};
@@ -48,14 +58,18 @@ protected:
     bool right;
     bool left;
     bool dead;
-    bool inmortal;
-    bool doubleShot;
-    bool doublePoints;
+    bool inmortal = false;
+    bool doubleShot = false;
+    bool doublePoints = false;
+    bool doubleShotItem = false;
+    bool doublePointsItem = false;
+    bool powerUpShotItem = false;
     float normalSpeedCool;
     int bulletSpeed;
     int coolDownShot;
     int specialAttack = 3;
     bool specialAttackShot = false;
+    int itemShield = 0;
     float flashingDelay = 0;
     void collisionBorder();
     void timeLetfPowerUps(float deltaTime);

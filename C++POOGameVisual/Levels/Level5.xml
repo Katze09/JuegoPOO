@@ -9,7 +9,7 @@
             </EnemyBoss>
             <Obstacles>
                     <SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
-                    <SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>
+                    <SpawnProbabilityPowerUp>400</SpawnProbabilityPowerUp>
                 </Obstacles>
         </Enemys>
     </part1>

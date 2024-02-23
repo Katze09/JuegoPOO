@@ -18,7 +18,7 @@ Obstacle::Obstacle(vector<SDL_Texture*> textures, float X1, float Y1) : Object(t
 
 Obstacle::Obstacle(vector<SDL_Texture*> textures) : Object(textures)
 {
-    direction = loaderAste.randomNumber(0, 1);
+    direction = loaderAste.randomNumber(0, 2);
     X1 = (direction) ? 800 : -100;
     Y1 = loaderAste.randomNumber(100, 700);
     if (Y1 < 450)
@@ -43,7 +43,10 @@ Obstacle::~Obstacle()
 void Obstacle::update(float deltaTime)
 {
     // Actualizar la posición X e Y basada en la pendiente y velocidad
-    setX(X1 + (speed * (15 * deltaTime)));
+    if(!direction)
+        setX(X1 + (speed * (15 * deltaTime)));
+    else
+        setX(X1 - (speed * (15 * deltaTime)));
     setY((slope * X1 + intercept) + (15 * deltaTime));
     animationDead(deltaTime);
 }
@@ -54,15 +57,11 @@ bool Obstacle::isCollsionBorder()
     if (direction)
     {
         if (X1 < -150)
-        {
             border = true;
-        }
     } else
     {
         if (X1 > 850)
-        {
             border = true;
-        }
     }
     return border;
 }

@@ -263,7 +263,7 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
         if (enemies[numParts][i]->endDeadAnimation())
         {
             for (int p = 0; p < numPlayers; p++)
-                score += (player[p]->haveDoublePoints()) ? enemies[numParts][i]->getScore() * 2 : enemies[numParts][i]->getScore();
+                score += (player[p]->haveDoublePoints() || player[p]->haveItemDoublePoints()) ? enemies[numParts][i]->getScore() * 2 : enemies[numParts][i]->getScore();
             enemiesToRemove.push_back(i);
         }
     }

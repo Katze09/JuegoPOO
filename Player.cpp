@@ -158,7 +158,8 @@ void Player::timeLetfPowerUps(float deltaTime)
                 switch (i)
                 {
                     case 0:
-                        coolDownShot = 2;
+                        if(!powerUpShotItem)
+                            coolDownShot = 2;
                         break;
                     case 1:
                         inmortal = false;
@@ -172,6 +173,29 @@ void Player::timeLetfPowerUps(float deltaTime)
                 }
             }
         }
+}
+
+void Player::setItemEffect(int type)
+{
+    switch (type)
+    {
+    case 0:
+        doubleShotItem = true;
+        break;
+    case 1:
+        doublePointsItem = true;
+        break;
+    case 2:
+        itemShield++;
+        break;
+    case 3:
+        specialAttack = 3;
+        break;
+    case 4:
+        powerUpShotItem = true;
+        coolDownShot = 0.6;
+        break;
+    }
 }
 
 void Player::update(float deltaTime)

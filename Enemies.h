@@ -20,7 +20,7 @@ public:
     int getBulletSpeed();
     int getScore();
 protected:
-    const int score = 5;
+    const int score = 15;
     int bulletSpeed;
     int life;
     bool direction;
@@ -81,7 +81,7 @@ public:
     int isEnemyHit(vector<BulletPlayer*> bulletPlayer) override;
     void update(float deltaTime) override;
 protected:
-    const int score = 20;
+    const int score = 50;
     bool move = true;
     float hitTex;
     float moveTo;
@@ -113,7 +113,7 @@ public:
     bool isSecondPartP2(){return secondFaseP2;}
     bool isThirdPart(){return thirdFase;}
 private:
-    const int score = 500;
+    const int score = 1000;
     bool secondFase;
     bool secondFaseP2;
     bool thirdFase;

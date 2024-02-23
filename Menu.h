@@ -21,6 +21,9 @@ public:
     void draw(SDL_Renderer* renderer);
     float getX() { return X1; }
     float getY() { return Y1; }
+    void setText(string showText) { this->showText = showText; }
+    void setTextColor(SDL_Color color) { textcolor = color; haveTextColor = true; }
+    bool haveTextColor = false;
 protected:
     bool hover;
     string showText;
@@ -29,6 +32,7 @@ protected:
     float Y1;
     float Y2;
     Texts texts;
+    SDL_Color textcolor;
 };
 
 class Menu {
@@ -41,12 +45,20 @@ public:
     void update(float deltaTime);
     void draw(SDL_Renderer* renderer);
 private:
+    bool selectPlayer;
+    bool instruc;
+    bool nextBool;
     Button play;
+    Button instructions;
     Button player1;
     Button player2;
     Button back;
+    Button backIns;
+    Button next;
     Background background;
     Texts textsTile;
+    Texts textsMid;
+    Texts textsLittle;
     Texts textsExtra;
 };
 
@@ -57,10 +69,11 @@ public:
     Item(SDL_Texture* texture, int type, int cost, float X, float Y, int WIDTH, int HEIGHT);
     void update(float deltaTime);
     void draw(SDL_Renderer* renderer);
-    void setEffectPlayer();
     float getX() { return X; }
     float getY() { return Y; }
     int getCost() { return cost; }
+    int getType() { return type; }
+    bool sold = false;
 private:
     SDL_Texture* texture;
     int WIDTH;
@@ -82,11 +95,12 @@ public:
     void update(float deltaTime);
     void draw(SDL_Renderer* renderer);
     bool endShop;
-    int getRemainingPoints() { return totalPoints; }
-    void startShopping(int points, Player* player[], int numPlayers);
+    int getRemainingScore() { return score; }
+    void startShopping(int score, Player* player[], int numPlayers);
     void endShopping();
 private:
     SDL_Texture* itemTextures[5];
+    int itemCost[5] = {300, 600, 600, 800, 1200};
     Item items[3];
     Button itemsButton[3];
     Player** player;
@@ -96,7 +110,7 @@ private:
     Texts textsTile;
     Texts textsMid;
     Texts textsExtra;
-    int totalPoints = 0;
+    int score = 0;
 };
 
 #endif /* MENU_H */

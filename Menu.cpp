@@ -1,19 +1,25 @@
 #include "Menu.h"
 
 Loader lod;
-bool selectPlayer;
 
 Menu::Menu(SDL_Renderer* renderer)
 {
     background = Background(lod.LoadTexture("Background", renderer));
     int fontSize = 80;
     play = Button("Play", 250, 300, fontSize);
+    instructions = Button("Instructions", 100, 400, fontSize);
     textsTile = Texts("VerminVibes1989", 120);
+    textsMid = Texts("VerminVibes1989", 70);
+    textsLittle = Texts("VerminVibes1989", 45);
     textsExtra = Texts("VerminVibes1989", 20);
     player1 = Button("SinglePlayer", 95, 300, fontSize);
     player2 = Button("MultiPlayer", 100, 400, fontSize);
     back = Button("Back", 250, 500, fontSize);
+    backIns = Button("Back", 100, 650, fontSize);
+    next = Button("Next", 450, 650, fontSize);
     selectPlayer = false;
+    instruc = false;
+    nextBool = false;
 }
 
 Menu::~Menu()
@@ -22,13 +28,7 @@ Menu::~Menu()
 
 int Menu::click(int x, int y)
 {
-    if (!selectPlayer)
-    {
-        if (play.isPresed(x, y))
-        {
-            selectPlayer = true;
-        }
-    } else
+    if (selectPlayer)
     {
         if (player1.isPresed(x, y))
             return 1;
@@ -37,15 +37,39 @@ int Menu::click(int x, int y)
         if (back.isPresed(x, y))
             selectPlayer = false;
     }
+    if (!selectPlayer && !instruc)
+    {
+        if (play.isPresed(x, y))
+            selectPlayer = true;
+        if (instructions.isPresed(x, y))
+            instruc = true;
+    } 
+    if (instruc)
+    {
+        if(backIns.isPresed(x , y) && !nextBool)
+            instruc = false;
+        if (backIns.isPresed(x, y) && nextBool)
+            nextBool = false;
+        if (next.isPresed(x, y) && !nextBool)
+            nextBool = true;
+    }
     return 0;
 }
 
 void Menu::hover(int x, int y)
 {
-    if (!selectPlayer)
+    if (!selectPlayer && !instruc)
     {
         play.isHover(x, y);
-    } else
+        instructions.isHover(x, y);
+    } 
+    if (instruc)
+    {
+        backIns.isHover(x, y);
+        if(!nextBool)
+            next.isHover(x, y);
+    }
+    if(selectPlayer)
     {
         player1.isHover(x, y);
         player2.isHover(x, y);
@@ -68,14 +92,42 @@ void Menu::draw(SDL_Renderer* renderer)
     background.draw(renderer);
     textsTile.drawText("The Game", 110, 100, renderer);
     textsExtra.drawText("Copyright Katze090", 0, 780, renderer);
-    if (!selectPlayer)
+    if (!selectPlayer && !instruc)
+    {
         play.draw(renderer);
-    else
+        instructions.draw(renderer);
+    }
+    if (selectPlayer)
     {
         player1.draw(renderer);
         player2.draw(renderer);
         back.draw(renderer);
     }
+    if(instruc)
+    {
+        if (!nextBool)
+        {
+            textsMid.drawText("Player 1", 220, 220, renderer);
+            textsMid.drawText("Movement", 205, 300, renderer);
+            textsMid.drawText("W", 320, 350, renderer);
+            textsMid.drawText("A S D", 260, 400, renderer);
+            textsLittle.drawText("Space - Shot", 200, 500, renderer);
+            textsLittle.drawText("E - Special Attack", 150, 550, renderer);
+            textsLittle.drawText("Q - Shield Item", 180, 600, renderer);
+            next.draw(renderer);
+        }
+        else 
+        {
+            textsMid.drawText("Player 2", 220, 220, renderer);
+            textsMid.drawText("Movement", 205, 300, renderer);
+            textsMid.drawText("U", 320, 350, renderer);
+            textsMid.drawText("H J K", 260, 400, renderer);
+            textsLittle.drawText("Shift - Shot", 200, 500, renderer);
+            textsLittle.drawText("I - Special Attack", 150, 550, renderer);
+            textsLittle.drawText("Y - Shield Item", 180, 600, renderer);
+        }
+        backIns.draw(renderer);
+    } 
 
 }
 
@@ -110,11 +162,11 @@ Shop::~Shop()
 {
 }
 
-void Shop::startShopping(int point, Player* player[], int numPlayers)
+void Shop::startShopping(int score, Player* player[], int numPlayers)
 {
     this->player = player;
     this->numPlayers = numPlayers;
-    totalPoints = point;
+    this->score = score;
     endShop = false;
     int itemsSelect[3];
     int x = 100;
@@ -134,7 +186,7 @@ void Shop::startShopping(int point, Player* player[], int numPlayers)
                 }
         } while (isInArray);
         itemsSelect[i] = ran;
-        items[i] = Item(itemTextures[ran], ran, 300, x, 300, 70, 70);
+        items[i] = Item(itemTextures[ran], ran, itemCost[ran], x, 300, 70, 70);
         x += 220;
     }
 
@@ -142,28 +194,29 @@ void Shop::startShopping(int point, Player* player[], int numPlayers)
 
 void Shop::endShopping()
 {
+    for (int i = 0; i < 3; i++)
+    {
+        itemsButton[i].haveTextColor = false;
+        itemsButton[i].setText("Buy");
+    }
     endShop = true;
 }
 
 int Shop::click(int x, int y)
 {
 
-    /*if (!selectPlayer)
-    {
-        if (play.isPresed(x, y))
+    for (int i = 0; i < 3; i++)
+        if (itemsButton[i].isPresed(x, y) && score > items[i].getCost() && !items[i].sold)
         {
-            selectPlayer = true;
+            for (int p = 0; p < numPlayers; p++)
+                player[p]->setItemEffect(items[i].getType());
+            score -= items[i].getCost();
+            itemsButton[i].setText("Sold");
+            items[i].sold = true;
+            SDL_Color color = { 136, 136, 136 };
+            itemsButton[i].setTextColor(color);
+            itemsButton[i].isHover(-10, -10);
         }
-    }
-    else
-    {
-        if (player1.isPresed(x, y))
-            return 1;
-        if (player2.isPresed(x, y))
-            return 2;
-        if (back.isPresed(x, y))
-            selectPlayer = false;
-    }*/
     if (finishShop.isPresed(x, y))
         endShopping();
     return 0;
@@ -172,7 +225,8 @@ int Shop::click(int x, int y)
 void Shop::hover(int x, int y)
 {
     for (int i = 0;i < 3;i++)
-        itemsButton[i].isHover(x, y);
+        if(!items[i].sold)
+            itemsButton[i].isHover(x, y);
     finishShop.isHover(x, y);
 }
 
@@ -185,7 +239,7 @@ void Shop::draw(SDL_Renderer* renderer)
 {
     background.draw(renderer);
     textsTile.drawText("Item Shop", 110, 100, renderer);
-    textsMid.drawText("Score: " + std::to_string(totalPoints), 210, 220, renderer);
+    textsMid.drawText("Score: " + std::to_string(score), 210, 220, renderer);
     for (int i = 0; i < 3; i++)
     {
         itemsButton[i].draw(renderer);
@@ -257,11 +311,13 @@ void Button::update(float deltaTime)
 void Button::draw(SDL_Renderer* renderer)
 {
     if (!hover)
-        texts.drawText(showText, X1, Y1, renderer);
+        if(!haveTextColor)
+            texts.drawText(showText, X1, Y1, renderer);
+        else
+            texts.drawText(showText, X1, Y1, renderer, textcolor);
     else
     {
         SDL_Color color = {0, 82, 234};
         texts.drawText(showText, X1, Y1, renderer, color);
     }
 }
-

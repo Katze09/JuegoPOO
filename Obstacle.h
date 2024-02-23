@@ -27,7 +27,7 @@ public:
     int getScore();
     virtual void draw(SDL_Renderer* renderer);
 protected:
-    const int score = 5;
+    const int score = 15;
     int life;
     float targetY;
     bool direction;

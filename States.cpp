@@ -28,6 +28,7 @@ States::States(SDL_Renderer* renderer)
     textures = loader.loadTextures(nameFile, renderer, 3);
 
     specialAttackTexture = loader.LoadTexture("SpecialAttack", renderer);
+    shieldItemTexture = loader.LoadTexture("Shield1", renderer);
 
     player[0] = new Player(textures, 310, 460);
     textures.clear(); // Clear textures after use
@@ -88,7 +89,7 @@ void States::bulletsPlayerEvents(float deltaTime)
         if (PlayerShot[p] && cooldownShot[p] <= 0 && !player[p]->isDead())
         {
             // Create bullets when space is pressed and cooldown has ended
-            if (player[p]->haveDoubleShot())
+            if (player[p]->haveDoubleShot() || player[p]->haveItemDoubleShot())
             {
                 // Create double bullets
                 bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 10, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
@@ -147,11 +148,11 @@ void States::draw(SDL_Renderer* renderer)
 {
     if (!shopTime)
     {
-        // Draw background, player, player bullets, and current level
+        // Dibujar fondo, jugador, balas del jugador y nivel actual
         background.draw(renderer);
         for (int i = 0; i < bulletsPlayer.size(); i++)
             bulletsPlayer[i]->draw(renderer);
-        // Display score information on the screen
+        // Mostrar información de puntuación en la pantalla
         if (startCoolDown <= 0)
         {
             gameLevels[level]->draw(renderer);
@@ -160,7 +161,6 @@ void States::draw(SDL_Renderer* renderer)
         }
         else
         {
-            // Display level start message
             if (startCoolDown > 40)
                 textsTitle.drawText("Level " + to_string(level + 1), 200, 300, renderer);
             else if (startCoolDown < 30)
@@ -168,13 +168,13 @@ void States::draw(SDL_Renderer* renderer)
         }
         for (int p = 0; p < numPlayers; p++)
         {
-            // Draw players and special attack indicators
             if (!player[p]->endDeadAnimation())
                 player[p]->draw(renderer);
             if (win)
             {
                 winEvent(renderer);
             }
+            //Special attack draw
             int x = 30;
             if (p == 1)
                 x = 500;
@@ -184,12 +184,24 @@ void States::draw(SDL_Renderer* renderer)
                 SDL_RenderCopy(renderer, specialAttackTexture, NULL, &destRect);
                 x += 60;
             }
+            //Item Shild draw
+            x = 30;
+            if (p == 1)
+                x = 500;
+            for (int i = 0; i < player[p]->getNumItemShield(); i++)
+            {
+                SDL_Rect destRect = { x, 660, 50, 50 };
+                SDL_RenderCopy(renderer, shieldItemTexture, NULL, &destRect);
+                x += 60;
+            }
         }
         if (numPlayers > 1)
         {
             if (player[0]->isDead() && player[1]->isDead())
                 deadEvent(renderer);
         }
+        else if (player[0]->isDead())
+            deadEvent(renderer);
         texts.drawText("Score " + to_string(gameLevels[level]->getScore()), 10, 10, renderer);
         texts.drawText("Level " + to_string(level + 1), 535, 10, renderer);
         texts.drawText("Deaths " + to_string(deaths), 265, 10, renderer);
@@ -211,30 +223,48 @@ void States::update(float deltaTime)
             player[p]->update(deltaTime);
 
             // Verificar colisiones del jugador con balas enemigas y obstáculos
-            /*if (!player[p]->isDead() && !player[p]->isInmortal())
+            if (!player[p]->isDead() && !player[p]->isInmortal())
             {
                 int ind = player[p]->isPlayerHit(gameLevels[level]->bulletsEnemy);
                 if (ind > -1)
                 {
                     gameLevels[level]->bulletsToRemove.push_back(ind);
-                    audioPlayer->Play(1, 128);
+                    audioPlayer->Play(1, 250);
                     deaths++;
+                    if (player[p]->haveItemDoublePoints() || player[p]->haveItemDoubleShot() || player[p]->haveItemPowerShopItem())
+                    {
+                        player[p]->setItemDoublePoints(false);
+                        player[p]->setItemDoubleShot(false);
+                        player[p]->setItemPowerShopItem(false);
+                    }
                 }
                 ind = player[p]->isPlayerHitObstacle(gameLevels[level]->asteroids);
                 if (ind > -1)
                 {
                     gameLevels[level]->asteroids[ind]->reduceLife();
-                    audioPlayer->Play(1, 128);
+                    audioPlayer->Play(1, 250);
                     deaths++;
+                    if (player[p]->haveItemDoublePoints() || player[p]->haveItemDoubleShot() || player[p]->haveItemPowerShopItem())
+                    {
+                        player[p]->setItemDoublePoints(false);
+                        player[p]->setItemDoubleShot(false);
+                        player[p]->setItemPowerShopItem(false);
+                    }
                 }
                 ind = player[p]->isPlayerHitEnemy(gameLevels[level]->enemies[gameLevels[level]->numParts]);
                 if (ind > -1)
                 {
                     gameLevels[level]->enemies[gameLevels[level]->numParts][ind]->reduceLife();
-                    audioPlayer->Play(1, 128);
+                    audioPlayer->Play(1, 250);
                     deaths++;
+                    if (player[p]->haveItemDoublePoints() || player[p]->haveItemDoubleShot() || player[p]->haveItemPowerShopItem())
+                    {
+                        player[p]->setItemDoublePoints(false);
+                        player[p]->setItemDoubleShot(false);
+                        player[p]->setItemPowerShopItem(false);
+                    }
                 }
-            }*/
+            }
             for (int i = 0; i < gameLevels[level]->powerUps.size(); i++)
                 if (gameLevels[level]->powerUps[i]->isCollisionPlayer(player[p]))
                 {
@@ -246,14 +276,14 @@ void States::update(float deltaTime)
     bulletsPlayerEvents(deltaTime);
     if (numPlayers > 1 && !player[0]->isDead())
     {
-        if(!player[1]->isDead())
-        if (player[0]->getX1HitBox() < player[1]->getX2HitBox() && player[0]->getX2HitBox() > player[1]->getX1HitBox() &&
-            player[0]->getY1HitBox() < player[1]->getY2HitBox() && player[0]->getY2HitBox() > player[1]->getY1HitBox())
-        {
-            player[0]->kill();
-            player[1]->kill();
-            audioPlayer->Play(1, 128); audioPlayer->Play(1, 128);
-        }
+        if (!player[1]->isDead())
+            if (player[0]->getX1HitBox() < player[1]->getX2HitBox() && player[0]->getX2HitBox() > player[1]->getX1HitBox() &&
+                player[0]->getY1HitBox() < player[1]->getY2HitBox() && player[0]->getY2HitBox() > player[1]->getY1HitBox())
+            {
+                player[0]->kill();
+                player[1]->kill();
+                audioPlayer->Play(1, 250); audioPlayer->Play(1, 128);
+            }
     }
     if (startCoolDown <= 0)
         if (!passingLevel)
@@ -287,11 +317,20 @@ void States::checkPartFinish()
         gameLevels[level]->numParts++;
         if (gameLevels[level]->numParts == gameLevels[level]->maxnumParts)
         {
+            gameLevels[level]->asteroids.clear();
+            gameLevels[level]->powerUpsToRemove.clear();
+            gameLevels[level]->powerUps.clear();
             passingLevel = true;
             delayLevel = 80;
-            shop.startShopping(totalScore, player, numPlayers);
+            shop.startShopping(gameLevels[level]->getScore(), player, numPlayers);
             for (int p = 0; p < numPlayers; p++)
             {
+                if (player[p]->haveItemDoublePoints() || player[p]->haveItemDoubleShot() || player[p]->haveItemPowerShopItem())
+                {
+                    player[p]->setItemDoublePoints(false);
+                    player[p]->setItemDoubleShot(false);
+                    player[p]->setItemPowerShopItem(false);
+                }
                 if (player[p]->getNumSpecialAttack() < 3 && !player[p]->isDead())
                     player[p]->increaseNumSpecialAttack();
                 if (player[p]->isDead())
@@ -300,12 +339,14 @@ void States::checkPartFinish()
                     {
                         Player* newPlay = new Player(player[0]->getTextures(), 310, 460);
                         newPlay->setNumSpecialAttack(player[0]->getNumSpecialAttack());
+                        newPlay->setNumItemShield(player[0]->getNumItemShield());
                         player[p] = newPlay;
                     }
                     else
                     {
                         Player* newPlay = new Player2(player[1]->getTextures(), 400, 460);
                         newPlay->setNumSpecialAttack(player[1]->getNumSpecialAttack());
+                        newPlay->setNumItemShield(player[1]->getNumItemShield());
                         player[p] = newPlay;
                     }
                 }
@@ -341,7 +382,8 @@ void States::passLevel(SDL_Renderer* renderer)
         {
             passingLevel = false;
             level++;
-            gameLevels[level]->setScore(gameLevels[level - 1]->getScore());
+            //gameLevels[level]->setScore(gameLevels[level - 1]->getScore());
+            gameLevels[level]->setScore(shop.getRemainingScore());
             totalScore = gameLevels[level]->getScore();
         }
     }
@@ -353,11 +395,13 @@ void States::deadEvent(SDL_Renderer* renderer)
     {
         Player* newPlay = new Player(player[0]->getTextures(), 310, 460);
         newPlay->setNumSpecialAttack(player[0]->getNumSpecialAttack());
+        newPlay->setNumItemShield(player[0]->getNumItemShield());
         player[0] = newPlay;
         if (numPlayers > 1)
         {
             Player* newPlay2 = new Player2(player[1]->getTextures(), 400, 460);
             newPlay2->setNumSpecialAttack(player[1]->getNumSpecialAttack());
+            newPlay2->setNumItemShield(player[1]->getNumItemShield());
             player[1] = newPlay2;
         }
         Level* lev = loader.LoadLevel((level + 1), renderer, audioPlayer);
@@ -366,7 +410,7 @@ void States::deadEvent(SDL_Renderer* renderer)
         continueLevel = false;
         delayPart = 0;
     }
-    
+
     textsTitle.drawText("You died", 200, 300, renderer);
     texts.drawText("Press space to try again", 80, 400, renderer);
 }
@@ -395,6 +439,16 @@ void States::updateInput(SDL_Keycode key)
                 player[0]->reduceNumSpecialAttack();
             }
             break;
+        case SDLK_q:
+            if (player[0]->getNumItemShield() > 0)
+            {
+                player[0]->setInmortal(true);
+                player[0]->activePowerUps[1] = true;
+                player[0]->timeLeftPowerUp[1] = 50;
+                player[0]->flashingShield = true;
+                player[0]->reduceNumItemShield();
+            }
+            break;
     }
     if (numPlayers > 1)
     {
@@ -410,6 +464,15 @@ void States::updateInput(SDL_Keycode key)
                     player[1]->setSpecialAttackShot(true);
                     player[1]->reduceNumSpecialAttack();
                 }
+        case SDLK_y:
+            if (player[1]->getNumItemShield() > 0)
+            {
+                player[1]->setInmortal(true);
+                player[1]->activePowerUps[1] = true;
+                player[1]->timeLeftPowerUp[1] = 50;
+                player[1]->flashingShield = true;
+                player[1]->reduceNumItemShield();
+            }
             break;
         }
     }

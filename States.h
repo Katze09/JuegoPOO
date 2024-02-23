@@ -52,6 +52,7 @@ private:
     Background background;
     vector<SDL_Texture*> textures;
     SDL_Texture* specialAttackTexture;
+    SDL_Texture* shieldItemTexture;
     float delayPart;
     float delayLevel;
     bool pastPart;

@@ -38,7 +38,7 @@
 			</EnemyKamikaze>
 			<Obstacles>
 				<SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
-				<SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>
+				<SpawnProbabilityPowerUp>400</SpawnProbabilityPowerUp>
 			</Obstacles>
 		</Enemys>
 	</part1>
@@ -79,7 +79,7 @@
 			</EnemyMidGuide>
 			<Obstacles>
 				<SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
-				<SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>
+				<SpawnProbabilityPowerUp>400</SpawnProbabilityPowerUp>
 			</Obstacles>
 		</Enemys>
 	</part2>
@@ -115,7 +115,7 @@
 			</EnemyMidGuide>
 			<Obstacles>
 				<SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
-				<SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>
+				<SpawnProbabilityPowerUp>400</SpawnProbabilityPowerUp>
 			</Obstacles>
 		</Enemys>
 	</part3>
@@ -165,7 +165,7 @@
 			</EnemyBase>
 			<Obstacles>
 				<SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
-				<SpawnProbabilityPowerUp>200</SpawnProbabilityPowerUp>
+				<SpawnProbabilityPowerUp>400</SpawnProbabilityPowerUp>
 			</Obstacles>
 		</Enemys>
 	</part4>

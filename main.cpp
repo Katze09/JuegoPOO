@@ -63,6 +63,7 @@ int main(int argc, char** argv)
                         case 2:
                             startGame = true;
                             states->setPlayer2(renderer);
+                            break;
                         }
                     }
                 }
