@@ -194,9 +194,11 @@ void Shop::startShopping(int score, Player* player[], int numPlayers)
 
 void Shop::endShopping()
 {
+    for (int i = 0; i < 5; i++)
+        itemCost[i] += itemCost[i] * 0.1;
     for (int i = 0; i < 3; i++)
     {
-        itemsButton[i].haveTextColor = false;
+        itemsButton[i].setTextColor({ 255, 255, 255 });
         itemsButton[i].setText("Buy");
     }
     endShop = true;
@@ -213,8 +215,7 @@ int Shop::click(int x, int y)
             score -= items[i].getCost();
             itemsButton[i].setText("Sold");
             items[i].sold = true;
-            SDL_Color color = { 136, 136, 136 };
-            itemsButton[i].setTextColor(color);
+            itemsButton[i].setTextColor({ 136, 136, 136 });
             itemsButton[i].isHover(-10, -10);
         }
     if (finishShop.isPresed(x, y))
@@ -285,6 +286,7 @@ Button::Button(string showText, float x, float y, int fontSize)
     vector<int> sizeText = texts.getTextSize(showText);
     X2 = x + sizeText[0] + 10;
     Y2 = y + sizeText[1] + 10;
+    textcolor = {255, 255, 255};
 }
 
 Button::~Button()
@@ -311,13 +313,7 @@ void Button::update(float deltaTime)
 void Button::draw(SDL_Renderer* renderer)
 {
     if (!hover)
-        if(!haveTextColor)
-            texts.drawText(showText, X1, Y1, renderer);
-        else
-            texts.drawText(showText, X1, Y1, renderer, textcolor);
+        texts.drawText(showText, X1, Y1, renderer, textcolor);
     else
-    {
-        SDL_Color color = {0, 82, 234};
-        texts.drawText(showText, X1, Y1, renderer, color);
-    }
+        texts.drawText(showText, X1, Y1, renderer, { 0, 82, 234 });
 }

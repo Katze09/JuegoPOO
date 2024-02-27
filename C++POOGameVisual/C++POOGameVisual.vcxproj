@@ -175,6 +175,7 @@
     <ClInclude Include="..\Background.h" />
     <ClInclude Include="..\Bullets.h" />
     <ClInclude Include="..\Enemies.h" />
+    <ClInclude Include="..\JoyStick.h" />
     <ClInclude Include="..\Level.h" />
     <ClInclude Include="..\Loader.h" />
     <ClInclude Include="..\Menu.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="..\Background.cpp" />
     <ClCompile Include="..\Bullets.cpp" />
     <ClCompile Include="..\Enemies.cpp" />
+    <ClCompile Include="..\JoyStick.cpp" />
     <ClCompile Include="..\Level.cpp" />
     <ClCompile Include="..\Loader.cpp" />
     <ClCompile Include="..\main.cpp" />

@@ -22,8 +22,7 @@ public:
     float getX() { return X1; }
     float getY() { return Y1; }
     void setText(string showText) { this->showText = showText; }
-    void setTextColor(SDL_Color color) { textcolor = color; haveTextColor = true; }
-    bool haveTextColor = false;
+    void setTextColor(SDL_Color color) { textcolor = color; }
 protected:
     bool hover;
     string showText;

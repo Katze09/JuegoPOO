@@ -12,6 +12,7 @@
 #include "AudioPlayer.h"
 #include "Level.h"
 #include "Menu.h"
+#include "JoyStick.h"
 
 using namespace std;
 
@@ -32,6 +33,8 @@ private:
     SDL_Texture* spriteBullet;
     Texts texts;
     Texts textsTitle;
+    JoyStick* joys[2];
+    int numJoySticks = 0;
     float cooldownShot[2];
     bool PlayerShot[2];
     bool win;
@@ -42,6 +45,8 @@ private:
     void passLevel(SDL_Renderer* renderer);
     void deadEvent(SDL_Renderer* renderer);
     void winEvent(SDL_Renderer* renderer);
+    void updateInputJoyStick();
+    bool alreadyUse[4] = { false, false, false, false };
     bool passingLevel;
     int level;
     int maxLevel;

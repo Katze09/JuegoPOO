@@ -169,7 +169,6 @@ PowerUp::PowerUp(vector<SDL_Texture*> textures, int type) : Obstacle(textures)
 PowerUp::PowerUp(vector<SDL_Texture*> textures, float X1, float Y1, int type) : Obstacle(textures, X1, Y1)
 {
     this->type = type;
-    hitBoxMultiplication = -1;
 }
 
 PowerUp::~PowerUp()

@@ -231,7 +231,20 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
             else if (EnemyLaser* laser = dynamic_cast<EnemyLaser*> (enemies[numParts][i]))
                 EnemyLaserEvent(laser, i);
             else if (EnemyBoss* boss = dynamic_cast<EnemyBoss*> (enemies[numParts][i]))
-                EnemyBossEvent(boss, i , player[load.randomNumber(0, numPlayers)]);
+            {
+                if (numPlayers > 1)
+                {
+                    int iPlayer;
+                    if (player[0]->isDead())
+                        iPlayer = 1;
+                    else if (player[1]->isDead())
+                        iPlayer = 0;
+                    else
+                        iPlayer = load.randomNumber(0, 2);
+                    EnemyBossEvent(boss, i, player[iPlayer]);
+                } else
+                    EnemyBossEvent(boss, i, player[0]);
+            }
             else if(EnemyMidGuide* midGuide = dynamic_cast<EnemyMidGuide*> (enemies[numParts][i]))
                 EnemyMidGuideEvent(i, player[midGuide->playerIndex]);
             else if (dynamic_cast<EnemyMid*> (enemies[numParts][i]))
@@ -290,7 +303,7 @@ void Level::obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player
         if (asteroids[i]->endDeadAnimation())
         {
             for (int p = 0; p < numPlayers; p++)
-                score += (player[p]->haveDoublePoints()) ? asteroids[i]->getScore() * 2 : asteroids[i]->getScore();
+                score += (player[p]->haveDoublePoints() || player[p]->haveItemDoublePoints()) ? asteroids[i]->getScore() * 2 : asteroids[i]->getScore();
             asteroidsToRemove.push_back(i);
         }
     }
@@ -340,7 +353,7 @@ void Level::update(vector<BulletPlayer*>& bulletsPlayer, Player* player[], int n
     bulletsEnemysEvents(bulletsPlayer, player, numPlayers, deltaTime);
     for (int i = 0; i < bulletsPlayerToRemove.size(); i++)
     {
-        if (bulletsPlayerToRemove[i] <= (bulletsPlayer.size() - 1))
+        if (bulletsPlayerToRemove[i] < (bulletsPlayer.size() - 1))
             bulletsPlayer.erase(bulletsPlayer.begin() + bulletsPlayerToRemove[i]);
         bulletsPlayerToRemove.erase(bulletsPlayerToRemove.begin() + i);
     }

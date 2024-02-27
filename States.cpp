@@ -56,6 +56,10 @@ States::States(SDL_Renderer* renderer)
     pastPart = false;
     continueLevel = false;
     win = false;
+    numJoySticks = SDL_NumJoysticks();
+    cout << "Num Joys: " << numJoySticks << endl;
+    for (int i = 0; i < numJoySticks; i++)
+        joys[i] = new JoyStick(SDL_JoystickOpen(i));
 }
 
 States::~States()
@@ -68,6 +72,8 @@ States::~States()
         delete bulletsPlayer[i];
     for (int i = 0; i < 2; ++i)
         delete gameLevels[i];
+    for (int i = 0; i < numJoySticks; i++)
+        delete joys[i];
 }
 
 void States::setPlayer2(SDL_Renderer* renderer)
@@ -221,7 +227,6 @@ void States::update(float deltaTime)
         if (!player[p]->endDeadAnimation())
         {
             player[p]->update(deltaTime);
-
             // Verificar colisiones del jugador con balas enemigas y obstáculos
             if (!player[p]->isDead() && !player[p]->isInmortal())
             {
@@ -303,6 +308,9 @@ void States::update(float deltaTime)
     }
     if (startCoolDown > 0)
         startCoolDown -= deltaTime * 25;
+    updateInputJoyStick();
+    //if (SDL_JoystickGetButton(joys[0], 0))
+    //    cout << "Press" << endl;
 }
 
 void States::checkPartFinish()
@@ -320,6 +328,8 @@ void States::checkPartFinish()
             gameLevels[level]->asteroids.clear();
             gameLevels[level]->powerUpsToRemove.clear();
             gameLevels[level]->powerUps.clear();
+            gameLevels[level]->bulletsEnemy.clear();
+            gameLevels[level]->bulletsToRemove.clear();
             passingLevel = true;
             delayLevel = 80;
             shop.startShopping(gameLevels[level]->getScore(), player, numPlayers);
@@ -422,11 +432,89 @@ void States::winEvent(SDL_Renderer* renderer)
     texts.drawText("Press space to continue", 100, 400, renderer);
 }
 
+void States::updateInputJoyStick()
+{
+    if (numJoySticks == 2 && numPlayers == 2)
+    {
+        for (int i = 0; i < numPlayers; i++)
+        {
+            player[i]->setDirecionJoy(joys[i]->joyDirection());
+            if (joys[i]->buttonAShot())
+            {
+                PlayerShot[i] = true;
+                if (player[i]->endDeadAnimation())
+                    continueLevel = true;
+            } else
+                PlayerShot[i] = false;
+            if (joys[i]->buttonBSpecial() && !alreadyUse[i])
+            {
+                if (player[i]->getNumSpecialAttack() > 0)
+                {
+                    player[i]->setSpecialAttackShot(true);
+                    player[i]->reduceNumSpecialAttack();
+                    alreadyUse[i] = true;
+                }
+            }else if(!joys[i]->buttonBSpecial())
+                alreadyUse[i] = false;
+            if (joys[i]->buttonXItemShield() && !alreadyUse[i + 1])
+            {
+                if (player[i]->getNumItemShield() > 0)
+                {
+                    player[i]->setInmortal(true);
+                    player[i]->activePowerUps[1] = true;
+                    player[i]->timeLeftPowerUp[1] = 50;
+                    player[i]->flashingShield = true;
+                    player[i]->reduceNumItemShield();
+                    alreadyUse[i] = true;
+                }
+            }else if(!joys[i]->buttonXItemShield())
+                alreadyUse[i + 1] = false;
+        }
+    } else if (numJoySticks == 1)
+    {
+        player[0]->setDirecionJoy(joys[0]->joyDirection());
+        if (joys[0]->buttonAShot())
+        {
+            PlayerShot[0] = true;
+            if (player[0]->endDeadAnimation())
+                continueLevel = true;
+        } else
+            PlayerShot[0] = false;
+        if (joys[0]->buttonBSpecial() && !alreadyUse[0])
+        {
+            if (player[0]->getNumSpecialAttack() > 0)
+            {
+                player[0]->setSpecialAttackShot(true);
+                player[0]->reduceNumSpecialAttack();
+                alreadyUse[0] = true;
+            }
+        }
+        else if (!joys[0]->buttonBSpecial())
+            alreadyUse[0] = false;
+        if (joys[0]->buttonXItemShield() && !alreadyUse[1])
+        {
+            if (player[0]->getNumItemShield() > 0)
+            {
+                player[0]->setInmortal(true);
+                player[0]->activePowerUps[1] = true;
+                player[0]->timeLeftPowerUp[1] = 50;
+                player[0]->flashingShield = true;
+                player[0]->reduceNumItemShield();
+                alreadyUse[0] = true;
+            }
+        }
+        else if (!joys[0]->buttonXItemShield())
+            alreadyUse[1] = false;
+    }
+}
+
 void States::updateInput(SDL_Keycode key)
 {
-    player[0]->move(key);
-    switch (key)
+    if (numJoySticks == 0)
     {
+        player[0]->move(key);
+        switch (key)
+        {
         case SDLK_SPACE:
             PlayerShot[0] = true;
             if (player[0]->endDeadAnimation())
@@ -449,8 +537,9 @@ void States::updateInput(SDL_Keycode key)
                 player[0]->reduceNumItemShield();
             }
             break;
+        }
     }
-    if (numPlayers > 1)
+    if (numPlayers > 1 && numJoySticks < 2)
     {
         player[1]->move(key);
         switch (key)
@@ -481,11 +570,14 @@ void States::updateInput(SDL_Keycode key)
 void States::inputUp(SDL_Keycode key)
 {
     // Desactivar disparo al soltar la tecla de espacio
-    if (key == SDLK_SPACE)
-        PlayerShot[0] = false;
-    else
-        player[0]->stop(key);
-    if(numPlayers > 1)
+    if (numJoySticks == 0)
+    {
+        if (key == SDLK_SPACE)
+            PlayerShot[0] = false;
+        else
+            player[0]->stop(key);
+    }
+    if(numPlayers > 1 && numJoySticks < 2)
         if (key == SDLK_RSHIFT)
             PlayerShot[1] = false;
         else

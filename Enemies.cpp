@@ -310,7 +310,10 @@ EnemyMidGuide::~EnemyMidGuide()
 void EnemyMidGuide::setAngleRotation(float targetX, float targetY)
 {
     float angleInRadians = atan2(targetY, targetX);
-    angleRotation = (angleInRadians * (180.0 / M_PI) - 55);
+    if(X1 > 350)
+        angleRotation = (angleInRadians * (180.0 / M_PI) - 50);
+    else
+        angleRotation = (angleInRadians * (180.0 / M_PI) - 80);
 }
 
 

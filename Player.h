@@ -49,6 +49,7 @@ public:
     void reduceNumItemShield() { itemShield--; }
     void setNumItemShield(int itemShield) { this->itemShield = itemShield; }
     void kill(){ dead = true; speedAnimations = 1; }
+    void setDirecionJoy(int direction);
     bool activePowerUps[4] = {false,false,false,false};
     float timeLeftPowerUp[4] = {3,3,3,3};
     bool flashingShield = true;

@@ -64,6 +64,42 @@ int Player::isPlayerHitEnemy(vector<EnemyBase*> enemy)
     return -1;
 }
 
+void Player::setDirecionJoy(int direction)
+{
+    left = right = up = down = false;
+    switch (direction)
+    {
+        case 1:
+            left = true;
+            break;
+        case 2:
+            right = true;
+            break;
+        case 3:
+            up = true;
+            break;
+        case 4:
+            down = true;
+            break;
+        case 5:
+            up = true;
+            left = true;
+            break;
+        case 6:
+            up = true;
+            right = true;
+            break;
+        case 7:
+            down = true;
+            left = true;
+            break;
+        case 8:
+            down = true;
+            right = true;
+            break;
+    }
+}
+
 void Player::move(SDL_Keycode key)
 {
     switch (key)
