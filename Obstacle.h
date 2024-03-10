@@ -6,21 +6,19 @@
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
 
-using namespace std;
-
 class Player;
 
 class Obstacle : public Object 
 {
 public:
     Obstacle();
-    Obstacle(vector<SDL_Texture*> textures);
-    Obstacle(vector<SDL_Texture*> textures, float X1, float Y1);
+    Obstacle(std::vector<SDL_Texture*> textures);
+    Obstacle(std::vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Obstacle();
-    void update(float deltaTime);\
+    void update(float deltaTime);
     void animationBase(float deltaTime);
     void animationDead(float deltaTime);
-    int isObstacleHit(vector<BulletPlayer*> bulletPlayer);
+    int isObstacleHit(std::vector<BulletPlayer*> bulletPlayer);
     bool isCollsionBorder();
     bool isDead();
     void reduceLife();
@@ -40,8 +38,8 @@ class Asteroid : public Obstacle
 {
 public:
     Asteroid();
-    Asteroid(vector<SDL_Texture*> textures);
-    Asteroid(vector<SDL_Texture*> textures, float X1, float Y1);
+    Asteroid(std::vector<SDL_Texture*> textures);
+    Asteroid(std::vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Asteroid();
 protected:
 };
@@ -50,8 +48,8 @@ class PowerUp : public Obstacle
 {
 public:
     PowerUp();
-    PowerUp(vector<SDL_Texture*> textures, int type);
-    PowerUp(vector<SDL_Texture*> textures, float X1, float Y1, int type);
+    PowerUp(std::vector<SDL_Texture*> textures, int type);
+    PowerUp(std::vector<SDL_Texture*> textures, float X1, float Y1, int type);
     virtual ~PowerUp();
     bool isCollisionPlayer(Player* player);
     void setPowerEffect(Player* player);

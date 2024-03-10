@@ -2,6 +2,8 @@
 
 #include "Enemies.h"
 
+using namespace std;
+
 EnemyBase::EnemyBase() : Object()
 {
 }
@@ -125,13 +127,13 @@ void EnemyBase::animationDead(float deltaTime)
         speedAnimations -= 15 * deltaTime;
         if (indexTexture < textures.size() - 3)
             indexTexture = textures.size() - 3;
+        if (indexTexture == textures.size() - 1 && speedAnimations <= 0)
+            deadAnimationEnd = true;
         if (speedAnimations <= 0)
         {
             indexTexture++;
-            speedAnimations = 2;
+            speedAnimations = 1;
         }
-        if (indexTexture == textures.size() - 1)
-            deadAnimationEnd = true;
     }
 }
 
@@ -219,6 +221,7 @@ EnemyStar::EnemyStar() : EnemyLaser()
 EnemyStar::EnemyStar(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, float moveTo, int bulletSpeed)
     : EnemyLaser(textures, X1, Y1, direction, movimentType, moveTo, bulletSpeed)
 {
+    life = 3;
     coolDownShot = 4;
 }
 
@@ -235,6 +238,42 @@ bool EnemyStar::shot(float deltaTime)
         return true;
     }
     return false;
+}
+
+void EnemyStar::update(float deltaTime)
+{
+    if (direction)
+    {
+        if (X1 >= moveTo)
+            setX(X1 - (speed * deltaTime));
+        collisionBorder();
+    }
+    else
+    {
+        if (X1 <= moveTo)
+            setX(X1 + (speed * deltaTime));
+        collisionBorder();
+    }
+    if (indexTexture == 1 && hitTex <= 0)
+        indexTexture = 0;
+    if (hitTex > 0)
+        hitTex -= 15 * deltaTime;
+    animationDead(deltaTime);
+}
+
+int EnemyStar::isEnemyHit(vector<BulletPlayer*> bulletPlayer)
+{
+    for (int i = 0; i < bulletPlayer.size(); i++)
+        if (bulletPlayer[i]->getX1HitBox() < X2HitBox && bulletPlayer[i]->getX2HitBox() > X1HitBox &&
+            bulletPlayer[i]->getY1HitBox() < Y2HitBox && bulletPlayer[i]->getY2HitBox() > Y1HitBox)
+        {
+            life--;
+            indexTexture = 1;
+            hitTex = 1;
+            isDead();
+            return i;
+        }
+    return -1;
 }
 
 //

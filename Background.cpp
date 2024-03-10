@@ -1,5 +1,7 @@
 #include "Background.h"
 
+using namespace std;
+
 Background::Background()
 {
 }

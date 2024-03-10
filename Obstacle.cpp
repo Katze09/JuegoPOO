@@ -1,5 +1,7 @@
 #include "Obstacle.h"
 
+using namespace std;
+
 Loader loaderAste;
 
 Obstacle::Obstacle()
@@ -107,13 +109,13 @@ void Obstacle::animationDead(float deltaTime)
         speedAnimations -= 15 * deltaTime;
         if (indexTexture < textures.size() - 3)
             indexTexture = textures.size() - 3;
+        if (indexTexture == textures.size() - 1 && speedAnimations <= 0)
+            deadAnimationEnd = true;
         if (speedAnimations <= 0)
         {
             indexTexture++;
-            speedAnimations = 1;
+            speedAnimations = 0.8;
         }
-        if (indexTexture == textures.size() - 1)
-            deadAnimationEnd = true;
     }
 }
 

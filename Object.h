@@ -13,11 +13,11 @@ class Object
 {
 public:
     Object();
-    Object(vector<SDL_Texture*> textures);
-    Object(vector<SDL_Texture*> textures, float X1, float Y1);
+    Object(std::vector<SDL_Texture*> textures);
+    Object(std::vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Object();
 
-    vector<SDL_Texture*> getTextures() { return textures; }
+    std::vector<SDL_Texture*> getTextures() { return textures; }
     SDL_Texture* getTexture(int index);
     float getX1();
     float getX2();
@@ -34,7 +34,7 @@ public:
     virtual bool isDead();
     bool endDeadAnimation();
 
-    void setSprite(vector<SDL_Texture*> textures);
+    void setSprite(std::vector<SDL_Texture*> textures);
     void setSprite(SDL_Texture* texture, int index);
     void setX(float X);
     void setY(float Y);
@@ -60,7 +60,7 @@ protected:
     float Y2HitBox; 
     int WIDTH;
     int HEIGHT;
-    float deltaTime;
+    //float deltaTime;
     float speed;
     float speedAnimations;
     int indexTexture;

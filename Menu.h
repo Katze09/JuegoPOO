@@ -8,12 +8,10 @@
 #include "Loader.h"
 #include <sdl.h>
 
-using namespace std;
-
 class Button {
 public:
     Button();
-    Button(string showText, float x, float y, int fontSize);
+    Button(std::string showText, float x, float y, int fontSize);
     virtual ~Button();
     bool isPresed(int x, int y);
     void isHover(int x, int y);
@@ -21,11 +19,11 @@ public:
     void draw(SDL_Renderer* renderer);
     float getX() { return X1; }
     float getY() { return Y1; }
-    void setText(string showText) { this->showText = showText; }
+    void setText(std::string showText) { this->showText = showText; }
     void setTextColor(SDL_Color color) { textcolor = color; }
 protected:
     bool hover;
-    string showText;
+    std::string showText;
     float X1;
     float X2;
     float Y1;

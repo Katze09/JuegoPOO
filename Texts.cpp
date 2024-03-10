@@ -1,5 +1,7 @@
 #include "Texts.h"
 
+using namespace std;
+
 Texts::Texts()
 {
 }
@@ -50,7 +52,7 @@ void Texts::drawText(string text, int X, int Y, SDL_Renderer* renderer, SDL_Colo
     SDL_DestroyTexture(textTexture);
 }
 
-std::vector<int> Texts::getTextSize(string texts)
+vector<int> Texts::getTextSize(string texts)
 {
     const char* text = texts.c_str();
     int textWidth, textHeight;

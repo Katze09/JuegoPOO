@@ -1,5 +1,7 @@
 #include "Bullets.h"
 
+using namespace std;
+
 BulletPlayer::BulletPlayer() : Object()
 {
 }
@@ -56,8 +58,8 @@ BulletPlayerSpecial::BulletPlayerSpecial(SDL_Texture* texture, float X1, float Y
         dy /= distance;
     }
     // Calcular el desplazamiento en cada eje
-    deltaX = dx * speed * deltaTime;
-    deltaY = dy * speed * deltaTime;
+    deltaX = dx * speed;
+    deltaY = dy * speed;
     float angleInRadians = atan2(deltaY, deltaX);
     angleRotation = (angleInRadians * (180.0 / M_PI));
     // Asignar las nuevas coordenadas
@@ -117,8 +119,8 @@ BulletEnemyDiagonal::BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y
         dy /= distance;
     }
     // Calcular el desplazamiento en cada eje
-    deltaX = dx * speed * deltaTime;
-    deltaY = dy * speed * deltaTime;
+    deltaX = dx * speed;
+    deltaY = dy * speed;
     float angleInRadians = atan2(deltaY, deltaX);
     angleRotation = (angleInRadians * (180.0 / M_PI));
 }

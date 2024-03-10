@@ -9,10 +9,10 @@ class EnemyBase : public Object
 {
 public:
     EnemyBase();
-    EnemyBase(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, int bulletSpeed);
+    EnemyBase(std::vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, int bulletSpeed);
     virtual ~EnemyBase();
     void update(float deltaTime);
-    virtual int isEnemyHit(vector<BulletPlayer*> bulletPlayer);
+    virtual int isEnemyHit(std::vector<BulletPlayer*> bulletPlayer);
     virtual bool shot(float deltaTime);
     bool isDead();
     int getLife(){return life;}
@@ -36,13 +36,13 @@ class EnemyLaser : public EnemyBase
 {
 public:
     EnemyLaser();
-    EnemyLaser(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, float moveTo, int bulletSpeed);
+    EnemyLaser(std::vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, float moveTo, int bulletSpeed);
     virtual ~EnemyLaser();
     bool shot(float deltaTime) override;
     void update(float deltaTime) override;
     bool isFirstShot();
     void setFirstShot();
-private:
+protected:
     float laserSize;
     bool firstShot;
     float moveTo;
@@ -52,17 +52,21 @@ class EnemyStar : public EnemyLaser
 {
 public:
     EnemyStar();
-    EnemyStar(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, float moveTo, int bulletSpeed);
+    EnemyStar(std::vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int movimentType, float moveTo, int bulletSpeed);
     virtual ~EnemyStar();
+    void update(float deltaTime) override;
+    int isEnemyHit(std::vector<BulletPlayer*> bulletPlayer) override;
     bool shot(float deltaTime) override;
+protected:
+    float hitTex;
 };
 
 class EnemyKamikaze : public EnemyBase
 {
 public:
     EnemyKamikaze();
-    EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1);
-    EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1, float speed);
+    EnemyKamikaze(std::vector<SDL_Texture*> textures, float X1, float Y1);
+    EnemyKamikaze(std::vector<SDL_Texture*> textures, float X1, float Y1, float speed);
     virtual ~EnemyKamikaze();
     void update(float deltaTime, float targetX, float targetY);
     bool shot(float deltaTime) { return false; }
@@ -76,9 +80,9 @@ class EnemyMid : public EnemyBase
 {
 public:
     EnemyMid();
-    EnemyMid(vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed);
+    EnemyMid(std::vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed);
     virtual ~EnemyMid();
-    int isEnemyHit(vector<BulletPlayer*> bulletPlayer) override;
+    int isEnemyHit(std::vector<BulletPlayer*> bulletPlayer) override;
     void update(float deltaTime) override;
 protected:
     const int score = 50;
@@ -91,7 +95,7 @@ class EnemyMidGuide : public EnemyMid
 {
 public:
     EnemyMidGuide();
-    EnemyMidGuide(vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed);
+    EnemyMidGuide(std::vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed);
     virtual ~EnemyMidGuide();
     void setAngleRotation(float targetX, float targetY);
     bool shot(float deltaTime) override;
@@ -105,7 +109,7 @@ class EnemyBoss : public EnemyMid
 {
 public:
     EnemyBoss();
-    EnemyBoss(vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed);
+    EnemyBoss(std::vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed);
     virtual ~EnemyBoss();
     bool shot(float deltaTime);
     void update(float deltaTime) override;

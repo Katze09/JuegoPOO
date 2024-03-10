@@ -3,6 +3,8 @@
 #include "States.h"
 #include "Loader.h"
 
+using namespace std;
+
 // Instance of the loader
 Loader loader;
 
@@ -58,6 +60,7 @@ States::States(SDL_Renderer* renderer)
     win = false;
     numJoySticks = SDL_NumJoysticks();
     cout << "Num Joys: " << numJoySticks << endl;
+    //numJoySticks = 0;
     for (int i = 0; i < numJoySticks; i++)
         joys[i] = new JoyStick(SDL_JoystickOpen(i));
 }
@@ -309,8 +312,6 @@ void States::update(float deltaTime)
     if (startCoolDown > 0)
         startCoolDown -= deltaTime * 25;
     updateInputJoyStick();
-    //if (SDL_JoystickGetButton(joys[0], 0))
-    //    cout << "Press" << endl;
 }
 
 void States::checkPartFinish()
@@ -441,9 +442,9 @@ void States::updateInputJoyStick()
             player[i]->setDirecionJoy(joys[i]->joyDirection());
             if (joys[i]->buttonAShot())
             {
-                PlayerShot[i] = true;
-                if (player[i]->endDeadAnimation())
+                if (player[0]->endDeadAnimation() && !PlayerShot[i])
                     continueLevel = true;
+                PlayerShot[i] = true;
             } else
                 PlayerShot[i] = false;
             if (joys[i]->buttonBSpecial() && !alreadyUse[i])
@@ -465,7 +466,7 @@ void States::updateInputJoyStick()
                     player[i]->timeLeftPowerUp[1] = 50;
                     player[i]->flashingShield = true;
                     player[i]->reduceNumItemShield();
-                    alreadyUse[i] = true;
+                    alreadyUse[i + 1] = true;
                 }
             }else if(!joys[i]->buttonXItemShield())
                 alreadyUse[i + 1] = false;
@@ -475,9 +476,9 @@ void States::updateInputJoyStick()
         player[0]->setDirecionJoy(joys[0]->joyDirection());
         if (joys[0]->buttonAShot())
         {
-            PlayerShot[0] = true;
-            if (player[0]->endDeadAnimation())
+            if (player[0]->endDeadAnimation() && !PlayerShot[0])
                 continueLevel = true;
+            PlayerShot[0] = true;
         } else
             PlayerShot[0] = false;
         if (joys[0]->buttonBSpecial() && !alreadyUse[0])
@@ -548,11 +549,12 @@ void States::updateInput(SDL_Keycode key)
             PlayerShot[1] = true;
             break;
         case SDLK_i:
-                if (player[1]->getNumSpecialAttack() > 0)
-                {
-                    player[1]->setSpecialAttackShot(true);
-                    player[1]->reduceNumSpecialAttack();
-                }
+            if (player[1]->getNumSpecialAttack() > 0)
+            {
+               player[1]->setSpecialAttackShot(true);
+               player[1]->reduceNumSpecialAttack();
+             }
+            break;
         case SDLK_y:
             if (player[1]->getNumItemShield() > 0)
             {

@@ -1,5 +1,7 @@
 #include "Loader.h"
 
+using namespace std;
+
 SDL_Texture* Loader::LoadTexture(const std::string& filePath, SDL_Renderer* renderer)
 {
     const std::string& path = "Textures/" + filePath + ".png";

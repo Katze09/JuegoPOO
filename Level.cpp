@@ -1,5 +1,7 @@
 #include "Level.h"
 
+using namespace std;
+
 // Crear una instancia del cargador
 Loader load;
 
@@ -23,13 +25,16 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[1] = "Died";
     texturesEnemyBase = load.loadTextures(nameFile, renderer, 2);
 
+    nameFile[0] = "EnemyBaseKamikaze";
     texturesEnemyKamikaze = load.loadTextures(nameFile, renderer, 2);
 
     nameFile[0] = "EnemyLaser";
     texturesEnemyLaser = load.loadTextures(nameFile, renderer, 2);
 
     nameFile[0] = "EnemyStar";
-    texturesEnemyStar = load.loadTextures(nameFile, renderer, 2);
+    nameFile[1] = "EnemyStarHit";
+    nameFile[2] = "Died";
+    texturesEnemyStar = load.loadTextures(nameFile, renderer, 3);
 
     nameFile[0] = "EnemyMid";
     nameFile[1] = "EnemyMidHit";

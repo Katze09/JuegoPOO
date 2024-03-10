@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+using namespace std;
+
 Loader lod;
 
 Menu::Menu(SDL_Renderer* renderer)
@@ -145,7 +147,6 @@ Shop::Shop(SDL_Renderer* renderer)
     for (int i = 0; i < 3; i++)
     {
         itemsButton[i] = Button("Buy", x, 400, fontSize);
-        //items[i] = Item(lod.LoadTexture("PowerUpDoubleP1",renderer), 0, 500, x, 300, 70,70);
         x += 220;
     }
     finishShop = Button("End Shopping", 230, 700, fontSize);
@@ -208,7 +209,7 @@ int Shop::click(int x, int y)
 {
 
     for (int i = 0; i < 3; i++)
-        if (itemsButton[i].isPresed(x, y) && score > items[i].getCost() && !items[i].sold)
+        if (itemsButton[i].isPresed(x, y) && score >= items[i].getCost() && !items[i].sold)
         {
             for (int p = 0; p < numPlayers; p++)
                 player[p]->setItemEffect(items[i].getType());

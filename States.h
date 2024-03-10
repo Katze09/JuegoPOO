@@ -14,8 +14,6 @@
 #include "Menu.h"
 #include "JoyStick.h"
 
-using namespace std;
-
 class States 
 {
 public:
@@ -55,7 +53,7 @@ private:
     Player* player[2];
     int numPlayers = 1;
     Background background;
-    vector<SDL_Texture*> textures;
+    std::vector<SDL_Texture*> textures;
     SDL_Texture* specialAttackTexture;
     SDL_Texture* shieldItemTexture;
     float delayPart;

@@ -7,18 +7,16 @@
 #include "Obstacle.h"
 #include "Enemies.h"
 
-using namespace std;
-
 class Player : public Object {
 public:
     Player();
-    Player(vector<SDL_Texture*> textures, float X1, float Y1);
+    Player(std::vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Player();
     void update(float deltaTime);
     void draw(SDL_Renderer* renderer);
-    int isPlayerHit(vector<BulletEnemy*> bulletsEnemy);
-    int isPlayerHitObstacle(vector<Obstacle*> asteroids);
-    int isPlayerHitEnemy(vector<EnemyBase*> enemy);
+    int isPlayerHit(std::vector<BulletEnemy*> bulletsEnemy);
+    int isPlayerHitObstacle(std::vector<Obstacle*> asteroids);
+    int isPlayerHitEnemy(std::vector<EnemyBase*> enemy);
     virtual void move(SDL_Keycode key);
     virtual void stop(SDL_Keycode key);
     bool isDead(){return dead;}
@@ -82,7 +80,7 @@ class Player2 : public Player
 {
 public:
     Player2();
-    Player2(vector<SDL_Texture*> textures, float X1, float Y1);
+    Player2(std::vector<SDL_Texture*> textures, float X1, float Y1);
     virtual ~Player2();
     void move(SDL_Keycode key) override;
     void stop(SDL_Keycode key) override;

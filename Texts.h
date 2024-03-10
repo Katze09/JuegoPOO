@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/class.h to edit this template
- */
-
-/* 
- * File:   Texts.h
- * Author: Katze
- *
- * Created on 15 de enero de 2024, 09:28
- */
-
 #ifndef TEXTS_H
 #define TEXTS_H
 
@@ -19,17 +7,15 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
 class Texts 
 {
 public:
     Texts();
-    Texts(string nameFont, int size);
+    Texts(std::string nameFont, int size);
     virtual ~Texts();
-    void drawText(string text, int X, int Y, SDL_Renderer* renderer);
-    void drawText(string text, int X, int Y, SDL_Renderer* renderer, SDL_Color textColor);
-    vector<int>getTextSize(string texts);
+    void drawText(std::string text, int X, int Y, SDL_Renderer* renderer);
+    void drawText(std::string text, int X, int Y, SDL_Renderer* renderer, SDL_Color textColor);
+    std::vector<int>getTextSize(std::string texts);
 private:
     TTF_Font* font;
     int size;

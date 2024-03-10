@@ -4,8 +4,6 @@
 #include <iostream>
 #include <sdl.h>
 
-using namespace std;
-
 class Background 
 {
 public:

@@ -1,5 +1,6 @@
-// Player.cpp
 #include "Player.h"
+
+using namespace std;
 
 Player::Player() : Object()
 {
@@ -236,7 +237,6 @@ void Player::setItemEffect(int type)
 
 void Player::update(float deltaTime)
 {
-    this->deltaTime = deltaTime;
     float speedScale = 1.0;
     if (normalSpeedCool >= 0)
     {
@@ -244,15 +244,24 @@ void Player::update(float deltaTime)
         speedScale = 1.0 - (normalSpeedCool / (2.0));
         normalSpeedCool -= deltaTime * 15;
     }
+
     float speed = this->speed * speedScale;
+    float vx = ((right || left) ? speed : 0.001f);
+    float vy = ((up || down) ? speed : 0.001f);
+
+    float magnitude = sqrt(vx * vx + vy * vy);
+    vx /= magnitude;
+    vy /= magnitude;
+
     if (right)
-        setX(X1 + (speed * deltaTime));
+        setX(X1 + (vx * speed * deltaTime));
     if (left)
-        setX(X1 - (speed * deltaTime));
+        setX(X1 - (vx * speed * deltaTime));
     if (up)
-        setY(Y1 - (speed * deltaTime));
+        setY(Y1 - (vy * speed * deltaTime));
     if (down)
-        setY(Y1 + (speed * deltaTime));
+        setY(Y1 + (vy * speed * deltaTime));
+
     if (!right && !left && !up && !down)
         normalSpeedCool = 2;
     if (flashingDelay > 0)

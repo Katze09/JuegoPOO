@@ -19,8 +19,6 @@
 #include <iostream>
 #include <SDL_mixer.h>
 
-using namespace std;
-
 class AudioPlayer {
 public:
     AudioPlayer();
