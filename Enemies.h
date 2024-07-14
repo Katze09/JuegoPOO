@@ -116,13 +116,38 @@ public:
     bool isSecondPart(){return secondFase;}
     bool isSecondPartP2(){return secondFaseP2;}
     bool isThirdPart(){return thirdFase;}
-private:
-    const int score = 1000;
+protected:
     bool secondFase;
     bool secondFaseP2;
     bool thirdFase;
+private:
+    const int score = 2500;
     float contSecondFaseShot;
     
+};
+
+class EnemySecondBoss : public EnemyBoss
+{
+public:
+    EnemySecondBoss();
+    EnemySecondBoss(std::vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed);
+    virtual ~EnemySecondBoss();
+    bool shot(float deltaTime);
+    void update(float deltaTime) override;
+    bool canSpawnEnemies() { return spawnEnemies; }
+    void falseSpawnEnemies() { spawnEnemies = false; }
+    bool isFirstPart() { return firstFase; }
+    int numSpawnEnemies = 2;
+private:
+    const int score = 3500;
+    bool spawnEnemies = false;
+    bool firstFase = true;
+    float coolDownSpawnEnemies = 30;
+    float timeSecondFase = 70;
+    bool reachPosition = false;
+    bool direction = true;
+    float reachX = 0;
+    float reachY = 0;
 };
 
 #endif /* ENEMIES_H */

@@ -7,6 +7,7 @@
 #include "Texts.h"
 #include "Loader.h"
 #include <sdl.h>
+#include <algorithm>
 
 class Button {
 public:
@@ -108,6 +109,39 @@ private:
     Texts textsMid;
     Texts textsExtra;
     int score = 0;
+};
+
+class Leaderboard
+{
+public:
+    Leaderboard();
+    Leaderboard(SDL_Renderer* renderer);
+    virtual ~Leaderboard();
+    int click(int x, int y);
+    void hover(int x, int y);
+    void update(float deltaTime);
+    void draw(SDL_Renderer* renderer);
+    void setScore(int score) { this->score = score; }
+    void setDeaths(int deaths) { this->deaths = deaths; }
+    void loadLeaderboard(int numPlayers);
+    void updateInput(std::string text) { if(namePlayer.length() < 10) namePlayer += text; }
+    void deleteCharacter() { if (namePlayer.length() > 0) namePlayer = namePlayer.substr(0, namePlayer.length() - 1); }
+private:
+    int score = 0;
+    int deaths = 0;
+    int numPlayers = 1;
+    std::string leaderNames[5];
+    int leaderScores[5];
+    int indexLeader[5];
+    int leaderDeaths[5];
+    int sizeLeaderboard = 0;
+    std::string namePlayer = "";
+    Button accept;
+    Texts textsTile;
+    Texts textsMid;
+    Texts textsExtra;
+    Background background;
+    bool end = false;
 };
 
 #endif /* MENU_H */

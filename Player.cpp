@@ -56,7 +56,7 @@ int Player::isPlayerHitEnemy(vector<EnemyBase*> enemy)
 {
     for (int i = 0; i < enemy.size(); i++)
         if (enemy[i]->getX1HitBox() < X2HitBox && enemy[i]->getX2HitBox() > X1HitBox &&
-            enemy[i]->getY1HitBox() < Y2HitBox && enemy[i]->getY2HitBox() > Y1HitBox)
+            enemy[i]->getY1HitBox() < Y2HitBox && enemy[i]->getY2HitBox() > Y1HitBox && !enemy[i]->isDead())
         {
             dead = true;
             speedAnimations = 1;
@@ -250,6 +250,8 @@ void Player::update(float deltaTime)
     float vy = ((up || down) ? speed : 0.001f);
 
     float magnitude = sqrt(vx * vx + vy * vy);
+    if (magnitude == 0)
+        magnitude = 0.001f;
     vx /= magnitude;
     vy /= magnitude;
 

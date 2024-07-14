@@ -2,9 +2,10 @@
 
 JoyStick::JoyStick() {}
 
-JoyStick::JoyStick(SDL_Joystick* joy) 
+JoyStick::JoyStick(SDL_Joystick* joy, int indexJoy) 
 {
 	this->joy = joy;
+    this->indexJoy = indexJoy;
 }
 
 JoyStick::~JoyStick()
@@ -40,4 +41,10 @@ int JoyStick::joyDirection()
     else if (x > 10000 && y > 10000) 
         direction = 8; // Abajo-Derecha
     return direction;
+}
+
+void JoyStick::reconectJoy()
+{
+    if (!SDL_JoystickGetAttached(joy))
+        joy = SDL_JoystickOpen(indexJoy);
 }

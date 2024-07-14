@@ -1,8 +1,11 @@
 #include <vector>
 
 #include "Enemies.h"
+#include "Loader.h"
 
 using namespace std;
+
+Loader loadEnemys;
 
 EnemyBase::EnemyBase() : Object()
 {
@@ -507,6 +510,149 @@ bool EnemyBoss::shot(float deltaTime)
             coolDownShot = 0.4;
         } else if (contSecondFaseShot <= 0)
             contSecondFaseShot = 1.5;
+        return true;
+    }
+    return false;
+}
+
+EnemySecondBoss::EnemySecondBoss() : EnemyBoss(){}
+
+EnemySecondBoss::EnemySecondBoss(vector<SDL_Texture*> textures, float X1, float Y1, float moveTo, int bulletSpeed) : EnemyBoss(textures, X1, Y1, moveTo, bulletSpeed)
+{
+    life = 1200;
+    secondFase = false;
+    thirdFase = false;
+    secondFaseP2 = false;
+    coolDownShot = 5;
+}
+
+EnemySecondBoss::~EnemySecondBoss()
+{
+}
+
+void EnemySecondBoss::update(float deltaTime)
+{
+    if (indexTexture == 1 && hitTex <= 0)
+        indexTexture = 0;
+    if (hitTex > 0)
+        hitTex -= 15 * deltaTime;
+    if (firstFase)
+    {
+        if (Y1 <= moveTo && !reachPosition)
+            setY(Y1 + (speed * deltaTime));
+        else if(!reachPosition)
+            setY(Y1 - (speed * deltaTime));
+        
+        if ((Y1 > moveTo && Y1 < moveTo + 10) || (Y1 < moveTo && Y1 > moveTo - 10))
+            reachPosition = true;
+        coolDownSpawnEnemies -= 3 * deltaTime;
+        if (coolDownSpawnEnemies <= 0)
+        {
+            coolDownSpawnEnemies = 30;
+            spawnEnemies = true;
+        }
+    } else if (secondFase)
+    {
+        coolDownSpawnEnemies = (coolDownSpawnEnemies > 5) ? 5 : coolDownSpawnEnemies;
+        numSpawnEnemies = 4;
+        if (Y1 <= 900)
+            setY(Y1 + ((speed * 2) * deltaTime));
+        coolDownSpawnEnemies -= 3 * deltaTime;
+        if (coolDownSpawnEnemies <= 0)
+        {
+            coolDownSpawnEnemies = 5;
+            spawnEnemies = true;
+        }
+        timeSecondFase -= 3 * deltaTime;
+        cout << timeSecondFase << endl;
+        if (timeSecondFase <= 0)
+        {
+            thirdFase = true;
+            reachPosition = true;
+            coolDownShot = 15;
+            secondFase = false;
+            timeSecondFase = 70;
+        }
+    } else if (thirdFase)
+    {
+        if (reachPosition)
+        {
+            reachX = (direction) ? 700 : 0;
+            reachY = loadEnemys.randomNumber(0, 800);
+            reachPosition = false;
+        } 
+
+        coolDownSpawnEnemies -= 3 * deltaTime;
+        if (coolDownSpawnEnemies <= 0)
+        {
+            coolDownSpawnEnemies = 15;
+            spawnEnemies = true;
+        }
+
+        float dx = reachX - X1;
+        float dy = reachY - Y1;
+
+        float distance = sqrt(dx * dx + dy * dy);
+        if (distance > 0)
+        {
+            dx /= distance;
+            dy /= distance;
+        }
+
+        float deltaX = dx * (speed * 1.4) * deltaTime;
+        float deltaY = dy * (speed * 1.4) * deltaTime;
+        float angleInRadians = atan2(deltaY, deltaX);
+
+        setX(X1 + deltaX);
+        setY(Y1 + deltaY);
+
+        if (!direction)
+        {
+            if (X1 > reachX - 10 && X1 < reachX + 10)
+            {
+                reachPosition = true;
+                direction = !direction;
+            }
+        }
+        else
+        {
+            if (X2 > reachX - 10 && X2 < reachX + 10)
+            {
+                reachPosition = true;
+                direction = !direction;
+            }
+        }
+    }
+    if (life <= 850 && life >= 800 && firstFase && !secondFase)
+    {
+        secondFase = true;
+        firstFase = false;
+    }
+    if (life <= 400 && life >= 350)
+    {
+        firstFase = true;
+        thirdFase = false;
+    }
+    animationDead(deltaTime);
+}
+
+bool EnemySecondBoss::shot(float deltaTime)
+{
+    coolDownShot -= 3 * deltaTime;
+    if (coolDownShot <= 0)
+    {
+        coolDownShot = 3;
+        /*if (secondFase)
+        {
+            coolDownShot = 0.2;
+        }
+        if (thirdFase && contSecondFaseShot >= 0)
+        {
+            contSecondFaseShot -= 15 * deltaTime;
+            coolDownShot = 0.4;
+        }
+        else if (contSecondFaseShot <= 0)
+            contSecondFaseShot = 1.5;*/
         return true;
     }
     return false;

@@ -59,6 +59,113 @@ vector<SDL_Texture*> Loader::loadTextures(string nameFile[], SDL_Renderer* rende
     return textures;
 }
 
+void Loader::updateLeaderBoard(string name, int score, int deaths, string nameTodelete, int numPlayers)
+{
+    tinyxml2::XMLDocument doc;
+    if (doc.LoadFile("Levels/Leaderboard.xml") != tinyxml2::XML_SUCCESS)
+    {
+        std::cerr << "Error al cargar el archivo XML." << std::endl;
+        return;
+    }
+
+    tinyxml2::XMLElement* root = doc.RootElement();
+    if (!root)
+    {
+        std::cerr << "Error: No se pudo obtener el elemento raíz." << std::endl;
+        return;
+    }
+
+    tinyxml2::XMLElement* playerList = nullptr;
+    if (numPlayers < 2)
+        playerList = root->FirstChildElement("SinglePlayer");
+    else 
+        playerList = root->FirstChildElement("MultiPlayer");
+
+    if (!playerList) 
+    {
+        std::cerr << "Error: No se pudo encontrar el elemento de la lista de jugadores." << std::endl;
+        return;
+    }
+
+    // Buscar el elemento a eliminar y eliminarlo
+    tinyxml2::XMLElement* playerToDelete = playerList->FirstChildElement("Player");
+    while (playerToDelete) 
+    {
+        if (playerToDelete->FirstChildElement("name")->GetText() == nameTodelete) 
+        {
+            playerList->DeleteChild(playerToDelete);
+            break;
+        }
+        playerToDelete = playerToDelete->NextSiblingElement("Player");
+    }
+
+    // Agregar el nuevo elemento
+    tinyxml2::XMLElement* newPlayer = doc.NewElement("Player");
+    tinyxml2::XMLElement* playerName = doc.NewElement("name");
+    playerName->SetText(name.c_str());
+    newPlayer->InsertEndChild(playerName);
+
+    tinyxml2::XMLElement* playerScore = doc.NewElement("score");
+    playerScore->SetText(score);
+    newPlayer->InsertEndChild(playerScore);
+
+    tinyxml2::XMLElement* playerDeaths = doc.NewElement("deaths");
+    playerDeaths->SetText(deaths);
+    newPlayer->InsertEndChild(playerDeaths);
+
+    playerList->InsertEndChild(newPlayer);
+
+    // Guardar el documento modificado
+    if (doc.SaveFile("Levels/Leaderboard.xml") != tinyxml2::XML_SUCCESS) 
+    {
+        std::cerr << "Error al guardar el archivo XML modificado." << std::endl;
+        return;
+    }
+
+    std::cout << "XML modificado y guardado exitosamente." << std::endl;
+}
+
+vector<string> Loader::loadLeaderBoard(int numPlayers)
+{
+    vector<string> learboard;
+    tinyxml2::XMLDocument doc;
+    if (doc.LoadFile("Levels/Leaderboard.xml") != tinyxml2::XML_SUCCESS)
+    {
+        std::cerr << "Error al cargar el archivo XML." << std::endl;
+        return learboard;
+    }
+
+    tinyxml2::XMLElement* root = doc.RootElement();
+    if (!root)
+    {
+        std::cerr << "Error: No se pudo obtener el elemento raíz." << std::endl;
+        return learboard;
+    }
+
+    if (numPlayers < 2)
+    {
+        tinyxml2::XMLElement* singleplayer = root->FirstChildElement("SinglePlayer");
+        for (tinyxml2::XMLElement* players = singleplayer->FirstChildElement(); players; players = players->NextSiblingElement())
+        {
+            learboard.push_back(players->FirstChildElement("name")->GetText());
+            learboard.push_back(players->FirstChildElement("score")->GetText());
+            learboard.push_back(players->FirstChildElement("deaths")->GetText());
+        }
+    } else
+    {
+        tinyxml2::XMLElement* multiplayer = root->FirstChildElement("MultiPlayer");
+        for (tinyxml2::XMLElement* players = multiplayer->FirstChildElement(); players; players = players->NextSiblingElement())
+        {
+            learboard.push_back(players->FirstChildElement("name")->GetText());
+            learboard.push_back(players->FirstChildElement("score")->GetText());
+            learboard.push_back(players->FirstChildElement("deaths")->GetText());
+        }
+    }
+    return learboard;
+}
+
+
+
 Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPlayer)
 {
     tinyxml2::XMLDocument doc;
@@ -154,8 +261,17 @@ Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPl
                     float y = atof(enemy->FirstChildElement("Y")->GetText());
                     float moveTo = atof(enemy->FirstChildElement("moveTo")->GetText());
                     int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
-                    gameLevel->setEnemyBoss(x, y, moveTo, bulletSpeed);
-                } else if (std::string(enemy->Name()) == "Obstacles")
+                    gameLevel->setEnemyBoss(x, y, moveTo, bulletSpeed, 0);
+                }
+                else if (std::string(enemy->Name()) == "EnemySecondBoss")
+                {
+                    float x = atof(enemy->FirstChildElement("X")->GetText());
+                    float y = atof(enemy->FirstChildElement("Y")->GetText());
+                    float moveTo = atof(enemy->FirstChildElement("moveTo")->GetText());
+                    int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
+                    gameLevel->setEnemyBoss(x, y, moveTo, bulletSpeed, 1);
+                }
+                else if (std::string(enemy->Name()) == "Obstacles")
                 {
                     gameLevel->setObstacles(stoi(enemy->FirstChildElement("SpawnProbability")->GetText()));
                     gameLevel->setPowerUps(stoi(enemy->FirstChildElement("SpawnProbabilityPowerUp")->GetText()));

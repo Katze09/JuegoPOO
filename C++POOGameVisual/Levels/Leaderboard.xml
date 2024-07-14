@@ -1,0 +1,26 @@
+<leaderboard>
+    <SinglePlayer>
+        <Player>
+            <name>katze</name>
+            <score>0</score>
+            <deaths>0</deaths>
+        </Player>
+        <Player>
+            <name> pepepo5</name>
+            <score>420</score>
+            <deaths>38</deaths>
+        </Player>
+        <Player>
+            <name>katzze</name>
+            <score>210</score>
+            <deaths>12</deaths>
+        </Player>
+    </SinglePlayer>
+    <MultiPlayer>
+        <Player>
+            <name>katz</name>
+            <score>0</score>
+            <deaths>0</deaths>
+        </Player>
+    </MultiPlayer>
+</leaderboard>

@@ -32,11 +32,12 @@ public:
     void setEnemyKamikaze(int cant, float x, float y, float speed);
     void setEnemyMid(float x, float y, float moveTo, int bulletSpeed);
     void setEnemyMidGuide(float x, float y, float moveTo, int bulletSpeed);
-    void setEnemyBoss(float x, float y, float moveTo, int bulletSpeed);
+    void setEnemyBoss(float x, float y, float moveTo, int bulletSpeed, int boss);
     void setObstacles(int prob);
     void setPowerUps(int prob);
     int getScore();
     void setScore(int score);
+    int Totalscore = 0;
 private:
     void bulletsEnemysEvents(std::vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, float deltaTime);
     void obstaclesEvents(std::vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, float deltaTime);
@@ -46,6 +47,7 @@ private:
     void deleteFromArrays();
     void EnemyLaserEvent(EnemyLaser* laser, int i);
     void EnemyBossEvent(EnemyBoss* boss, int i, Player* player);
+    void EnemySecondBossEvent(EnemySecondBoss* secondboss, int i);
     void EnemyStarEvent(EnemyStar* star, int i);
     void EnemyMidEvent(int i);
     void EnemyMidGuideEvent(int i, Player* player);
@@ -57,6 +59,7 @@ private:
     std::vector<SDL_Texture*> texturesEnemyMidGuide;
     std::vector<SDL_Texture*> texturesAsteroid;
     std::vector<SDL_Texture*> texturesEnemyBoss;
+    std::vector<SDL_Texture*> texturesEnemySecondBoss;
     std::vector<SDL_Texture*> texturesEnemyKamikaze;
     std::vector<SDL_Texture*> texturesPowerUp[4];
     std::vector<int> bulletsPlayerToRemove;

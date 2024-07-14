@@ -273,6 +273,93 @@ void Item::draw(SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, texture, NULL, &destRect);
 }
 
+Leaderboard::Leaderboard() {}
+
+Leaderboard::Leaderboard(SDL_Renderer* renderer)
+{
+    background = Background(lod.LoadTexture("Background", renderer));
+    textsTile = Texts("VerminVibes1989", 90);
+    textsMid = Texts("VerminVibes1989", 60);
+    textsExtra = Texts("VerminVibes1989", 40);
+    accept = Button("Continue", 200, 720, 70);
+}
+
+Leaderboard::~Leaderboard()
+{
+}
+
+int Leaderboard::click(int x, int y)
+{
+    if (accept.isPresed(x, y))
+    {
+        if (!end && namePlayer.length() > 2)
+        {
+            string nameTodelete = "";
+            if (sizeLeaderboard >= 5)
+                nameTodelete = leaderNames[indexLeader[4]];
+            lod.updateLeaderBoard(namePlayer, score, deaths, nameTodelete, numPlayers);
+            sizeLeaderboard = 0;
+            loadLeaderboard(numPlayers);
+            accept.setText("Go To Menu");
+            end = true;
+        } else if(end)
+        {
+            
+        }
+    }
+    return 0;
+}
+
+void Leaderboard::hover(int x, int y)
+{
+    accept.isHover(x, y);
+}
+
+void Leaderboard::loadLeaderboard(int numPlayers)
+{
+    vector<string> leader = lod.loadLeaderBoard(numPlayers);
+    this->numPlayers = numPlayers;
+    int tempScore[5];
+    for (int i = 0; i < leader.size(); i+=3)
+    {
+        leaderNames[sizeLeaderboard] = leader[i];
+        leaderScores[sizeLeaderboard] = atoi(leader[i + 1].c_str());
+        leaderDeaths[sizeLeaderboard] = atoi(leader[i + 2].c_str());
+        tempScore[sizeLeaderboard] = leaderScores[sizeLeaderboard] - (leaderScores[sizeLeaderboard] * (leaderDeaths[sizeLeaderboard] * 0.0001) * 5);
+        indexLeader[sizeLeaderboard] = sizeLeaderboard;
+        sizeLeaderboard++;
+    }
+
+    std::sort(indexLeader, indexLeader + sizeLeaderboard, [&](int a, int b) { return tempScore[a] > tempScore[b]; });
+}
+
+void Leaderboard::update(float deltaTime)
+{
+    background.update(deltaTime);
+    accept.update(deltaTime);
+}
+
+void Leaderboard::draw(SDL_Renderer* renderer)
+{
+    background.draw(renderer);
+    textsTile.drawText("Leaderboard", 80, 50, renderer);
+    textsMid.drawText("Score: " + std::to_string(score), 180, 150, renderer);
+    textsMid.drawText("Deaths: " + std::to_string(deaths), 180, 200, renderer);
+    textsMid.drawText("Player: " + namePlayer, 50, 620, renderer);
+    textsExtra.drawText("Player Name", 20, 300, renderer);
+    textsExtra.drawText("Score", 350, 300, renderer);
+    textsExtra.drawText("Deaths", 530, 300, renderer);
+    int y = 350;
+    for (int i = 0; i < sizeLeaderboard; i++)
+    {
+        textsExtra.drawText(to_string(i + 1) + ". " + leaderNames[indexLeader[i]], 30, y, renderer);
+        textsExtra.drawText(to_string(leaderScores[indexLeader[i]]), 360, y, renderer);
+        textsExtra.drawText(to_string(leaderDeaths[indexLeader[i]]), 550, y, renderer);
+        y += 50;
+    }
+    accept.draw(renderer);
+}
+
 Button::Button()
 {
 }

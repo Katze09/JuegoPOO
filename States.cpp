@@ -8,21 +8,18 @@ using namespace std;
 // Instance of the loader
 Loader loader;
 
-// Constructor of States that initializes various game components
 States::States(SDL_Renderer* renderer)
 {
-    // Initialize the audio player
     audioPlayer = new AudioPlayer();
 
-    // Initialize text objects with different font sizes (VerminVibes1989)
     texts = Texts("VerminVibes1989", 40);
     textsTitle = Texts("VerminVibes1989", 70);
 
     spriteBullet = loader.LoadTexture("Bullet", renderer);
 
     shop = Shop(renderer);
+    leaderboard = Leaderboard(renderer);
 
-    // Load player textures and create player instances
     string nameFile[10];
     nameFile[0] = "Player";
     nameFile[1] = "Shield";
@@ -35,7 +32,6 @@ States::States(SDL_Renderer* renderer)
     player[0] = new Player(textures, 310, 460);
     textures.clear(); // Clear textures after use
 
-    // Load background texture
     background = Background(loader.LoadTexture("Background", renderer));
 
     cooldownShot[0] = cooldownShot[1] = 0;
@@ -52,17 +48,19 @@ States::States(SDL_Renderer* renderer)
         level++;
     }
     maxLevel = level - 1;
-    level = 0;
+    level = 6;
 
     shopTime = false;
     pastPart = false;
     continueLevel = false;
     win = false;
+    //leaderboardTime = true;
+    //leaderboard.loadLeaderboard(numPlayers);
     numJoySticks = SDL_NumJoysticks();
     cout << "Num Joys: " << numJoySticks << endl;
     //numJoySticks = 0;
     for (int i = 0; i < numJoySticks; i++)
-        joys[i] = new JoyStick(SDL_JoystickOpen(i));
+        joys[i] = new JoyStick(SDL_JoystickOpen(i), i);
 }
 
 States::~States()
@@ -155,9 +153,8 @@ void States::bulletsPlayerEvents(float deltaTime)
 // Draw game elements on the renderer
 void States::draw(SDL_Renderer* renderer)
 {
-    if (!shopTime)
+    if (!shopTime && !leaderboardTime)
     {
-        // Dibujar fondo, jugador, balas del jugador y nivel actual
         background.draw(renderer);
         for (int i = 0; i < bulletsPlayer.size(); i++)
             bulletsPlayer[i]->draw(renderer);
@@ -179,10 +176,6 @@ void States::draw(SDL_Renderer* renderer)
         {
             if (!player[p]->endDeadAnimation())
                 player[p]->draw(renderer);
-            if (win)
-            {
-                winEvent(renderer);
-            }
             //Special attack draw
             int x = 30;
             if (p == 1)
@@ -215,8 +208,10 @@ void States::draw(SDL_Renderer* renderer)
         texts.drawText("Level " + to_string(level + 1), 535, 10, renderer);
         texts.drawText("Deaths " + to_string(deaths), 265, 10, renderer);
     }
-    else
+    else if (shopTime)
         shop.draw(renderer);
+    else
+        leaderboard.draw(renderer);
 }
 
 // Actualizar elementos del juego
@@ -230,6 +225,7 @@ void States::update(float deltaTime)
         if (!player[p]->endDeadAnimation())
         {
             player[p]->update(deltaTime);
+            player[0]->setInmortal(true);
             // Verificar colisiones del jugador con balas enemigas y obstáculos
             if (!player[p]->isDead() && !player[p]->isInmortal())
             {
@@ -301,13 +297,16 @@ void States::update(float deltaTime)
         }
     if (delayPart > 0)
         delayPart -= deltaTime * 15;
-    if (delayLevel > 0 && !shopTime)
+    if (delayLevel > 0 && !shopTime && !leaderboardTime)
         delayLevel -= deltaTime * 15;
-    else
+    else if (shopTime)
     {
         shop.update(deltaTime);
         if (shop.endShop)
             shopTime = false;
+    } else
+    {
+        leaderboard.update(deltaTime);
     }
     if (startCoolDown > 0)
         startCoolDown -= deltaTime * 25;
@@ -333,6 +332,8 @@ void States::checkPartFinish()
             gameLevels[level]->bulletsToRemove.clear();
             passingLevel = true;
             delayLevel = 80;
+            if (level + 1 > maxLevel)
+                win = true;
             shop.startShopping(gameLevels[level]->getScore(), player, numPlayers);
             for (int p = 0; p < numPlayers; p++)
             {
@@ -374,29 +375,32 @@ void States::passLevel(SDL_Renderer* renderer)
     // Mostrar mensajes de nivel pasado y próximo nivel
     if (delayLevel > 60)
         textsTitle.drawText("Level " + to_string(level + 1) + " Passed", 100, 300, renderer);
-    else if (delayLevel > 30 && delayLevel < 50)
+    else if (delayLevel > 30 && delayLevel < 50 && !win)
     {
         textsTitle.drawText("Shopping Time", 120, 300, renderer);
-        //textsTitle.drawText("Level " + to_string(level + 2) + " Start", 100, 300, renderer);
-    }else if (delayLevel < 30 && !shop.endShop)
+    }else if (delayLevel < 30 && !shop.endShop && !win)
     {
         shopTime = true;
-    } else if (delayLevel < 20)
+    } else if (delayLevel < 20 && !win)
         textsTitle.drawText("Level " + to_string(level + 2) + " Start", 100, 300, renderer);
-    if (delayLevel <= 0)
+    else if (win)
     {
-        if (level == maxLevel)
-        {
-            win = true;
-            passingLevel = false;
-        } else
-        {
-            passingLevel = false;
-            level++;
-            //gameLevels[level]->setScore(gameLevels[level - 1]->getScore());
-            gameLevels[level]->setScore(shop.getRemainingScore());
-            totalScore = gameLevels[level]->getScore();
-        }
+        textsTitle.drawText("Congratulations", 70, 300, renderer);
+        textsTitle.drawText("You Won!!", 190, 350, renderer);
+    }
+    if (delayLevel <= 0 && !win)
+    {
+        passingLevel = false;
+        level++;
+        gameLevels[level]->Totalscore = gameLevels[level - 1]->Totalscore;
+        gameLevels[level]->setScore(shop.getRemainingScore());
+        totalScore += gameLevels[level]->getScore();
+    } else if (delayLevel <= 0 && win)
+    {
+        leaderboardTime = true;
+        leaderboard.setScore(gameLevels[level]->Totalscore);
+        leaderboard.setDeaths(deaths);
+        leaderboard.loadLeaderboard(numPlayers);
     }
 }
 
@@ -424,13 +428,6 @@ void States::deadEvent(SDL_Renderer* renderer)
 
     textsTitle.drawText("You died", 200, 300, renderer);
     texts.drawText("Press space to try again", 80, 400, renderer);
-}
-
-void States::winEvent(SDL_Renderer* renderer)
-{
-    textsTitle.drawText("Congratulations", 70, 300, renderer);
-    textsTitle.drawText("You Won!!", 190, 350, renderer);
-    texts.drawText("Press space to continue", 100, 400, renderer);
 }
 
 void States::updateInputJoyStick()
@@ -470,6 +467,7 @@ void States::updateInputJoyStick()
                 }
             }else if(!joys[i]->buttonXItemShield())
                 alreadyUse[i + 1] = false;
+            joys[i]->reconectJoy();
         }
     } else if (numJoySticks == 1)
     {
@@ -506,6 +504,7 @@ void States::updateInputJoyStick()
         }
         else if (!joys[0]->buttonXItemShield())
             alreadyUse[1] = false;
+        joys[0]->reconectJoy();
     }
 }
 
@@ -537,6 +536,10 @@ void States::updateInput(SDL_Keycode key)
                 player[0]->flashingShield = true;
                 player[0]->reduceNumItemShield();
             }
+            break;
+        case SDLK_BACKSPACE:
+            if (leaderboardTime)
+                leaderboard.deleteCharacter();
             break;
         }
     }
@@ -591,10 +594,14 @@ void States::mouseClick(int x, int y)
 {
     if (shopTime)
         shop.click(x, y);
+    if (leaderboardTime)
+        leaderboard.click(x, y);
 }
 
 void States::mouseMove(int x, int y)
 {
     if (shopTime)
         shop.hover(x, y);
+    if (leaderboardTime)
+        leaderboard.hover(x, y);
 }

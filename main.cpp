@@ -73,6 +73,9 @@ int main(int argc, char** argv)
                     menu->hover(event.motion.x, event.motion.y);
                 states->mouseMove(event.motion.x, event.motion.y);
                 break;
+            case SDL_TEXTINPUT:
+                states->leaderboard.updateInput(std::string(event.text.text));
+                break;
             }
         }
         // Lógica del juego

@@ -26,6 +26,7 @@ public:
     void inputUp(SDL_Keycode key);
     void mouseClick(int x, int y);
     void mouseMove(int x, int y);
+    Leaderboard leaderboard;
 private:
     Level* gameLevels[10];
     SDL_Texture* spriteBullet;
@@ -37,12 +38,12 @@ private:
     bool PlayerShot[2];
     bool win;
     Shop shop;
+    bool leaderboardTime;
     bool shopTime;
     void bulletsPlayerEvents(float deltaTime);
     void checkPartFinish();
     void passLevel(SDL_Renderer* renderer);
     void deadEvent(SDL_Renderer* renderer);
-    void winEvent(SDL_Renderer* renderer);
     void updateInputJoyStick();
     bool alreadyUse[4] = { false, false, false, false };
     bool passingLevel;

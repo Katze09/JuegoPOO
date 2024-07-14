@@ -22,6 +22,8 @@ public:
     SDL_Texture* LoadTexture(const std::string& filePat, SDL_Renderer* renderer);
     int randomNumber(int i, int j);
     std::vector<SDL_Texture*> loadTextures(string nameFile[], SDL_Renderer* renderer, int sizeNames);
+    std::vector<std::string> loadLeaderBoard(int numPlayers);
+    void updateLeaderBoard(std::string name, int score, int deaths, string nameTodelete, int numPlayers);
     Level* LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPlayer);
     
 };

@@ -19,6 +19,7 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     textureBullet[1] = load.LoadTexture("Laser1", renderer);
     textureBullet[2] = load.LoadTexture("Laser2", renderer);
     textureBullet[3] = load.LoadTexture("BulletEnemyBig", renderer);
+    textureBullet[4] = load.LoadTexture("BulletEnemySecond", renderer);
 
     // Arreglos de nombres de archivos y texturas para diferentes tipos de enemigos
     nameFile[0] = "EnemyBase";
@@ -50,6 +51,11 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[1] = "EnemyBossHit";
     nameFile[2] = "Died";
     texturesEnemyBoss = load.loadTextures(nameFile, renderer, 3);
+
+    nameFile[0] = "EnemySecondBoss";
+    nameFile[1] = "EnemySecondBossHit";
+    nameFile[2] = "Died";
+    texturesEnemySecondBoss = load.loadTextures(nameFile, renderer, 3);
 
     nameFile[0] = "Asteroid";
     nameFile[1] = "Died";
@@ -194,9 +200,13 @@ void Level::setEnemyMidGuide(float x, float y, float moveTo, int bulletSpeed)
     enemies[numParts].push_back(new EnemyMidGuide(texturesEnemyMidGuide, x, y, moveTo, bulletSpeed));
 }
 
-void Level::setEnemyBoss(float x, float y, float moveTo, int bulletSpeed)
+void Level::setEnemyBoss(float x, float y, float moveTo, int bulletSpeed, int boss)
 {
-    enemies[numParts].push_back(new EnemyBoss(texturesEnemyBoss, x, y, moveTo, bulletSpeed));
+    switch (boss)
+    {
+    case 0:enemies[numParts].push_back(new EnemyBoss(texturesEnemyBoss, x, y, moveTo, bulletSpeed)); break;
+    case 1:enemies[numParts].push_back(new EnemySecondBoss(texturesEnemySecondBoss, x, y, moveTo, bulletSpeed)); break;
+    }
 }
 
 // Establecer obstáculos con una probabilidad de aparición
@@ -235,6 +245,8 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
                 EnemyStarEvent(star, i);
             else if (EnemyLaser* laser = dynamic_cast<EnemyLaser*> (enemies[numParts][i]))
                 EnemyLaserEvent(laser, i);
+            else if (EnemySecondBoss* secondboss = dynamic_cast<EnemySecondBoss*> (enemies[numParts][i]))
+                EnemySecondBossEvent(secondboss, i);
             else if (EnemyBoss* boss = dynamic_cast<EnemyBoss*> (enemies[numParts][i]))
             {
                 if (numPlayers > 1)
@@ -281,7 +293,10 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
         if (enemies[numParts][i]->endDeadAnimation())
         {
             for (int p = 0; p < numPlayers; p++)
+            {
                 score += (player[p]->haveDoublePoints() || player[p]->haveItemDoublePoints()) ? enemies[numParts][i]->getScore() * 2 : enemies[numParts][i]->getScore();
+                Totalscore += (player[p]->haveDoublePoints() || player[p]->haveItemDoublePoints()) ? enemies[numParts][i]->getScore() * 2 : enemies[numParts][i]->getScore();
+            }
             enemiesToRemove.push_back(i);
         }
     }
@@ -308,7 +323,10 @@ void Level::obstaclesEvents(vector<BulletPlayer*>& bulletsPlayer, Player* player
         if (asteroids[i]->endDeadAnimation())
         {
             for (int p = 0; p < numPlayers; p++)
+            {
                 score += (player[p]->haveDoublePoints() || player[p]->haveItemDoublePoints()) ? asteroids[i]->getScore() * 2 : asteroids[i]->getScore();
+                Totalscore += (player[p]->haveDoublePoints() || player[p]->haveItemDoublePoints()) ? asteroids[i]->getScore() * 2 : asteroids[i]->getScore();
+            }
             asteroidsToRemove.push_back(i);
         }
     }
@@ -472,6 +490,47 @@ void Level::EnemyBossEvent(EnemyBoss* boss, int i, Player* player)
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 70, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 190, enemies[numParts][i]->getY1() + 200, false, enemies[numParts][i]->getBulletSpeed()));
+    }
+}
+
+bool shotSec = true;
+int circ = 2;
+
+void Level::EnemySecondBossEvent(EnemySecondBoss* secondboss, int i)
+{
+    if (secondboss->canSpawnEnemies())
+    {
+        int y = load.randomNumber(-100, 150);
+        setEnemyKamikaze(secondboss->numSpawnEnemies, -200, y);
+        setEnemyKamikaze(secondboss->numSpawnEnemies, 950, y);
+        secondboss->falseSpawnEnemies();
+    }
+    if (secondboss->isFirstPart())
+    {
+        int numShot = 30;
+        for (int i = 0; i < numShot; ++i)
+        {
+            float radius = 100;
+            float angle = (circ * M_PI / numShot) * i;  // Ángulo equidistante
+            float xPosition = secondboss->getX1() + 67;
+            float yPosition = secondboss->getY1() + 67;
+            float x = xPosition + (radius * cos(angle) / 2);
+            float y = yPosition + (radius * sin(angle) / 2);
+            float targetX = xPosition + 2 * radius * cos(angle);
+            float targetY = yPosition + 2 * radius * sin(angle);
+            BulletEnemyDiagonal* bullet = new BulletEnemyDiagonal(textureBullet[4], x, y, targetX, targetY, secondboss->getBulletSpeed() / 1.5);
+            bullet->activeRotation();
+            bulletsEnemy.push_back(bullet);
+            audioPlayer->Play(2, 20);
+        }
+        if (shotSec)
+            circ++;
+        else
+            circ--;
+        if (circ > 4)
+            shotSec = false;
+        if (circ < 3)
+            shotSec = true;
     }
 }
 
