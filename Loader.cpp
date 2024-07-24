@@ -216,6 +216,14 @@ Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPl
                     int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
                     gameLevel->setEnemyLaser(cant, y, movetype, direction, moveTo, bulletSpeed);
                 }
+                else if (std::string(enemy->Name()) == "EnemyAngry")
+                {
+                    int cant = stoi(enemy->FirstChildElement("quantity")->GetText());
+                    float y = atof(enemy->FirstChildElement("Y")->GetText());
+                    int direction = stoi(enemy->FirstChildElement("direction")->GetText());
+                    int bulletSpeed = stoi(enemy->FirstChildElement("bulletSpeed")->GetText());
+                    gameLevel->setEnemyAngry(cant, y, direction, bulletSpeed);
+                }
                 else if (string(enemy->Name()) == "EnemyKamikaze")
                 {
                     int cant = stoi(enemy->FirstChildElement("quantity")->GetText());

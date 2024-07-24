@@ -297,6 +297,10 @@ EnemyKamikaze::EnemyKamikaze(vector<SDL_Texture*> textures, float X1, float Y1, 
     this->speed = speed;
 }
 
+EnemyKamikaze::EnemyKamikaze(std::vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int bulletSpeed) : EnemyBase(textures, X1, Y1, direction, 0, bulletSpeed)
+{
+}
+
 EnemyKamikaze::~EnemyKamikaze()
 {
 }
@@ -328,6 +332,85 @@ void EnemyKamikaze::draw(SDL_Renderer* renderer)
 {
     SDL_Rect destinationRect = { static_cast<int> (X1), static_cast<int> (Y1), WIDTH, HEIGHT };
     SDL_RenderCopyEx(renderer, textures[indexTexture], NULL, &destinationRect, angleRotation, NULL, SDL_FLIP_NONE);
+}
+
+EnemyAngry::EnemyAngry()
+{}
+
+EnemyAngry::EnemyAngry(vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int bulletSpeed) : EnemyKamikaze(textures, X1, Y1, direction, bulletSpeed)
+{
+    speed = 75;
+    life = 5;
+    targetY = loadEnemys.randomNumber(50, 700);
+    while (Y1 >= targetY && Y1 <= targetY + 100)
+        targetY = loadEnemys.randomNumber(50, 700);
+    slope = static_cast<float> (targetY - Y1) / (X1 - 100);
+    intercept = Y1 - slope * X1;
+}
+
+EnemyAngry::~EnemyAngry()
+{
+}
+
+
+void EnemyAngry::update(float deltaTime, float targetX, float targetY)
+{
+    if (!angry)
+    {
+        if (!direction)
+            setX(X1 + (speed * (deltaTime)));
+        else
+            setX(X1 - (speed * (deltaTime)));
+        setY((slope * X1 + intercept) + (15 * deltaTime));
+    }
+    else
+    {
+        float dx = targetX - X1;
+        float dy = targetY - Y1;
+        // Calcular la distancia total al objetivo
+        float distance = sqrt(dx * dx + dy * dy);
+        if (distance > 0)
+        {
+            dx /= distance;
+            dy /= distance;
+        }
+        // Calcular el desplazamiento en cada eje
+        float deltaX = dx * speed * deltaTime;
+        float deltaY = dy * speed * deltaTime;
+        float angleInRadians = atan2(deltaY, deltaX);
+        angleRotation = (angleInRadians * (180.0 / M_PI) - 90);
+        // Asignar las nuevas coordenadas
+        setX(X1 + deltaX);
+        setY(Y1 + deltaY);
+    }
+    collisionBorder();
+    animationDead(deltaTime);
+}
+
+bool EnemyAngry::shot(float deltaTime)
+{
+    coolDownShot -= 3 * deltaTime;
+    if (coolDownShot <= 0)
+    {
+        coolDownShot = 3;
+        return true;
+    }
+    return false;
+}
+
+int EnemyAngry::isEnemyHit(vector<BulletPlayer*> bulletPlayer)
+{
+    for (int i = 0; i < bulletPlayer.size(); i++)
+        if (bulletPlayer[i]->getX1HitBox() < X2HitBox && bulletPlayer[i]->getX2HitBox() > X1HitBox &&
+            bulletPlayer[i]->getY1HitBox() < Y2HitBox && bulletPlayer[i]->getY2HitBox() > Y1HitBox)
+        {
+            setAngry();
+            speed = 500;
+            life--;
+            isDead();
+            return i;
+        }
+    return -1;
 }
 
 //

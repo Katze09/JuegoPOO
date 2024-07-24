@@ -9,7 +9,8 @@
 #include <sdl.h>
 #include <algorithm>
 
-class Button {
+class Button 
+{
 public:
     Button();
     Button(std::string showText, float x, float y, int fontSize);
@@ -33,7 +34,8 @@ protected:
     SDL_Color textcolor;
 };
 
-class Menu {
+class Menu 
+{
 public:
     Menu(SDL_Renderer* renderer);
     virtual ~Menu();
@@ -46,12 +48,15 @@ private:
     bool selectPlayer;
     bool instruc;
     bool nextBool;
+    bool opti;
     Button play;
     Button instructions;
     Button player1;
     Button player2;
     Button back;
     Button backIns;
+    Button backOpti;
+    Button options;
     Button next;
     Background background;
     Texts textsTile;

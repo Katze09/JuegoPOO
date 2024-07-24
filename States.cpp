@@ -48,7 +48,7 @@ States::States(SDL_Renderer* renderer)
         level++;
     }
     maxLevel = level - 1;
-    level = 6;
+    level = 7;
 
     shopTime = false;
     pastPart = false;

@@ -1,0 +1,22 @@
+<Level>
+    <part1>
+        <Enemys>
+            <EnemyAngry>
+				<quantity>1</quantity>
+				<Y>400</Y>
+				<direction>0</direction>
+				<bulletSpeed>700</bulletSpeed>
+			</EnemyAngry>
+            <EnemyAngry>
+				<quantity>1</quantity>
+				<Y>400</Y>
+				<direction>1</direction>
+				<bulletSpeed>700</bulletSpeed>
+			</EnemyAngry>
+            <Obstacles>
+                    <SpawnProbability>130</SpawnProbability> <!-- Cuanto mas pequeño el numero más obstaculos salen -->
+                    <SpawnProbabilityPowerUp>400</SpawnProbabilityPowerUp>
+                </Obstacles>
+        </Enemys>
+    </part1>
+</Level>

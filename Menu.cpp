@@ -10,6 +10,7 @@ Menu::Menu(SDL_Renderer* renderer)
     int fontSize = 80;
     play = Button("Play", 250, 300, fontSize);
     instructions = Button("Instructions", 100, 400, fontSize);
+    options = Button("Options", 190, 500, fontSize);
     textsTile = Texts("VerminVibes1989", 120);
     textsMid = Texts("VerminVibes1989", 70);
     textsLittle = Texts("VerminVibes1989", 45);
@@ -18,9 +19,11 @@ Menu::Menu(SDL_Renderer* renderer)
     player2 = Button("MultiPlayer", 100, 400, fontSize);
     back = Button("Back", 250, 500, fontSize);
     backIns = Button("Back", 100, 650, fontSize);
+    backOpti = Button("Back", 100, 650, fontSize);
     next = Button("Next", 450, 650, fontSize);
     selectPlayer = false;
     instruc = false;
+    opti = false;
     nextBool = false;
 }
 
@@ -39,12 +42,14 @@ int Menu::click(int x, int y)
         if (back.isPresed(x, y))
             selectPlayer = false;
     }
-    if (!selectPlayer && !instruc)
+    if (!selectPlayer && !instruc && !opti)
     {
         if (play.isPresed(x, y))
             selectPlayer = true;
         if (instructions.isPresed(x, y))
             instruc = true;
+        if (options.isPresed(x, y))
+            opti = true;
     } 
     if (instruc)
     {
@@ -55,15 +60,21 @@ int Menu::click(int x, int y)
         if (next.isPresed(x, y) && !nextBool)
             nextBool = true;
     }
+    if (opti)
+    {
+        if (backOpti.isPresed(x, y))
+            opti = false;
+    }
     return 0;
 }
 
 void Menu::hover(int x, int y)
 {
-    if (!selectPlayer && !instruc)
+    if (!selectPlayer && !instruc && !opti)
     {
         play.isHover(x, y);
         instructions.isHover(x, y);
+        options.isHover(x, y);
     } 
     if (instruc)
     {
@@ -76,6 +87,10 @@ void Menu::hover(int x, int y)
         player1.isHover(x, y);
         player2.isHover(x, y);
         back.isHover(x, y);
+    }
+    if (opti)
+    {
+        backOpti.isHover(x, y);
     }
 }
 
@@ -94,10 +109,11 @@ void Menu::draw(SDL_Renderer* renderer)
     background.draw(renderer);
     textsTile.drawText("The Game", 110, 100, renderer);
     textsExtra.drawText("Copyright Katze090", 0, 780, renderer);
-    if (!selectPlayer && !instruc)
+    if (!selectPlayer && !instruc && !opti)
     {
         play.draw(renderer);
         instructions.draw(renderer);
+        options.draw(renderer);
     }
     if (selectPlayer)
     {
@@ -130,7 +146,10 @@ void Menu::draw(SDL_Renderer* renderer)
         }
         backIns.draw(renderer);
     } 
+    if (opti)
+    {
 
+    }
 }
 
 Shop::Shop(){}

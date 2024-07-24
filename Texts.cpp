@@ -28,7 +28,7 @@ void Texts::drawText(string text, int X, int Y, SDL_Renderer* renderer)
     if (!textSurface)
         cout << "Error surface" << endl;
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_Rect destRect = {X, Y, textSurface->w, textSurface->h}; // Cambia las coordenadas según tus necesidades
+    SDL_Rect destRect = {X, Y, textSurface->w, textSurface->h}; 
 
     SDL_RenderCopy(renderer, textTexture, nullptr, &destRect);
 

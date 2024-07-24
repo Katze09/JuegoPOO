@@ -32,6 +32,9 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
     nameFile[0] = "EnemyLaser";
     texturesEnemyLaser = load.loadTextures(nameFile, renderer, 2);
 
+    //nameFile[0] = "EnemyAngry";
+    //texturesEnemyAngry = load.loadTextures(nameFile, renderer, 2);
+
     nameFile[0] = "EnemyStar";
     nameFile[1] = "EnemyStarHit";
     nameFile[2] = "Died";
@@ -87,19 +90,74 @@ Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
 
 // Destructor de Level
 
-Level::~Level()
+Level::~Level() 
 {
-    for (auto& part : enemies)
-        for (auto& enemy : part)
+    for (auto& enemyList : enemies) 
+        for (auto& enemy : enemyList) 
             delete enemy;
-    for (auto& bullet : bulletsEnemy)
-        delete bullet;
-    for (auto& asteroid : asteroids)
-        delete asteroid;
-    for (auto& powerUp : powerUps)
-        delete powerUp;
+    enemies.clear();
 
+    for (auto& bullet : bulletsEnemy) 
+        delete bullet;
+    bulletsEnemy.clear();
+
+    for (auto& asteroid : asteroids) 
+        delete asteroid;
+    asteroids.clear();
+
+    for (auto& powerUp : powerUps) 
+        delete powerUp;
+    powerUps.clear();
+
+    for (auto& texture : texturesEnemyBase) 
+        SDL_DestroyTexture(texture);
+    texturesEnemyBase.clear();
+
+    for (auto& texture : texturesEnemyLaser) 
+        SDL_DestroyTexture(texture);
+    texturesEnemyLaser.clear();
+
+    for (auto& texture : texturesEnemyStar) 
+        SDL_DestroyTexture(texture);
+    texturesEnemyStar.clear();
+
+    for (auto& texture : texturesEnemyAngry) 
+        SDL_DestroyTexture(texture);
+    texturesEnemyAngry.clear();
+
+    for (auto& texture : texturesEnemyMid) 
+        SDL_DestroyTexture(texture);
+    texturesEnemyMid.clear();
+
+    for (auto& texture : texturesEnemyMidGuide) 
+        SDL_DestroyTexture(texture);
+    texturesEnemyMidGuide.clear();
+
+    for (auto& texture : texturesAsteroid) 
+        SDL_DestroyTexture(texture);
+    texturesAsteroid.clear();
+
+    for (auto& texture : texturesEnemyBoss) 
+        SDL_DestroyTexture(texture);
+    texturesEnemyBoss.clear();
+
+    for (auto& texture : texturesEnemySecondBoss) 
+        SDL_DestroyTexture(texture);
+    texturesEnemySecondBoss.clear();
+
+    for (auto& texture : texturesEnemyKamikaze) 
+        SDL_DestroyTexture(texture);
+    texturesEnemyKamikaze.clear();
+
+    for (auto& textures : texturesPowerUp) 
+        for (auto& texture : textures) 
+            SDL_DestroyTexture(texture);
+    texturesPowerUp->clear();
+
+    for (auto& texture : textureBullet) 
+        SDL_DestroyTexture(texture);
 }
+
 
 void Level::setMaxNumParts(int numParts)
 {
@@ -168,6 +226,17 @@ void Level::setEnemyStar(float y, int movetype, bool direction, float moveTo, in
     else
         x = -80;
     enemies[numParts].push_back(new EnemyStar(texturesEnemyStar, x,y, direction, movetype, moveTo, bulletSpeed));
+}
+
+void Level::setEnemyAngry(int cant, float y, bool direction, int bulletSpeed)
+{
+    float x;
+    if (direction)
+        x = 720;
+    else
+        x = -80;
+    for (int i = 0; i < cant; i++)
+        enemies[numParts].push_back(new EnemyAngry(texturesEnemyBase, x, y, direction, bulletSpeed));
 }
 
 void Level::setEnemyKamikaze(int cant, float x, float y)
@@ -276,7 +345,23 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
             ind = enemies[numParts][i]->isEnemyHit(bulletsPlayer);
         if (ind >= 0)
             bulletsPlayerToRemove.push_back(ind);
-        if (EnemyKamikaze* kamikaze = dynamic_cast<EnemyKamikaze*> (enemies[numParts][i]))
+        if (EnemyAngry* angry = dynamic_cast<EnemyAngry*> (enemies[numParts][i]))
+        {
+            if (angry->isOffLimits())
+                enemiesToRemove.push_back(i);
+            if (angry->isAngry())
+            {
+                if (angry->playerIndex < 0)
+                    angry->playerIndex = load.randomNumber(0, numPlayers);
+                if (player[angry->playerIndex]->isDead() && numPlayers > 1)
+                    if (angry->playerIndex == 1)
+                        angry->playerIndex--;
+                    else if (angry->playerIndex == 0)
+                        angry->playerIndex++;
+            }
+            angry->update(deltaTime, player[angry->playerIndex]->getX1(), player[angry->playerIndex]->getY1());
+        }
+        else if (EnemyKamikaze* kamikaze = dynamic_cast<EnemyKamikaze*> (enemies[numParts][i]))
         {
             if (kamikaze->playerIndex < 0)
                 kamikaze->playerIndex = load.randomNumber(0, numPlayers);
@@ -286,7 +371,8 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
                 else if (kamikaze->playerIndex == 0)
                     kamikaze->playerIndex++;
             kamikaze->update(deltaTime, player[kamikaze->playerIndex]->getX1(), player[kamikaze->playerIndex]->getY1());
-        }else
+        }
+        else
             enemies[numParts][i]->update(deltaTime);
 
         // Borrar enemigos después de la animación de muerte
@@ -436,6 +522,11 @@ void Level::EnemyLaserEvent(EnemyLaser* laser, int i)
     }
     else
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[2], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
+}
+
+void Level::EnemyAngryEvent(EnemyAngry* angry, int i)
+{
+
 }
 
 void Level::EnemyStarEvent(EnemyStar* star, int i)

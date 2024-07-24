@@ -30,6 +30,7 @@ public:
     void setEnemyStar(float y, int movetype, bool direction, float moveTo, int bulletSpeed);
     void setEnemyKamikaze(int cant, float x, float y);
     void setEnemyKamikaze(int cant, float x, float y, float speed);
+    void setEnemyAngry(int cant, float y, bool direction, int bulletSpeed);
     void setEnemyMid(float x, float y, float moveTo, int bulletSpeed);
     void setEnemyMidGuide(float x, float y, float moveTo, int bulletSpeed);
     void setEnemyBoss(float x, float y, float moveTo, int bulletSpeed, int boss);
@@ -46,6 +47,7 @@ private:
     void createPowerUp();
     void deleteFromArrays();
     void EnemyLaserEvent(EnemyLaser* laser, int i);
+    void EnemyAngryEvent(EnemyAngry* angry, int i);
     void EnemyBossEvent(EnemyBoss* boss, int i, Player* player);
     void EnemySecondBossEvent(EnemySecondBoss* secondboss, int i);
     void EnemyStarEvent(EnemyStar* star, int i);
@@ -55,6 +57,7 @@ private:
     std::vector<SDL_Texture*> texturesEnemyBase;
     std::vector<SDL_Texture*> texturesEnemyLaser;
     std::vector<SDL_Texture*> texturesEnemyStar;
+    std::vector<SDL_Texture*> texturesEnemyAngry;
     std::vector<SDL_Texture*> texturesEnemyMid;
     std::vector<SDL_Texture*> texturesEnemyMidGuide;
     std::vector<SDL_Texture*> texturesAsteroid;

@@ -19,6 +19,7 @@ public:
     void reduceLife() { life--; }
     int getBulletSpeed();
     int getScore();
+    bool isOffLimits() { return X2 < -50 || X1 > 750 || Y2 < -50 || Y1 > 850; }
 protected:
     const int score = 15;
     int bulletSpeed;
@@ -27,7 +28,7 @@ protected:
     int movimentType;
     float coolDownShot;
     float angle;
-    void collisionBorder();
+    virtual void collisionBorder();
     void animationBase(float deltaTime);
     void animationDead(float deltaTime);
 };
@@ -67,13 +68,33 @@ public:
     EnemyKamikaze();
     EnemyKamikaze(std::vector<SDL_Texture*> textures, float X1, float Y1);
     EnemyKamikaze(std::vector<SDL_Texture*> textures, float X1, float Y1, float speed);
+    EnemyKamikaze(std::vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int bulletSpeed);
     virtual ~EnemyKamikaze();
-    void update(float deltaTime, float targetX, float targetY);
+    virtual void update(float deltaTime, float targetX, float targetY);
     bool shot(float deltaTime) { return false; }
     void draw(SDL_Renderer* renderer) override;
     int playerIndex = -1;
-private:
+protected:
     float angleRotation = 0;
+};
+
+class EnemyAngry : public EnemyKamikaze
+{
+public:
+    EnemyAngry();
+    EnemyAngry(std::vector<SDL_Texture*> textures, float X1, float Y1, bool direction, int bulletSpeed);
+    virtual ~EnemyAngry();
+    void update(float deltaTime, float targetX, float targetY) override;
+    int isEnemyHit(std::vector<BulletPlayer*> bulletPlayer) override;
+    void setAngry() { angry = true; }
+    bool shot(float deltaTime) override;
+    bool isAngry() const { return angry; }
+    void collisionBorder() override {};
+private:
+    bool angry = false;
+    int targetY;
+    float slope;
+    float intercept;
 };
 
 class EnemyMid : public EnemyBase
