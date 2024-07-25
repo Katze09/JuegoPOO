@@ -9,7 +9,7 @@ Player::Player() : Object()
 Player::Player(vector<SDL_Texture*> textures, float X1, float Y1) : Object(textures, X1, Y1)
 {
     speed = 500;
-    hitBoxMultiplication = 0.2;
+    hitBoxMultiplication = 0.2f;
     bulletSpeed = 1000;
     coolDownShot = 2;
     normalSpeedCool = 2;
@@ -230,7 +230,7 @@ void Player::setItemEffect(int type)
         break;
     case 4:
         powerUpShotItem = true;
-        coolDownShot = 0.6;
+        coolDownShot = 0.6f;
         break;
     }
 }
@@ -241,7 +241,7 @@ void Player::update(float deltaTime)
     if (normalSpeedCool >= 0)
     {
         // Utilizar una función cuadrática para suavizar la transición
-        speedScale = 1.0 - (normalSpeedCool / (2.0));
+        speedScale = 1.0 - (normalSpeedCool / (2.0f));
         normalSpeedCool -= deltaTime * 15;
     }
 
@@ -270,7 +270,7 @@ void Player::update(float deltaTime)
         flashingDelay -= deltaTime * 15;
     if (timeLeftPowerUp[1] < 15 && inmortal && flashingDelay <= 0)
     {
-        flashingDelay = 2.5;
+        flashingDelay = 2.5f;
         flashingShield = !flashingShield;
     }
     timeLetfPowerUps(deltaTime);

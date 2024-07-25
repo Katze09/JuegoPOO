@@ -166,7 +166,7 @@ vector<string> Loader::loadLeaderBoard(int numPlayers)
 
 
 
-Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer* audioPlayer)
+Level* Loader::LoadLevel(int level, SDL_Renderer* renderer, AudioPlayer** audioPlayer)
 {
     tinyxml2::XMLDocument doc;
     Level* gameLevel = new Level(renderer, audioPlayer);

@@ -44,6 +44,7 @@ public:
     void hover(int x, int y);
     void update(float deltaTime);
     void draw(SDL_Renderer* renderer);
+    void setAudioPlayer(AudioPlayer** audioPlayer) { this->audioPlayer = audioPlayer; }
 private:
     bool selectPlayer;
     bool instruc;
@@ -58,11 +59,14 @@ private:
     Button backOpti;
     Button options;
     Button next;
+    Button increaseSound;
+    Button decreaseSound;
     Background background;
     Texts textsTile;
     Texts textsMid;
     Texts textsLittle;
     Texts textsExtra;
+    AudioPlayer** audioPlayer;
 };
 
 class Item

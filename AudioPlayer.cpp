@@ -9,6 +9,8 @@ AudioPlayer::AudioPlayer() : deviceId(0)
     std::vector<std::string> audioFiles = {"Audio/Laser.wav", "Audio/Explosion.wav", "Audio/LaserEnemy.mp3", "Audio/LaserEnemyLarge.mp3"};
     backgroundMusic = Mix_LoadMUS("Audio/AudioMusic.mp3");
     Mix_PlayMusic(backgroundMusic, -1);
+    int volumeTemp = std::max(0, std::min(MIX_MAX_VOLUME, MIX_MAX_VOLUME));
+    Mix_VolumeMusic(volumeTemp);
     for (const auto& file : audioFiles)
     {
         Mix_Chunk* sound = Mix_LoadWAV(file.c_str());
@@ -30,12 +32,31 @@ AudioPlayer::~AudioPlayer()
 
 void AudioPlayer::Play(int index, int volume)
 {
-    if (index < 0 || index >= static_cast<int> (audioData.size()))
+    if (index < 0 || index >= static_cast<int>(audioData.size()))
+    {
         std::cerr << "Invalid audio index." << std::endl;
+        return;
+    }
+
     volume = std::max(0, std::min(MIX_MAX_VOLUME, volume));
-
-    // Establecer el volumen del canal de mezcla
-    Mix_VolumeChunk(audioData[index], volume);
-
+    Mix_VolumeChunk(audioData[index], int(volume * this->volume));
     Mix_PlayChannel(-1, audioData[index], 0);
+}
+
+void AudioPlayer::increaseVolume()
+{
+    volume = std::min(1.0f, volume + 0.1f);
+    updateMusicVolume();
+}
+
+void AudioPlayer::decreaseVolume()
+{
+    volume = std::max(0.0f, volume - 0.1f);
+    updateMusicVolume();
+}
+
+void AudioPlayer::updateMusicVolume()
+{
+    int sdlVolume = static_cast<int>(MIX_MAX_VOLUME * volume);
+    Mix_VolumeMusic(sdlVolume);
 }

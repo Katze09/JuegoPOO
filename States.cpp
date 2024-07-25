@@ -42,7 +42,7 @@ States::States(SDL_Renderer* renderer)
 
     // Load game levels
     Level* levelLod;
-    while ((levelLod = loader.LoadLevel(level + 1, renderer, audioPlayer)) != nullptr)
+    while ((levelLod = loader.LoadLevel(level + 1, renderer, &audioPlayer)) != nullptr)
     {
         gameLevels[level] = levelLod;
         level++;
@@ -129,7 +129,7 @@ void States::bulletsPlayerEvents(float deltaTime)
                 float y = (player[p]->getY1() + 25) + (radius * sin(angle) / 2);
                 float targetX = player[p]->getX1() + 2 * radius * cos(angle);
                 float targetY = player[p]->getY1() + 2 * radius * sin(angle);
-                bulletsPlayer.push_back(new BulletPlayerSpecial(spriteBullet, x, y, targetX, targetY, player[p]->getBulletSpeed() / 1.5));
+                bulletsPlayer.push_back(new BulletPlayerSpecial(spriteBullet, x, y, targetX, targetY, player[p]->getBulletSpeed() / 1.5f));
                 audioPlayer->Play(0, 100);
             }
             player[p]->setSpecialAttackShot(false);
@@ -419,7 +419,7 @@ void States::deadEvent(SDL_Renderer* renderer)
             newPlay2->setNumItemShield(player[1]->getNumItemShield());
             player[1] = newPlay2;
         }
-        Level* lev = loader.LoadLevel((level + 1), renderer, audioPlayer);
+        Level* lev = loader.LoadLevel((level + 1), renderer, &audioPlayer);
         lev->setScore(totalScore);
         gameLevels[level] = lev;
         continueLevel = false;

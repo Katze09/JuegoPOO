@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cppFiles/class.h to edit this template
- */
-
 /* 
  * File:   AudioPlayer.h
  * Author: Katze
@@ -24,7 +19,10 @@ public:
     AudioPlayer();
     virtual ~AudioPlayer();
     void Play(int index, int volume);
-
+    void increaseVolume();
+    void decreaseVolume();
+    void updateMusicVolume();
+    float volume = 1.0f;
 private:
     Mix_Music* backgroundMusic;
     std::vector<Mix_Chunk*> audioData;

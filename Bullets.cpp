@@ -61,7 +61,7 @@ BulletPlayerSpecial::BulletPlayerSpecial(SDL_Texture* texture, float X1, float Y
     deltaX = dx * speed;
     deltaY = dy * speed;
     float angleInRadians = atan2(deltaY, deltaX);
-    angleRotation = (angleInRadians * (180.0 / M_PI));
+    angleRotation = (angleInRadians * (180.0f / float(M_PI)));
     // Asignar las nuevas coordenadas
 }
 
@@ -74,7 +74,7 @@ void BulletPlayerSpecial::update(float deltaTime)
     deltaX = dx * speed * deltaTime;
     deltaY = dy * speed * deltaTime;
     float angleInRadians = atan2(deltaY, deltaX);
-    angleRotation = (angleInRadians * (180.0 / M_PI) - -90);
+    angleRotation = (angleInRadians * (180.0f / float(M_PI)) - -90);
     setX(X1 + deltaX);
     setY(Y1 + deltaY);
 }
@@ -122,7 +122,7 @@ BulletEnemyDiagonal::BulletEnemyDiagonal(SDL_Texture* texture, float X1, float Y
     deltaX = dx * speed;
     deltaY = dy * speed;
     float angleInRadians = atan2(deltaY, deltaX);
-    angleRotation = (angleInRadians * (180.0 / M_PI));
+    angleRotation = (angleInRadians * (180.0f / float(M_PI)));
 }
 
 BulletEnemyDiagonal::~BulletEnemyDiagonal()
@@ -137,7 +137,7 @@ void BulletEnemyDiagonal::update(float deltaTime)
     if (!rotation)
     {
         float angleInRadians = atan2(deltaY, deltaX);
-        angleRotation = (angleInRadians * (180.0 / M_PI) - -270);
+        angleRotation = (angleInRadians * (180.0f / float(M_PI)) - -270);
     }
     else
     {

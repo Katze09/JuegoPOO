@@ -1,4 +1,4 @@
-#include "Menu.h"
+﻿#include "Menu.h"
 
 using namespace std;
 
@@ -17,9 +17,11 @@ Menu::Menu(SDL_Renderer* renderer)
     textsExtra = Texts("VerminVibes1989", 20);
     player1 = Button("SinglePlayer", 95, 300, fontSize);
     player2 = Button("MultiPlayer", 100, 400, fontSize);
+    increaseSound = Button("+", 600, 300, fontSize);
+    decreaseSound = Button("-", 100, 300, fontSize);
     back = Button("Back", 250, 500, fontSize);
     backIns = Button("Back", 100, 650, fontSize);
-    backOpti = Button("Back", 100, 650, fontSize);
+    backOpti = Button("Back", 250, 650, fontSize);
     next = Button("Next", 450, 650, fontSize);
     selectPlayer = false;
     instruc = false;
@@ -31,6 +33,8 @@ Menu::~Menu()
 {
 }
 
+bool recentlyBack = false;
+
 int Menu::click(int x, int y)
 {
     if (selectPlayer)
@@ -40,9 +44,12 @@ int Menu::click(int x, int y)
         if (player2.isPresed(x, y))
             return 2;
         if (back.isPresed(x, y))
+        {
+            recentlyBack = true;
             selectPlayer = false;
+        }
     }
-    if (!selectPlayer && !instruc && !opti)
+    if (!selectPlayer && !instruc && !opti && !recentlyBack)
     {
         if (play.isPresed(x, y))
             selectPlayer = true;
@@ -62,9 +69,14 @@ int Menu::click(int x, int y)
     }
     if (opti)
     {
+        if (increaseSound.isPresed(x, y))
+            (*audioPlayer)->increaseVolume();
+        if (decreaseSound.isPresed(x, y))
+            (*audioPlayer)->decreaseVolume();
         if (backOpti.isPresed(x, y))
             opti = false;
     }
+    recentlyBack = false;
     return 0;
 }
 
@@ -90,6 +102,8 @@ void Menu::hover(int x, int y)
     }
     if (opti)
     {
+        increaseSound.isHover(x, y);
+        decreaseSound.isHover(x, y);
         backOpti.isHover(x, y);
     }
 }
@@ -148,7 +162,16 @@ void Menu::draw(SDL_Renderer* renderer)
     } 
     if (opti)
     {
-
+        textsMid.drawText("Sound Volume", 140, 230, renderer);
+        int x = 150;
+        for (float i = 0.0; i < (*audioPlayer)->volume; i+=0.1f)
+        {
+            textsLittle.drawText("*", x, 310, renderer);
+            x += 45;
+        }
+        increaseSound.draw(renderer);
+        decreaseSound.draw(renderer);
+        backOpti.draw(renderer);
     }
 }
 
@@ -215,7 +238,7 @@ void Shop::startShopping(int score, Player* player[], int numPlayers)
 void Shop::endShopping()
 {
     for (int i = 0; i < 5; i++)
-        itemCost[i] += itemCost[i] * 0.1;
+        itemCost[i] += itemCost[i] * 0.1f;
     for (int i = 0; i < 3; i++)
     {
         itemsButton[i].setTextColor({ 255, 255, 255 });
@@ -344,7 +367,7 @@ void Leaderboard::loadLeaderboard(int numPlayers)
         leaderNames[sizeLeaderboard] = leader[i];
         leaderScores[sizeLeaderboard] = atoi(leader[i + 1].c_str());
         leaderDeaths[sizeLeaderboard] = atoi(leader[i + 2].c_str());
-        tempScore[sizeLeaderboard] = leaderScores[sizeLeaderboard] - (leaderScores[sizeLeaderboard] * (leaderDeaths[sizeLeaderboard] * 0.0001) * 5);
+        tempScore[sizeLeaderboard] = leaderScores[sizeLeaderboard] - (leaderScores[sizeLeaderboard] * (leaderDeaths[sizeLeaderboard] * 0.0001f) * 5);
         indexLeader[sizeLeaderboard] = sizeLeaderboard;
         sizeLeaderboard++;
     }

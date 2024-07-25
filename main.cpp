@@ -23,6 +23,7 @@ int main(int argc, char** argv)
 
     menu = new Menu(renderer);
     states = new States(renderer);
+    menu->setAudioPlayer(&states->audioPlayer);
 
     auto lastFrameTime = chrono::high_resolution_clock::now();
     bool run = true;

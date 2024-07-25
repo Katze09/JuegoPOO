@@ -114,7 +114,7 @@ void Obstacle::animationDead(float deltaTime)
         if (speedAnimations <= 0)
         {
             indexTexture++;
-            speedAnimations = 0.8;
+            speedAnimations = 0.8f;
         }
     }
 }

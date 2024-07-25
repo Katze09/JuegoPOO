@@ -85,16 +85,16 @@ void EnemyBase::update(float deltaTime)
         case 1:
             if (direction)
             {
-                setY(Y1 + (4.5 * cos(angle)));
-                setX(X1 + (4.5 * sin(angle)));
+                setY(Y1 + (4.5f * cos(angle)));
+                setX(X1 + (4.5f * sin(angle)));
             } else
             {
-                setY(Y1 + (4.5 * cos(angle)));
-                setX(X1 - (4.5 * sin(angle)));
+                setY(Y1 + (4.5f * cos(angle)));
+                setX(X1 - (4.5f * sin(angle)));
             }
-            angle -= 0.025;
+            angle -= 0.025f;
             if (angle >= 2 * M_PI)
-                angle = 0.0;
+                angle = 0.0f;
             break;
     }
     animationDead(deltaTime);
@@ -320,7 +320,7 @@ void EnemyKamikaze::update(float deltaTime, float targetX, float targetY)
     float deltaX = dx * speed * deltaTime;
     float deltaY = dy * speed * deltaTime;
     float angleInRadians = atan2(deltaY, deltaX);
-    angleRotation = (angleInRadians * (180.0 / M_PI) - 90);
+    angleRotation = (angleInRadians * (180.0f / float(M_PI)) - 90);
     // Asignar las nuevas coordenadas
     setX(X1 + deltaX);
     setY(Y1 + deltaY);
@@ -378,7 +378,7 @@ void EnemyAngry::update(float deltaTime, float targetX, float targetY)
         float deltaX = dx * speed * deltaTime;
         float deltaY = dy * speed * deltaTime;
         float angleInRadians = atan2(deltaY, deltaX);
-        angleRotation = (angleInRadians * (180.0 / M_PI) - 90);
+        angleRotation = (angleInRadians * (180.0f / float(M_PI)) - 90);
         // Asignar las nuevas coordenadas
         setX(X1 + deltaX);
         setY(Y1 + deltaY);
@@ -436,9 +436,9 @@ void EnemyMidGuide::setAngleRotation(float targetX, float targetY)
 {
     float angleInRadians = atan2(targetY, targetX);
     if(X1 > 350)
-        angleRotation = (angleInRadians * (180.0 / M_PI) - 50);
+        angleRotation = (angleInRadians * (180.0f / float(M_PI)) - 50);
     else
-        angleRotation = (angleInRadians * (180.0 / M_PI) - 80);
+        angleRotation = (angleInRadians * (180.0f / float(M_PI)) - 80);
 }
 
 
@@ -582,17 +582,17 @@ bool EnemyBoss::shot(float deltaTime)
     coolDownShot -= 3 * deltaTime;
     if (coolDownShot <= 0)
     {
-        coolDownShot = 1.5;
+        coolDownShot = 1.5f;
         if (secondFase)
         {
-            coolDownShot = 0.2;
+            coolDownShot = 0.2f;
         }
         if (thirdFase && contSecondFaseShot >= 0)
         {
             contSecondFaseShot -= 15 * deltaTime;
-            coolDownShot = 0.4;
+            coolDownShot = 0.4f;
         } else if (contSecondFaseShot <= 0)
-            contSecondFaseShot = 1.5;
+            contSecondFaseShot = 1.5f;
         return true;
     }
     return false;
@@ -660,8 +660,8 @@ void EnemySecondBoss::update(float deltaTime)
     {
         if (reachPosition)
         {
-            reachX = (direction) ? 700 : 0;
-            reachY = loadEnemys.randomNumber(0, 800);
+            reachX = (direction) ? 700.0f : 0.0f;
+            reachY = float(loadEnemys.randomNumber(0, 800));
             reachPosition = false;
         } 
 
@@ -682,8 +682,8 @@ void EnemySecondBoss::update(float deltaTime)
             dy /= distance;
         }
 
-        float deltaX = dx * (speed * 1.4) * deltaTime;
-        float deltaY = dy * (speed * 1.4) * deltaTime;
+        float deltaX = dx * (speed * 1.4f) * deltaTime;
+        float deltaY = dy * (speed * 1.4f) * deltaTime;
         float angleInRadians = atan2(deltaY, deltaX);
 
         setX(X1 + deltaX);

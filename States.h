@@ -27,6 +27,7 @@ public:
     void mouseClick(int x, int y);
     void mouseMove(int x, int y);
     Leaderboard leaderboard;
+    AudioPlayer* audioPlayer;
 private:
     Level* gameLevels[10];
     SDL_Texture* spriteBullet;
@@ -50,7 +51,6 @@ private:
     int level;
     int maxLevel;
     bool continueLevel;
-    AudioPlayer* audioPlayer;
     Player* player[2];
     int numPlayers = 1;
     Background background;

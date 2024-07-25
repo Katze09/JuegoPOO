@@ -11,7 +11,7 @@ Level::Level()
 {
 }
 
-Level::Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer)
+Level::Level(SDL_Renderer* renderer, AudioPlayer** audioPlayer)
 {
     // Arreglos de nombres de archivos y texturas para las balas
     string nameFile[5];
@@ -358,8 +358,9 @@ void Level::bulletsEnemysEvents(vector<BulletPlayer*>& bulletsPlayer, Player* pl
                         angry->playerIndex--;
                     else if (angry->playerIndex == 0)
                         angry->playerIndex++;
-            }
-            angry->update(deltaTime, player[angry->playerIndex]->getX1(), player[angry->playerIndex]->getY1());
+                angry->update(deltaTime, player[angry->playerIndex]->getX1(), player[angry->playerIndex]->getY1());
+            } else 
+                enemies[numParts][i]->update(deltaTime);
         }
         else if (EnemyKamikaze* kamikaze = dynamic_cast<EnemyKamikaze*> (enemies[numParts][i]))
         {
@@ -518,7 +519,7 @@ void Level::EnemyLaserEvent(EnemyLaser* laser, int i)
     {
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[1], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
         laser->setFirstShot();
-        audioPlayer->Play(3, 30);
+        (*audioPlayer)->Play(3, 30);
     }
     else
         bulletsEnemy.push_back(new BulletEnemy(textureBullet[2], enemies[numParts][i]->getX1(), enemies[numParts][i]->getY1() + 22, false, enemies[numParts][i]->getBulletSpeed()));
@@ -540,8 +541,8 @@ void Level::EnemyStarEvent(EnemyStar* star, int i)
         float y = (star->getY1() + 25) + (radius * sin(angle)/2);
         float targetX = star->getX1() + 2 * radius * cos(angle);
         float targetY = star->getY1() + 2 * radius * sin(angle);
-        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], x, y, targetX, targetY, star->getBulletSpeed() / 1.5));
-        audioPlayer->Play(2, 20);
+        bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], x, y, targetX, targetY, star->getBulletSpeed() / 1.5f));
+        (*audioPlayer)->Play(2, 20);
     }
 }
 
@@ -560,18 +561,18 @@ void Level::EnemyBossEvent(EnemyBoss* boss, int i, Player* player)
             bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 150, enemies[numParts][i]->getY1() + 200, player->getX1() + 20, player->getY2(), enemies[numParts][i]->getBulletSpeed() * 1.5));
         }
 
-        audioPlayer->Play(2, 20);
+        (*audioPlayer)->Play(2, 20);
 
         if (boss->isThirdPart())
         {
             bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 70, enemies[numParts][i]->getY1() + 200, player->getX1() - 40, player->getY2(), enemies[numParts][i]->getBulletSpeed()));
             bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 190, enemies[numParts][i]->getY1() + 200, player->getX1() + 40, player->getY2(), enemies[numParts][i]->getBulletSpeed()));
-            audioPlayer->Play(2, 20);
+            (*audioPlayer)->Play(2, 20);
         }
     }
     else
     {
-        audioPlayer->Play(2, 20);
+        (*audioPlayer)->Play(2, 20);
         if (player->getY1() < 320)
         {
             bulletsEnemy.push_back(new BulletEnemyDiagonal(textureBullet[0], enemies[numParts][i]->getX1() + 110, enemies[numParts][i]->getY1() + 200, player->getX1() - 20, player->getY2(), enemies[numParts][i]->getBulletSpeed()));
@@ -609,10 +610,10 @@ void Level::EnemySecondBossEvent(EnemySecondBoss* secondboss, int i)
             float y = yPosition + (radius * sin(angle) / 2);
             float targetX = xPosition + 2 * radius * cos(angle);
             float targetY = yPosition + 2 * radius * sin(angle);
-            BulletEnemyDiagonal* bullet = new BulletEnemyDiagonal(textureBullet[4], x, y, targetX, targetY, secondboss->getBulletSpeed() / 1.5);
+            BulletEnemyDiagonal* bullet = new BulletEnemyDiagonal(textureBullet[4], x, y, targetX, targetY, secondboss->getBulletSpeed() / 1.5f);
             bullet->activeRotation();
             bulletsEnemy.push_back(bullet);
-            audioPlayer->Play(2, 20);
+            (*audioPlayer)->Play(2, 20);
         }
         if (shotSec)
             circ++;
@@ -627,8 +628,8 @@ void Level::EnemySecondBossEvent(EnemySecondBoss* secondboss, int i)
 
 void Level::EnemyMidGuideEvent(int i, Player* player)
 {
-    audioPlayer->Play(2, 20); audioPlayer->Play(2, 20);
-    audioPlayer->Play(2, 20); audioPlayer->Play(2, 20);
+    (*audioPlayer)->Play(2, 20); (*audioPlayer)->Play(2, 20);
+    (*audioPlayer)->Play(2, 20); (*audioPlayer)->Play(2, 20);
     BulletEnemyDiagonal* diagonal = new BulletEnemyDiagonal(textureBullet[3], enemies[numParts][i]->getX1() + 30, enemies[numParts][i]->getY1() + 80, player->getX1(), player->getY1(), enemies[numParts][i]->getBulletSpeed());
     diagonal->activeRotation();
     bulletsEnemy.push_back(diagonal);
@@ -637,7 +638,7 @@ void Level::EnemyMidGuideEvent(int i, Player* player)
 void Level::EnemyMidEvent(int i) 
 {
     // Manejar balas de enemigos medianos
-    audioPlayer->Play(2, 20);
+    (*audioPlayer)->Play(2, 20);
     int posBulletX = 2;
     int posBulletY = 70;
 
@@ -663,7 +664,7 @@ void Level::EnemyMidEvent(int i)
 
 void Level::EnemyBaseEvent(int i)
 {
-    audioPlayer->Play(2, 20);
+    (*audioPlayer)->Play(2, 20);
     bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 3, enemies[numParts][i]->getY1() + 10, false, enemies[numParts][i]->getBulletSpeed()));
     bulletsEnemy.push_back(new BulletEnemy(textureBullet[0], enemies[numParts][i]->getX1() + 37, enemies[numParts][i]->getY1() + 10, false, enemies[numParts][i]->getBulletSpeed()));
 }

@@ -1,20 +1,5 @@
-﻿  Menu.cpp
-  States.cpp
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Menu.cpp(168,40): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Menu.cpp(209,64): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Menu.cpp(218,36): warning C4244: '+=': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Menu.cpp(267,126): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Menu.cpp(267,98): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Menu.cpp(347,68): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Menu.cpp(423,38): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Menu.cpp(423,34): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Menu.cpp(425,38): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Menu.cpp(425,34): warning C4244: 'argumento': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\States.cpp(41,38): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\States.cpp(116,57): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\States.cpp(127,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\States.cpp(132,131): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\States.cpp(144,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-  main.cpp
+﻿  Bullets.cpp
+  Enemies.cpp
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Enemies.cpp(132,44): warning C4267: '=': conversión de 'size_t' a 'int'; posible pérdida de datos
   Generando código...
   C++POOGameVisual.vcxproj -> C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\x64\Debug\C++POOGameVisual.exe

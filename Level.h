@@ -12,7 +12,7 @@ class Level
 {
 public:
     Level();
-    Level(SDL_Renderer* renderer, AudioPlayer* audioPlayer);
+    Level(SDL_Renderer* renderer, AudioPlayer** audioPlayer);
     virtual ~Level();
     void update(std::vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, float deltaTime);
     void draw(SDL_Renderer* renderer);
@@ -69,7 +69,7 @@ private:
     std::vector<int> asteroidsToRemove;
     std::vector<int> enemiesToRemove;
     SDL_Texture* textureBullet[10];
-    AudioPlayer* audioPlayer;
+    AudioPlayer** audioPlayer;
     int score;
     int numEnemies;
     int probSpawn[10];
