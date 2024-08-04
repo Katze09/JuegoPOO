@@ -1,5 +1,25 @@
-﻿  Bullets.cpp
-  Enemies.cpp
-C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Enemies.cpp(132,44): warning C4267: '=': conversión de 'size_t' a 'int'; posible pérdida de datos
-  Generando código...
+﻿  Loader.cpp
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Level.h(44,74): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Level.h(70,76): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(202,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(210,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(213,34): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(220,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(228,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(229,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(233,37): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(241,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(244,34): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(250,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(251,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(252,34): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(258,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(259,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(260,34): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(266,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(267,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(268,34): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(274,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(275,29): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\Loader.cpp(276,34): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
   C++POOGameVisual.vcxproj -> C:\Users\Katze\OneDrive\Documentos\Programas\JuegoPOO\x64\Debug\C++POOGameVisual.exe

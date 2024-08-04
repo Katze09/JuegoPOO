@@ -1,12 +1,9 @@
-#include "Loader.h"
+#pragma once
+
 #include "Obstacle.h"
 #include "Enemies.h"
 #include <sdl.h>
 #include "AudioPlayer.h"
-
-
-#ifndef LEVEL_H
-#define LEVEL_H
 
 class Level 
 {
@@ -24,20 +21,106 @@ public:
     std::vector<PowerUp*> powerUps;
     std::vector<int> bulletsToRemove;
     std::vector<int> powerUpsToRemove;
-    void setMaxNumParts(int numParts);
-    void setEnemyBase(int cant, float y, int movetype, bool direction, int bulletSpeed);
-    void setEnemyLaser(int cant, float y, int movetype, bool direction, float moveTo, int bulletSpeed);
-    void setEnemyStar(float y, int movetype, bool direction, float moveTo, int bulletSpeed);
-    void setEnemyKamikaze(int cant, float x, float y);
-    void setEnemyKamikaze(int cant, float x, float y, float speed);
-    void setEnemyAngry(int cant, float y, bool direction, int bulletSpeed);
-    void setEnemyMid(float x, float y, float moveTo, int bulletSpeed);
-    void setEnemyMidGuide(float x, float y, float moveTo, int bulletSpeed);
-    void setEnemyBoss(float x, float y, float moveTo, int bulletSpeed, int boss);
-    void setObstacles(int prob);
-    void setPowerUps(int prob);
-    int getScore();
-    void setScore(int score);
+    void setMaxNumParts(int numParts) { this->maxnumParts = numParts; }
+    void setEnemyBase(int cant, float y, int movetype, bool direction, int bulletSpeed)
+    {
+        int x;
+        int aumento;
+
+        if (direction)
+        {
+            x = 700;
+            aumento = 60;
+        }
+        else
+        {
+            x = -60;
+            aumento = -60;
+        }
+
+        // Crear enemigos de la base y agregarlos al vector
+        for (int i = 0; i < cant; i++)
+        {
+            enemies[numParts].push_back(new EnemyBase(texturesEnemyBase, x, y, direction, movetype, bulletSpeed));
+            x += aumento;
+            if (movetype == 1)
+                y += 20;
+        }
+    }
+    void setEnemyLaser(int cant, float y, int movetype, bool direction, float moveTo, int bulletSpeed)
+    {
+        int x;
+        int aumento;
+
+        // Determinar posición inicial y aumento según la dirección
+        if (direction)
+        {
+            x = 700;
+            aumento = 60;
+        }
+        else
+        {
+            x = -60;
+            aumento = -60;
+        }
+
+        // Crear enemigos láser y agregarlos al vector
+        for (int i = 0; i < cant; i++)
+        {
+            enemies[numParts].push_back(new EnemyLaser(texturesEnemyLaser, x, y, direction, movetype, moveTo, bulletSpeed));
+            x += aumento;
+            moveTo += aumento;
+        }
+    }
+    void setEnemyStar(float y, int movetype, bool direction, float moveTo, int bulletSpeed)
+    {
+        float x;
+        if (direction)
+            x = 720;
+        else
+            x = -80;
+        enemies[numParts].push_back(new EnemyStar(texturesEnemyStar, x, y, direction, movetype, moveTo, bulletSpeed));
+    }
+    void setEnemyKamikaze(int cant, float x, float y)
+    {
+        for (int i = 0; i < cant; i++)
+        {
+            enemies[numParts].push_back(new EnemyKamikaze(texturesEnemyKamikaze, x, y));
+            x -= 60;
+        }
+    }
+    void setEnemyKamikaze(int cant, float x, float y, float speed)
+    {
+        for (int i = 0; i < cant; i++)
+        {
+            enemies[numParts].push_back(new EnemyKamikaze(texturesEnemyKamikaze, x, y, speed));
+            x -= 60;
+        }
+    }
+    void setEnemyAngry(int cant, float y, bool direction, int bulletSpeed)
+    {
+        float x;
+        if (direction)
+            x = 720;
+        else
+            x = -80;
+        for (int i = 0; i < cant; i++)
+            enemies[numParts].push_back(new EnemyAngry(texturesEnemyBase, x, y, direction, bulletSpeed));
+    }
+    void setEnemyMid(float x, float y, float moveTo, int bulletSpeed){ enemies[numParts].push_back(new EnemyMid(texturesEnemyMid, x, y, moveTo, bulletSpeed)); }
+    void setEnemyMidGuide(float x, float y, float moveTo, int bulletSpeed){ enemies[numParts].push_back(new EnemyMidGuide(texturesEnemyMidGuide, x, y, moveTo, bulletSpeed)); }
+    void setEnemyBoss(float x, float y, float moveTo, int bulletSpeed, int boss)
+    {
+        switch (boss)
+        {
+        case 0:enemies[numParts].push_back(new EnemyBoss(texturesEnemyBoss, x, y, moveTo, bulletSpeed)); break;
+        case 1:enemies[numParts].push_back(new EnemySecondBoss(texturesEnemySecondBoss, x, y, moveTo, bulletSpeed)); break;
+        }
+    }
+    void setObstacles(int prob){ probSpawn[numParts] = prob; }
+    void setPowerUps(int prob){ probSpawnPowerUp[numParts] = prob; }
+    int getScore(){ return score; }
+    void setScore(int score){ this->score = score; }
     int Totalscore = 0;
 private:
     void bulletsEnemysEvents(std::vector<BulletPlayer*>& bulletsPlayer, Player* player[], int numPlayers, float deltaTime);
@@ -75,6 +158,3 @@ private:
     int probSpawn[10];
     int probSpawnPowerUp[10];
 };
-
-#endif /* LEVEL_H */
-

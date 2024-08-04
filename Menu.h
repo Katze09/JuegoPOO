@@ -1,5 +1,4 @@
-#ifndef MENU_H
-#define MENU_H
+#pragma once
 
 #include <iostream>
 #include <string.h>
@@ -45,6 +44,14 @@ public:
     void update(float deltaTime);
     void draw(SDL_Renderer* renderer);
     void setAudioPlayer(AudioPlayer** audioPlayer) { this->audioPlayer = audioPlayer; }
+    int WIDTH = 700;
+    int HEIGHT = 800;
+    bool changeResolution = false;
+    bool changeTempResolution = false;
+    int startResolution = 2;
+    const int widthRes[10] = {300,500,700,900,1100,1300,1500,1700,1900,2100};
+    const int heightRes[10] = {400,600,800,1000,1200,1400,1600,1800,2000,2200};
+    void setStartResolution(int startResolution) { this->startResolution = startResolution; }
 private:
     bool selectPlayer;
     bool instruc;
@@ -54,6 +61,8 @@ private:
     Button instructions;
     Button player1;
     Button player2;
+    Button online;
+    Button local;
     Button back;
     Button backIns;
     Button backOpti;
@@ -61,12 +70,15 @@ private:
     Button next;
     Button increaseSound;
     Button decreaseSound;
+    Button increaseResolution;
+    Button decreaseResolution;
     Background background;
     Texts textsTile;
     Texts textsMid;
     Texts textsLittle;
     Texts textsExtra;
     AudioPlayer** audioPlayer;
+    const std::string resolutionOptions[10] = {"300x400","500x600","700x800","900x1000","1100x1200","1300x1400","1500x1600","1700x1800","1900x2000","2100x2200"};
 };
 
 class Item
@@ -152,6 +164,3 @@ private:
     Background background;
     bool end = false;
 };
-
-#endif /* MENU_H */
-

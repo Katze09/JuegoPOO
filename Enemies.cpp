@@ -5,8 +5,6 @@
 
 using namespace std;
 
-Loader loadEnemys;
-
 EnemyBase::EnemyBase() : Object()
 {
 }
@@ -341,9 +339,9 @@ EnemyAngry::EnemyAngry(vector<SDL_Texture*> textures, float X1, float Y1, bool d
 {
     speed = 75;
     life = 5;
-    targetY = loadEnemys.randomNumber(50, 700);
+    targetY = Loader::randomNumber(50, 700);
     while (Y1 >= targetY && Y1 <= targetY + 100)
-        targetY = loadEnemys.randomNumber(50, 700);
+        targetY = Loader::randomNumber(50, 700);
     slope = static_cast<float> (targetY - Y1) / (X1 - 100);
     intercept = Y1 - slope * X1;
 }
@@ -661,7 +659,7 @@ void EnemySecondBoss::update(float deltaTime)
         if (reachPosition)
         {
             reachX = (direction) ? 700.0f : 0.0f;
-            reachY = float(loadEnemys.randomNumber(0, 800));
+            reachY = float(Loader::randomNumber(0, 800));
             reachPosition = false;
         } 
 

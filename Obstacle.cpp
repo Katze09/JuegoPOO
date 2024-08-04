@@ -2,17 +2,15 @@
 
 using namespace std;
 
-Loader loaderAste;
-
 Obstacle::Obstacle()
 {
 }
 
 Obstacle::Obstacle(vector<SDL_Texture*> textures, float X1, float Y1) : Object(textures, X1, Y1)
 {
-    targetY = loaderAste.randomNumber(50, 700);
+    targetY = Loader::randomNumber(50, 700);
     while (Y1 >= targetY && Y1 <= targetY + 100)
-        targetY = loaderAste.randomNumber(50, 700);
+        targetY = Loader::randomNumber(50, 700);
     slope = static_cast<float> (targetY - Y1) / (X1 - 100);
     intercept = Y1 - slope * X1;
     life = angleRotation = 0;
@@ -20,13 +18,13 @@ Obstacle::Obstacle(vector<SDL_Texture*> textures, float X1, float Y1) : Object(t
 
 Obstacle::Obstacle(vector<SDL_Texture*> textures) : Object(textures)
 {
-    direction = loaderAste.randomNumber(0, 2);
+    direction = Loader::randomNumber(0, 2);
     X1 = (direction) ? 800 : -100;
-    Y1 = loaderAste.randomNumber(100, 700);
+    Y1 = Loader::randomNumber(100, 700);
     if (Y1 < 450)
-        targetY = loaderAste.randomNumber(Y1, 700);
+        targetY = Loader::randomNumber(Y1, 700);
     else
-        targetY = loaderAste.randomNumber(0, Y1);
+        targetY = Loader::randomNumber(0, Y1);
     X2 = X1 + WIDTH;
     Y2 = Y1 + HEIGHT;
 

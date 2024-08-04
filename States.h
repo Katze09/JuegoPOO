@@ -1,5 +1,4 @@
-#ifndef STATES_H
-#define STATES_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -26,9 +25,12 @@ public:
     void inputUp(SDL_Keycode key);
     void mouseClick(int x, int y);
     void mouseMove(int x, int y);
+    void setAudioPlayer(AudioPlayer* audioPlayer) { this->audioPlayer = audioPlayer; }
     Leaderboard leaderboard;
     AudioPlayer* audioPlayer;
+    Uint32 start;
 private:
+    Uint32 elapsed = 0;
     Level* gameLevels[10];
     SDL_Texture* spriteBullet;
     Texts texts;
@@ -65,6 +67,3 @@ private:
     float startCoolDown;
     std::vector<BulletPlayer*> bulletsPlayer;
 };
-
-#endif /* STATES_H */
-

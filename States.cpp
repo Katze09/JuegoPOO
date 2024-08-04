@@ -3,19 +3,15 @@
 #include "States.h"
 #include "Loader.h"
 
-using namespace std;
-
-// Instance of the loader
-Loader loader;
-
 States::States(SDL_Renderer* renderer)
 {
+
     audioPlayer = new AudioPlayer();
 
     texts = Texts("VerminVibes1989", 40);
     textsTitle = Texts("VerminVibes1989", 70);
 
-    spriteBullet = loader.LoadTexture("Bullet", renderer);
+    spriteBullet = Loader::loadTexture("Bullet", renderer);
 
     shop = Shop(renderer);
     leaderboard = Leaderboard(renderer);
@@ -24,31 +20,30 @@ States::States(SDL_Renderer* renderer)
     nameFile[0] = "Player";
     nameFile[1] = "Shield";
     nameFile[2] = "Died";
-    textures = loader.loadTextures(nameFile, renderer, 3);
+    textures = Loader::loadTextures(nameFile, renderer, 3);
 
-    specialAttackTexture = loader.LoadTexture("SpecialAttack", renderer);
-    shieldItemTexture = loader.LoadTexture("Shield1", renderer);
+    specialAttackTexture = Loader::loadTexture("SpecialAttack", renderer);
+    shieldItemTexture = Loader::loadTexture("Shield1", renderer);
 
     player[0] = new Player(textures, 310, 460);
     textures.clear(); // Clear textures after use
 
-    background = Background(loader.LoadTexture("Background", renderer));
+    background = Background(Loader::loadTexture("Background", renderer));
 
     cooldownShot[0] = cooldownShot[1] = 0;
     passingLevel = PlayerShot[0] = PlayerShot[1] = false;
     level = 0;
     startCoolDown = 80;
     deaths = totalScore = delayLevel = delayPart = 0;
-
     // Load game levels
     Level* levelLod;
-    while ((levelLod = loader.LoadLevel(level + 1, renderer, &audioPlayer)) != nullptr)
+    while ((levelLod = Loader::loadLevel(level + 1, renderer, &audioPlayer)) != nullptr)
     {
         gameLevels[level] = levelLod;
         level++;
     }
     maxLevel = level - 1;
-    level = 7;
+    level = 0; // Modificar Nivel 
 
     shopTime = false;
     pastPart = false;
@@ -57,7 +52,7 @@ States::States(SDL_Renderer* renderer)
     //leaderboardTime = true;
     //leaderboard.loadLeaderboard(numPlayers);
     numJoySticks = SDL_NumJoysticks();
-    cout << "Num Joys: " << numJoySticks << endl;
+    std::cout << "Num Joys: " << numJoySticks << endl;
     //numJoySticks = 0;
     for (int i = 0; i < numJoySticks; i++)
         joys[i] = new JoyStick(SDL_JoystickOpen(i), i);
@@ -85,7 +80,7 @@ void States::setPlayer2(SDL_Renderer* renderer)
     nameFile[1] = "Shield";
     nameFile[2] = "Died";
     numPlayers++;
-    player[1] = new Player2(loader.loadTextures(nameFile, renderer, 3), 400, 460);
+    player[1] = new Player2(Loader::loadTextures(nameFile, renderer, 3), 400, 460);
 }
 
 // Handle events related to player bullets
@@ -103,15 +98,15 @@ void States::bulletsPlayerEvents(float deltaTime)
                 bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 30, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
                 bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 40, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
                 bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 60, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
-                audioPlayer->Play(0, 100);
-                audioPlayer->Play(0, 100);
+                audioPlayer->Play(LASER_AUDIO, 100);
+                audioPlayer->Play(LASER_AUDIO, 100);
             }
             else
             {
                 // Create single bullets
                 bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 12, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
                 bulletsPlayer.push_back(new BulletPlayer(spriteBullet, player[p]->getX1() + 47, player[p]->getY1() + 10, true, player[p]->getBulletSpeed()));
-                audioPlayer->Play(0, 100);
+                audioPlayer->Play(LASER_AUDIO, 100);
             }
             cooldownShot[p] = player[p]->getCoolDownShot(); // Set cooldown
         }
@@ -130,7 +125,7 @@ void States::bulletsPlayerEvents(float deltaTime)
                 float targetX = player[p]->getX1() + 2 * radius * cos(angle);
                 float targetY = player[p]->getY1() + 2 * radius * sin(angle);
                 bulletsPlayer.push_back(new BulletPlayerSpecial(spriteBullet, x, y, targetX, targetY, player[p]->getBulletSpeed() / 1.5f));
-                audioPlayer->Play(0, 100);
+                audioPlayer->Play(LASER_AUDIO, 100);
             }
             player[p]->setSpecialAttackShot(false);
         }
@@ -207,6 +202,7 @@ void States::draw(SDL_Renderer* renderer)
         texts.drawText("Score " + to_string(gameLevels[level]->getScore()), 10, 10, renderer);
         texts.drawText("Level " + to_string(level + 1), 535, 10, renderer);
         texts.drawText("Deaths " + to_string(deaths), 265, 10, renderer);
+        texts.drawText("Time: " + to_string(elapsed), 275, 760, renderer);
     }
     else if (shopTime)
         shop.draw(renderer);
@@ -225,7 +221,7 @@ void States::update(float deltaTime)
         if (!player[p]->endDeadAnimation())
         {
             player[p]->update(deltaTime);
-            player[0]->setInmortal(true);
+            //player[0]->setInmortal(true);
             // Verificar colisiones del jugador con balas enemigas y obstáculos
             if (!player[p]->isDead() && !player[p]->isInmortal())
             {
@@ -233,7 +229,7 @@ void States::update(float deltaTime)
                 if (ind > -1)
                 {
                     gameLevels[level]->bulletsToRemove.push_back(ind);
-                    audioPlayer->Play(1, 250);
+                    audioPlayer->Play(LASER_EXPLOSION, 250);
                     deaths++;
                     if (player[p]->haveItemDoublePoints() || player[p]->haveItemDoubleShot() || player[p]->haveItemPowerShopItem())
                     {
@@ -246,7 +242,7 @@ void States::update(float deltaTime)
                 if (ind > -1)
                 {
                     gameLevels[level]->asteroids[ind]->reduceLife();
-                    audioPlayer->Play(1, 250);
+                    audioPlayer->Play(LASER_EXPLOSION, 250);
                     deaths++;
                     if (player[p]->haveItemDoublePoints() || player[p]->haveItemDoubleShot() || player[p]->haveItemPowerShopItem())
                     {
@@ -259,7 +255,7 @@ void States::update(float deltaTime)
                 if (ind > -1)
                 {
                     gameLevels[level]->enemies[gameLevels[level]->numParts][ind]->reduceLife();
-                    audioPlayer->Play(1, 250);
+                    audioPlayer->Play(LASER_EXPLOSION, 250);
                     deaths++;
                     if (player[p]->haveItemDoublePoints() || player[p]->haveItemDoubleShot() || player[p]->haveItemPowerShopItem())
                     {
@@ -286,7 +282,7 @@ void States::update(float deltaTime)
             {
                 player[0]->kill();
                 player[1]->kill();
-                audioPlayer->Play(1, 250); audioPlayer->Play(1, 128);
+                audioPlayer->Play(LASER_EXPLOSION, 250); audioPlayer->Play(1, 128);
             }
     }
     if (startCoolDown <= 0)
@@ -311,6 +307,7 @@ void States::update(float deltaTime)
     if (startCoolDown > 0)
         startCoolDown -= deltaTime * 25;
     updateInputJoyStick();
+    elapsed = Loader::getElapsedTime(start);
 }
 
 void States::checkPartFinish()
@@ -419,7 +416,7 @@ void States::deadEvent(SDL_Renderer* renderer)
             newPlay2->setNumItemShield(player[1]->getNumItemShield());
             player[1] = newPlay2;
         }
-        Level* lev = loader.LoadLevel((level + 1), renderer, &audioPlayer);
+        Level* lev = Loader::loadLevel((level + 1), renderer, &audioPlayer);
         lev->setScore(totalScore);
         gameLevels[level] = lev;
         continueLevel = false;

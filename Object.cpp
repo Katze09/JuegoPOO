@@ -156,3 +156,22 @@ void Object::draw(SDL_Renderer* renderer)
     SDL_Rect destRect = {static_cast<int> (X1), static_cast<int> (Y1), WIDTH, HEIGHT};
     SDL_RenderCopy(renderer, textures[indexTexture], NULL, &destRect);
 }
+
+std::string Object::serialize() 
+{
+    std::ostringstream oss;
+    oss << X1 << " " << X2 << " " << Y1 << " " << Y2 << " "
+        << X1HitBox << " " << X2HitBox << " " << Y1HitBox << " " << Y2HitBox << " "
+        << WIDTH << " " << HEIGHT << " " << speed << " " << speedAnimations << " "
+        << indexTexture << " " << dead << " " << deadAnimationEnd;
+    return oss.str();
+}
+
+void Object::deserialize(std::string& data) 
+{
+    std::istringstream iss(data);
+    iss >> X1 >> X2 >> Y1 >> Y2
+        >> X1HitBox >> X2HitBox >> Y1HitBox >> Y2HitBox
+        >> WIDTH >> HEIGHT >> speed >> speedAnimations
+        >> indexTexture >> dead >> deadAnimationEnd;
+}

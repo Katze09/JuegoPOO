@@ -27,6 +27,7 @@ void Texts::drawText(string text, int X, int Y, SDL_Renderer* renderer)
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, textCStr,{255, 255, 255}); // Color: blanco
     if (!textSurface)
         cout << "Error surface" << endl;
+
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_Rect destRect = {X, Y, textSurface->w, textSurface->h}; 
 

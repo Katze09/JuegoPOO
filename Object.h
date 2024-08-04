@@ -1,11 +1,12 @@
-#ifndef OBJECT_H
-#define OBJECT_H
+#pragma once
 
 #include <iostream>
 #include <tchar.h>
 #include <cstdlib>
 #include <vector>
 #include <sdl.h>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -47,6 +48,9 @@ public:
     virtual void draw(SDL_Renderer* renderer);
     virtual void update(float deltaTime) = 0;
 
+    virtual std::string serialize();
+    virtual void deserialize(std::string& data);
+
 protected:
     std::vector<SDL_Texture*> textures;
     float X1;
@@ -60,12 +64,9 @@ protected:
     float Y2HitBox; 
     int WIDTH;
     int HEIGHT;
-    //float deltaTime;
     float speed;
     float speedAnimations;
     int indexTexture;
     bool dead;
     bool deadAnimationEnd;
 };
-
-#endif /* OBJECT_H */

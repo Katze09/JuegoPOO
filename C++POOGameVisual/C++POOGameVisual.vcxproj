@@ -126,16 +126,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDLVS\SDL\include;C:\SDLVS\SDL_Image\include;C:\SDLVS\SDL_Mixer\include;C:\SDLVS\SDL_Ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SDLVS\SDL\include;C:\SDLVS\SDL_Image\include;C:\SDLVS\SDL_Mixer\include;C:\SDLVS\SDL_Ttf\include;C:\SDLVS\SDL2_net\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>
       </AdditionalOptions>
-      <AdditionalLibraryDirectories>C:\SDLVS\SDL\lib\x64;C:\SDLVS\SDL_Image\lib\x64;C:\SDLVS\SDL_Mixer\lib\x64;C:\SDLVS\SDL_Ttf\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\SDLVS\SDL\lib\x64;C:\SDLVS\SDL_Image\lib\x64;C:\SDLVS\SDL_Mixer\lib\x64;C:\SDLVS\SDL_Ttf\lib\x64;C:\SDLVS\SDL2_net\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ShowProgress>LinkVerboseCLR</ShowProgress>
     </Link>
     <ProjectReference>
@@ -179,6 +179,7 @@
     <ClInclude Include="..\Level.h" />
     <ClInclude Include="..\Loader.h" />
     <ClInclude Include="..\Menu.h" />
+    <ClInclude Include="..\NetworkManager.h" />
     <ClInclude Include="..\Object.h" />
     <ClInclude Include="..\Obstacle.h" />
     <ClInclude Include="..\Player.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="..\Loader.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\Menu.cpp" />
+    <ClCompile Include="..\NetworkManager.cpp" />
     <ClCompile Include="..\Object.cpp" />
     <ClCompile Include="..\Obstacle.cpp" />
     <ClCompile Include="..\Player.cpp" />

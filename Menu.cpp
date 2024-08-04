@@ -1,12 +1,8 @@
 ﻿#include "Menu.h"
 
-using namespace std;
-
-Loader lod;
-
 Menu::Menu(SDL_Renderer* renderer)
 {
-    background = Background(lod.LoadTexture("Background", renderer));
+    background = Background(Loader::loadTexture("Background", renderer));
     int fontSize = 80;
     play = Button("Play", 250, 300, fontSize);
     instructions = Button("Instructions", 100, 400, fontSize);
@@ -17,8 +13,12 @@ Menu::Menu(SDL_Renderer* renderer)
     textsExtra = Texts("VerminVibes1989", 20);
     player1 = Button("SinglePlayer", 95, 300, fontSize);
     player2 = Button("MultiPlayer", 100, 400, fontSize);
+    online = Button("Online", 120, 300, fontSize);
+    local = Button("Local", 100, 400, fontSize);
     increaseSound = Button("+", 600, 300, fontSize);
     decreaseSound = Button("-", 100, 300, fontSize);
+    increaseResolution = Button("+", 600, 450, fontSize);
+    decreaseResolution = Button("-", 100, 450, fontSize);
     back = Button("Back", 250, 500, fontSize);
     backIns = Button("Back", 100, 650, fontSize);
     backOpti = Button("Back", 250, 650, fontSize);
@@ -73,8 +73,25 @@ int Menu::click(int x, int y)
             (*audioPlayer)->increaseVolume();
         if (decreaseSound.isPresed(x, y))
             (*audioPlayer)->decreaseVolume();
+        if (increaseResolution.isPresed(x, y) && startResolution < 9)
+        {
+            startResolution++;
+            changeTempResolution = true;
+        }
+        if (decreaseResolution.isPresed(x, y) && startResolution > 0)
+        {
+            startResolution--;
+            changeTempResolution = true;
+        }
         if (backOpti.isPresed(x, y))
+        {
+            if (changeTempResolution)
+            {
+                changeTempResolution = false;
+                changeResolution = true;
+            }
             opti = false;
+        }
     }
     recentlyBack = false;
     return 0;
@@ -104,6 +121,8 @@ void Menu::hover(int x, int y)
     {
         increaseSound.isHover(x, y);
         decreaseSound.isHover(x, y);
+        increaseResolution.isHover(x, y);
+        decreaseResolution.isHover(x, y);
         backOpti.isHover(x, y);
     }
 }
@@ -171,6 +190,10 @@ void Menu::draw(SDL_Renderer* renderer)
         }
         increaseSound.draw(renderer);
         decreaseSound.draw(renderer);
+        textsMid.drawText("Select Resolution", 50, 370, renderer);
+        textsMid.drawText(resolutionOptions[startResolution], 220, 450, renderer);
+        increaseResolution.draw(renderer);
+        decreaseResolution.draw(renderer);
         backOpti.draw(renderer);
     }
 }
@@ -179,7 +202,7 @@ Shop::Shop(){}
 
 Shop::Shop(SDL_Renderer* renderer)
 {
-    background = Background(lod.LoadTexture("Background", renderer));
+    background = Background(Loader::loadTexture("Background", renderer));
     //play = Button("Play", 250, 300);
     textsTile = Texts("VerminVibes1989", 120);
     textsMid = Texts("VerminVibes1989", 60);
@@ -194,11 +217,11 @@ Shop::Shop(SDL_Renderer* renderer)
     finishShop = Button("End Shopping", 230, 700, fontSize);
     endShop = false;
     
-    itemTextures[0] = lod.LoadTexture("PowerUpDouble1", renderer);
-    itemTextures[1] = lod.LoadTexture("PowerUpDoubleP1", renderer);
-    itemTextures[2] = lod.LoadTexture("Shield1", renderer);
-    itemTextures[3] = lod.LoadTexture("SpecialAttack", renderer);
-    itemTextures[4] = lod.LoadTexture("PowerUpShot1", renderer);
+    itemTextures[0] = Loader::loadTexture("PowerUpDouble1", renderer);
+    itemTextures[1] = Loader::loadTexture("PowerUpDoubleP1", renderer);
+    itemTextures[2] = Loader::loadTexture("Shield1", renderer);
+    itemTextures[3] = Loader::loadTexture("SpecialAttack", renderer);
+    itemTextures[4] = Loader::loadTexture("PowerUpShot1", renderer);
 }
 
 Shop::~Shop()
@@ -219,7 +242,7 @@ void Shop::startShopping(int score, Player* player[], int numPlayers)
         bool isInArray;
         do
         {
-            ran = lod.randomNumber(0, 5);
+            ran = Loader::randomNumber(0, 5);
             isInArray = false;
             for (int j = 0; j < i; j++)
                 if (ran == itemsSelect[j])
@@ -319,7 +342,7 @@ Leaderboard::Leaderboard() {}
 
 Leaderboard::Leaderboard(SDL_Renderer* renderer)
 {
-    background = Background(lod.LoadTexture("Background", renderer));
+    background = Background(Loader::loadTexture("Background", renderer));
     textsTile = Texts("VerminVibes1989", 90);
     textsMid = Texts("VerminVibes1989", 60);
     textsExtra = Texts("VerminVibes1989", 40);
@@ -339,7 +362,7 @@ int Leaderboard::click(int x, int y)
             string nameTodelete = "";
             if (sizeLeaderboard >= 5)
                 nameTodelete = leaderNames[indexLeader[4]];
-            lod.updateLeaderBoard(namePlayer, score, deaths, nameTodelete, numPlayers);
+            Loader::updateLeaderBoard(namePlayer, score, deaths, nameTodelete, numPlayers);
             sizeLeaderboard = 0;
             loadLeaderboard(numPlayers);
             accept.setText("Go To Menu");
@@ -359,7 +382,7 @@ void Leaderboard::hover(int x, int y)
 
 void Leaderboard::loadLeaderboard(int numPlayers)
 {
-    vector<string> leader = lod.loadLeaderBoard(numPlayers);
+    vector<string> leader = Loader::loadLeaderBoard(numPlayers);
     this->numPlayers = numPlayers;
     int tempScore[5];
     for (int i = 0; i < leader.size(); i+=3)

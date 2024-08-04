@@ -14,7 +14,13 @@
 #include <iostream>
 #include <SDL_mixer.h>
 
-class AudioPlayer {
+constexpr int LASER_AUDIO = 0;
+constexpr int LASER_EXPLOSION = 1;
+constexpr int LASER_LASER_ENEMY = 2;
+constexpr int LASER_LASER_ENEMY_LARGE = 3;
+
+class AudioPlayer 
+{
 public:
     AudioPlayer();
     virtual ~AudioPlayer();

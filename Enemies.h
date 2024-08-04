@@ -1,5 +1,4 @@
-#ifndef ENEMIES_H
-#define ENEMIES_H
+#pragma once
 
 #include "Object.h"
 #include "Bullets.h"
@@ -170,6 +169,3 @@ private:
     float reachX = 0;
     float reachY = 0;
 };
-
-#endif /* ENEMIES_H */
-
